@@ -1,4 +1,105 @@
-# Add any directories, files, or patterns you don't want to be tracked by version control
-
-.DS_Store
+# Binaries #
+############
+*.com
 *.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sqlite
+
+# id-utils
+ID
+
+# sass
+*.sass-cache
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+ehthumbs.db
+Thumbs.db
+
+# Editor generated files #
+##########################
+# Netbeans
+nbproject
+
+# Eclipse
+.cache
+.project
+.settings
+
+# Textmate
+.tmproj
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# MySQL Workbench
+*.mwb.bak
+
+*.esproj
+
+# Vi
+*.swo
+*.swp
+*.vi
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# Diff
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+
+# Komodo
+*.komodoproject
+.komodotools
+
+# other VCS Folders to ignore
+.hg
+.svn
+.CVS
+.idea
