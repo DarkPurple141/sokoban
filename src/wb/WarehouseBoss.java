@@ -5,7 +5,7 @@ package wb;
  * @date 2017-04-11
  */
 public class WarehouseBoss {
-	public static void main (Static[] args) {
+	public static void main (String[] args) {
 		// TODO let's get some code!
 	}
 }
