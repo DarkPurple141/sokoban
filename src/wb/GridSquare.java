@@ -1,0 +1,6 @@
+package wb;
+
+class GridSquare {
+    
+
+}
