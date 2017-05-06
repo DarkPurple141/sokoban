@@ -11,6 +11,6 @@ public class ContainerTile extends Tile
     }
 
     public Object getContents(){
-
+    	return null;
     }
 }

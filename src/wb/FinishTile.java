@@ -6,6 +6,6 @@ package wb;
 public class FinishTile extends ContainerTile
 {
     public boolean hasBox(){
-
+    	return false;
     }
 }
