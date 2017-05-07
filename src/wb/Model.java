@@ -8,7 +8,7 @@ class Model {
 
     private Board board;
     //private Player p;
-    private List<Tile> tiles;
+    
 
     public Model(){
     	// constructor from randomly generated
@@ -24,10 +24,15 @@ class Model {
     public Model(String filePath){
     	int[][] boardArray = parseXML(filePath);
     	board = new Board(boardArray);
+
     }
 
     /**
      * Used when constructing a Model from an xml file
+     * There is potential to use the same XML format for saved games as well
+     * Just need to include 2 more possible states:
+     * 		1. Finish Tile w Player
+     * 		2. Finsh Tile w Boxx
      * 
      * @return The 2D array of the board with columns as the secondary layer
      * Format:

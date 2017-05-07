@@ -5,6 +5,9 @@ package wb;
  */
 public class FinishTile extends ContainerTile
 {
+	public FinishTile(Coord tileCoord){
+		super(tileCoord);
+	}
     public boolean hasBox(){
     	return false;
     }
