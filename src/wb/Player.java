@@ -9,7 +9,7 @@ public class Player{
 	}
 
 	public Coord getCoord(){
-		return coord;
+		return thisCoord;
 	}
 
 	public boolean canMove(){
@@ -18,5 +18,9 @@ public class Player{
 
 	public void doMove(){
 		
+	}
+
+	public void setCoord(Coord updated){
+		thisCoord = updated;
 	}
 }

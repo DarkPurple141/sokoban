@@ -7,7 +7,8 @@ import java.io.*;
 class Model {
 
     private Board board;
-    //private Player p;
+    // Change to a list of players if we implement multiplayer
+    private Player p;
     
 
     public Model(){
@@ -23,7 +24,7 @@ class Model {
      */
     public Model(String filePath){
     	int[][] boardArray = parseXML(filePath);
-    	board = new Board(boardArray);
+    	board = new Board(boardArray, p);
 
     }
 
@@ -62,6 +63,9 @@ class Model {
 	    			boardArray[i] = new int[cols.getLength()];
 	    			for (int j = 0; j < cols.getLength(); j++){
 	    				boardArray[i][j] = Integer.parseInt(cols.item(j).getTextContent());
+	    				if (Integer.parseInt(cols.item(j).getTextContent()) == 2){
+	    					p = new Player(null);
+	    				}
 	    			}
 	    		}
 	    	} catch (Exception e){
@@ -73,6 +77,10 @@ class Model {
     		return boardArray;
     	}
     	
+    }
+
+    public Board getBoard(){
+    	return board;
     }
 
 }

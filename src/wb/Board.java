@@ -19,8 +19,8 @@ class Board {
      */
 
     
-    public Board(int[][] tileArray){
-    	tiles = new Tile[tileArray.length][tileArray.length];
+    public Board(int[][] tileArray, Player p){
+    	positions = new Tile[tileArray.length][tileArray.length];
     	finishTiles = new ArrayList<Tile>();
     	int currentY = 0;
 		for (int[] row : tileArray){
@@ -29,24 +29,24 @@ class Board {
 			for(int col : row){
 				if (col == 1){
 					Tile toAdd = new Tile(tileCoord);
-					tiles[currentY][currentX] = toAdd;
+					positions[currentY][currentX] = toAdd;
 				}else if(col == 4){
 					FinishTile toAdd = new FinishTile(tileCoord);
 					finishTiles.add(toAdd);
-					tiles[currentY][currentX] = toAdd;
+					positions[currentY][currentX] = toAdd;
 				}else{
 					ContainerTile toAdd = new ContainerTile(tileCoord);
 					switch(col){
 						case 2:
-							Player player = new Player(tileCoord);
-							toAdd.setContents(player);
+							p.setCoord(tileCoord);
+							toAdd.setContents(p);
 							break;
 						case 3:
-							Box box = new Box(tileCoord);
-							toAdd.setContents(box);
+							Crate crate = new Crate(tileCoord);
+							toAdd.setContents(crate);
 							break;
 					}
-					tiles[currentY][currentX] = toAdd;
+					positions[currentY][currentX] = toAdd;
 				}
 				currentX++;
 			}
@@ -55,18 +55,14 @@ class Board {
 
     }
 
-    public Tile getTile(Coord coord){
-    	return tiles[coord.getX()][coord.getY()];
-    }
-
     public List<Tile> getFinishTiles(){
     	return finishTiles;
     }
 
     public Tile getPosition(Coord pos)
 	{
-		int x = pos.getx();
-		int y = pos.gety();
+		int x = pos.getX();
+		int y = pos.getY();
 		return positions[x][y];
 	}
 

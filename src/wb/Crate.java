@@ -22,4 +22,8 @@ public class Crate
 	public void doMove(){
 		
 	}
+
+	public void setCoord(Coord updated){
+		thisCoord = updated;
+	}
 }
