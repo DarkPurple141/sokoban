@@ -1,6 +1,5 @@
 package wb;
 
-<<<<<<< HEAD
 public class Player{
 
 	Coord thisCoord;
