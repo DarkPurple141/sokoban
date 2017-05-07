@@ -1,11 +1,15 @@
 package wb;
 
-/**
- * Created by Ben on 2/5/17.
- */
+import javax.swing.*;
+
 public class FinishTile extends ContainerTile
 {
+    public FinishTile(Coord startCoord)
+    {
+        super(startCoord);
+    }
+
     public boolean hasBox(){
-    	return false;
+    	return super.getContents() instanceof Box;
     }
 }

@@ -1,16 +1,25 @@
 package wb;
 
-/**
- * Created by Ben on 2/5/17.
- */
 public class ContainerTile extends Tile
 {
+    private Object contents;
+
+    public ContainerTile(Coord startCoord)
+    {
+        super(startCoord);
+        this.contents = null;
+    }
+
     @Override
     public boolean canBeFilled(){
         return true;
     }
 
+    public void setContents(Object content) {
+        this.contents = content;
+    }
+
     public Object getContents(){
-    	return null;
+    	return contents;
     }
 }

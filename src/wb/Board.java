@@ -1,7 +1,8 @@
 package wb;
 
-// maybe this should be an abstract class?
 class Board {
+
+	Tile[][] positions;
     
     public Board(int[][] tileArray){
     	System.out.println("---------");
@@ -13,5 +14,12 @@ class Board {
 			System.out.println("---------");
 		}
     }
+
+    public Tile getPosition(Coord pos)
+	{
+		int x = pos.getx();
+		int y = pos.gety();
+		return positions[x][y];
+	}
 
 }
