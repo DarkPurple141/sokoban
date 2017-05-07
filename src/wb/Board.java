@@ -2,9 +2,8 @@ package wb;
 import java.util.ArrayList;
 import java.util.List;
 
-// maybe this should be an abstract class?
 class Board {
-    private Tile[][] tiles;
+    private Tile[][] positions;
     private List<Tile> finishTiles;
 
     /**
@@ -18,6 +17,8 @@ class Board {
      * representing what object is on the Tile at the corresponding coordinate	
      *
      */
+
+    
     public Board(int[][] tileArray){
     	tiles = new Tile[tileArray.length][tileArray.length];
     	finishTiles = new ArrayList<Tile>();
@@ -61,5 +62,12 @@ class Board {
     public List<Tile> getFinishTiles(){
     	return finishTiles;
     }
+
+    public Tile getPosition(Coord pos)
+	{
+		int x = pos.getx();
+		int y = pos.gety();
+		return positions[x][y];
+	}
 
 }

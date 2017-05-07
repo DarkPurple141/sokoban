@@ -2,12 +2,16 @@ package wb;
 
 class Tile {
 
-	Coord tileCoord;
-	public Tile(Coord tileCoord){
-		this.tileCoord = tileCoord;
-	}
+
+    private Coord thisCoord;
+
+    public Tile(Coord startCoord)
+    {
+        this.thisCoord = startCoord;
+    }
+
     public Coord getCoord(){
-    	return tileCoord;
+    	return thisCoord;
     }
 
     public boolean canBeFilled(){

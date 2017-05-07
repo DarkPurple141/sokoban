@@ -1,11 +1,12 @@
 package wb;
 
+<<<<<<< HEAD
 public class Player{
 
-	Coord coord;
+	Coord thisCoord;
 
-	public Player(Coord coord){
-		this.coord = coord;
+	public Player(Coord startCoord){
+		this.thisCoord = startCoord;
 	}
 
 	public Coord getCoord(){

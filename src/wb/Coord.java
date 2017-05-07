@@ -1,12 +1,9 @@
 package wb;
 
-/**
- * Created by Ben on 2/5/17.
- */
 public class Coord
 {
-	int x;
-	int y;
+	private int x;
+	private int y;
 	public Coord(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -19,4 +16,5 @@ public class Coord
 	public int getY(){
 		return y;
 	}
+
 }

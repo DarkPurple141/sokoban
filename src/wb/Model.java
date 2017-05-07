@@ -65,10 +65,10 @@ class Model {
 	    			}
 	    		}
 	    	} catch (Exception e){
-	    		System.out.println(e);
+	    		System.out.println(e.getMessage());
 	    	}
     	}catch (Exception e){
-    		System.out.println(e);
+    		System.out.println(e.getMessage());
     	}finally{
     		return boardArray;
     	}
