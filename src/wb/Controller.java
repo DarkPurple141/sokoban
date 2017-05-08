@@ -61,7 +61,11 @@ class Controller {
 		}
 		*/
 
-		/* FIXME jashankj: why is this `false`? */
+		/* FIXME jashankj: why is this `false`?
+            alexh -- attempts to update game state. If no update is made
+            then return false indicates no need to re-render. See main control loop
+            above.
+        */
 		return false;
 	}
 }
