@@ -2,7 +2,7 @@ package wb;
 
 public class Player{
 
-	Coord thisCoord;
+	private Coord thisCoord;
 
 	public Player(Coord startCoord){
 		this.thisCoord = startCoord;
@@ -12,12 +12,37 @@ public class Player{
 		return thisCoord;
 	}
 
-	public boolean canMove(){
+	/**
+	 * Determines whether or not a player can move in
+	 * a certain direction
+	 *
+	 */
+	public boolean canMove(int direction, Board gameBoard){
+		Tile moveInto = gameBoard.getNeighbour(thisCoord, direction);
+		if (moveInto != null && moveInto instanceof ContainerTile){
+			Object existingContents = ((ContainerTile)moveInto).getContents();
+			if(existingContents != null){
+				if(existingContents instanceof Crate){
+					if (!((Crate)existingContents).canMove(direction, gameBoard)){
+						return false;
+					}
+				}
+				return true;
+			}
+		}
 		return false;
 	}
 
-	public void doMove(){
-		
+	public void doMove(int direction, Board gameBoard){
+		ContainerTile moveInto = (ContainerTile)gameBoard.getNeighbour(thisCoord, direction);
+		Object pushing = moveInto.getContents();
+		if (pushing != null && pushing instanceof Crate){
+			((Crate)pushing).doMove(direction, gameBoard);
+		}
+		moveInto.setContents(this);
+		ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
+		moveFrom.setContents(null);
+		thisCoord = moveInto.getCoord();
 	}
 
 	public void setCoord(Coord updated){

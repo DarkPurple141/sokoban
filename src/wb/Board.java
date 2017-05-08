@@ -66,4 +66,31 @@ class Board {
 		return positions[x][y];
 	}
 
+	public Tile getTile(int x, int y){
+		if (x >= 0 && y >= 0){
+			return positions[x][y];
+		}else{
+			return null;
+		}
+	}
+
+	public Tile getNeighbour(Coord origin, int direction){
+		Tile neighbour = null;
+		switch(direction){
+			case 0:
+				neighbour = getTile(origin.getX(), origin.getY()-1);
+				break;
+			case 1:
+				neighbour = getTile(origin.getX()+1, origin.getY());
+				break;
+			case 2:
+				neighbour = getTile(origin.getX(), origin.getY()+1);
+				break;
+			case 3:
+				neighbour = getTile(origin.getX()-1, origin.getY());
+				break;
+		}
+		return neighbour;
+	}
+
 }

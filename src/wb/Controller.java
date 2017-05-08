@@ -16,6 +16,7 @@ class Controller {
     }
 
     /// this is pseudo java
+    /*
     public void run() {
         while (true) {
             if (gameOver) { // check current games state
@@ -32,7 +33,7 @@ class Controller {
             }
         }
     }
-
+    
     // What's the view said has just happened?
     // Update model to new state.
     // directions in clockwise form.
@@ -57,6 +58,6 @@ class Controller {
         }
         return updateMade;
     }
-
+    */
 
 }

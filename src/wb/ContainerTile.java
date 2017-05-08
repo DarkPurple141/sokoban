@@ -13,7 +13,7 @@ public class ContainerTile extends Tile
 
     @Override
     public boolean canBeFilled(){
-        return true;
+        return (contents == null);
     }
 
     public void setContents(Object content) {
