@@ -9,7 +9,7 @@ class Model {
     private Board board;
     // Change to a list of players if we implement multiplayer
     private Player p;
-    
+
 
     public Model(){
     	// constructor from randomly generated
@@ -34,7 +34,7 @@ class Model {
      * Just need to include 2 more possible states:
      * 		1. Finish Tile w Player
      * 		2. Finsh Tile w Boxx
-     * 
+     *
      * @return The 2D array of the board with columns as the secondary layer
      * Format:
      * 		[row][col,col,col...]
@@ -74,9 +74,11 @@ class Model {
     	}catch (Exception e){
     		System.out.println(e.getMessage());
     	}finally{
+            //TODO doesn't seem like a good way to return something if parse fails
+            // finally *always* executes. AH.
     		return boardArray;
     	}
-    	
+
     }
 
     public Board getBoard(){
