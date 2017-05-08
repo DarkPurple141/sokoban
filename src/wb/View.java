@@ -1,8 +1,6 @@
 package wb;
 
 class View {
-    
-
 
 
 }
