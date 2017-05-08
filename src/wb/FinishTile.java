@@ -1,7 +1,5 @@
 package wb;
 
-import javax.swing.*;
-
 public class FinishTile extends ContainerTile
 {
 
@@ -10,6 +8,6 @@ public class FinishTile extends ContainerTile
         super(startCoord);
     }
     public boolean hasBox(){
-    	return super.getContents() instanceof Box;
+    	return super.getContents() instanceof Crate;
     }
 }
