@@ -16,7 +16,7 @@ class Model {
 	}
 
 	/**
-	 * Constructor.
+	 * Constructor. Use this for demo
 	 *
 	 * Makes a new model from an XML file 'filename'
 	 * Used to create fixed levels
@@ -33,7 +33,7 @@ class Model {
 	 * There is potential to use the same XML format for saved games as well
 	 * Just need to include 2 more possible states:
 	 * 		1. Finish Tile w Player
-	 * 		2. Finsh Tile w Boxx
+	 * 		2. Finsh Tile w Box
 	 *
 	 * @return The 2D array of the board with columns as the secondary layer
 	 * Format:
@@ -81,6 +81,12 @@ class Model {
 
 	}
 
+	/**
+	 * Gives the entire board back
+	 * Board can then be used to get the 2D array of tiles
+	 * or the List of finish tiles.
+	 *
+	 */
 	public Board getBoard(){
 		return board;
 	}

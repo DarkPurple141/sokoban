@@ -74,6 +74,17 @@ class Board {
 		}
 	}
 
+	/**
+	 * Probably not necessary for the controller to query
+	 * Returns a Tile that is offset from the 'origin' Coord in the
+	 * direction of 'direction'
+	 *
+	 * @return The neighouring Tile
+	 * @param origin : The centre Coord that the neighbouring tile is next to
+	 * @param direction : The direction of offset of the neighbour from the origin
+	 *	
+	 *
+	 */
 	public Tile getNeighbour(Coord origin, int direction){
 		Tile neighbour = null;
 		switch(direction){

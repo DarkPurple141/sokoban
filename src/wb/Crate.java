@@ -15,11 +15,24 @@ public class Crate
 		return thisCoord;
 	}
 
+
+	/**
+	 * Checks whether a Crate can move in the direction specified.
+	 * Probably won't have to be called directly since it is part of the check of whether a
+	 * Player can move or not.
+	 *
+	 */ 
 	public boolean canMove(int direction, Board gameBoard){
 		Tile moveInto = gameBoard.getNeighbour(thisCoord, direction);
 		return (moveInto != null && moveInto.canBeFilled());
 	}
 
+	/**
+	 * Moves the Crate in the direction specified
+	 * Is called as part of the doMove method for a Player
+	 * Therefore probably not needd to be called directly
+	 *
+	 */
 	public void doMove(int direction, Board gameBoard){
 		ContainerTile moveInto = (ContainerTile)gameBoard.getNeighbour(thisCoord, direction);
 		moveInto.setContents(this);
