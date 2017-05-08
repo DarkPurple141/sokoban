@@ -5,13 +5,13 @@ package wb;
  */
 public class Crate
 {
-    private Coord thisCoord;
+	private Coord thisCoord;
 
-    public Crate(Coord startCoord) {
-        this.thisCoord = startCoord;
-    }
+	public Crate(Coord startCoord) {
+		this.thisCoord = startCoord;
+	}
 
-    public Coord getCoord(){
+	public Coord getCoord(){
 		return thisCoord;
 	}
 

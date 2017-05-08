@@ -3,24 +3,24 @@ package wb;
 public class ContainerTile extends Tile
 {
 
-    private Object contents;
+	private Object contents;
 
-    public ContainerTile(Coord startCoord)
-    {
-        super(startCoord);
-        this.contents = null;
-    }
+	public ContainerTile(Coord startCoord)
+	{
+		super(startCoord);
+		this.contents = null;
+	}
 
-    @Override
-    public boolean canBeFilled(){
-        return (contents == null);
-    }
+	@Override
+	public boolean canBeFilled(){
+		return (contents == null);
+	}
 
-    public void setContents(Object content) {
-        contents = content;
-    }
+	public void setContents(Object content) {
+		contents = content;
+	}
 
-    public Object getContents(){
-    	return contents;
-    }
+	public Object getContents(){
+		return contents;
+	}
 }
