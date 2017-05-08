@@ -3,26 +3,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Board {
-    private Tile[][] positions;
-    private List<Tile> finishTiles;
+	private Tile[][] positions;
+	private List<Tile> finishTiles;
 
-    /**
-     * Constructor
-     *
-     * Given the 2D array of board setup, initialises the list of Tiles
-     * with their coords/contents set correctly.
-     *
-     * 
-     * @param tileArray : The 2D array representation of a board with the numbers
-     * representing what object is on the Tile at the corresponding coordinate	
-     *
-     */
+	/**
+	 * Constructor
+	 *
+	 * Given the 2D array of board setup, initialises the list of Tiles
+	 * with their coords/contents set correctly.
+	 *
+	 * 
+	 * @param tileArray : The 2D array representation of a board with the numbers
+	 * representing what object is on the Tile at the corresponding coordinate	
+	 *
+	 */
 
-    
-    public Board(int[][] tileArray, Player p){
-    	positions = new Tile[tileArray.length][tileArray.length];
-    	finishTiles = new ArrayList<Tile>();
-    	int currentY = 0;
+	
+	public Board(int[][] tileArray, Player p){
+		positions = new Tile[tileArray.length][tileArray.length];
+		finishTiles = new ArrayList<Tile>();
+		int currentY = 0;
 		for (int[] row : tileArray){
 			int currentX = 0;
 			Coord tileCoord = new Coord(currentX, currentY);
@@ -53,13 +53,13 @@ class Board {
 			currentY++;
 		}
 
-    }
+	}
 
-    public List<Tile> getFinishTiles(){
-    	return finishTiles;
-    }
+	public List<Tile> getFinishTiles(){
+		return finishTiles;
+	}
 
-    public Tile getPosition(Coord pos)
+	public Tile getPosition(Coord pos)
 	{
 		int x = pos.getX();
 		int y = pos.getY();
