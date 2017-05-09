@@ -63,7 +63,7 @@ class Board {
 		if(pos == null)
 			return null;
 		int x = pos.getX();
-		if (x < 0 || x > position.length){
+		if (x < 0 || x > positions.length){
 			return null;
 		}
 		int y = pos.getY();
