@@ -1,9 +1,12 @@
 package wb;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
-class Board {
+class Board implements Iterable<Tile>
+{
 	private Tile[][] positions;
 	private List<FloorTile> finishTiles;
 
@@ -85,5 +88,14 @@ class Board {
 
 	public List<FloorTile> getFinishTiles() {
 		return finishTiles;
+	}
+
+	@Override
+	public Iterator<Tile> iterator() {
+		List<Tile> flatten = new ArrayList<>();
+		for(Tile[] array : positions) {
+			flatten.addAll(Arrays.asList(array));
+		}
+		return flatten.iterator();
 	}
 }
