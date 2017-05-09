@@ -1,0 +1,25 @@
+UMLBegin
+
+Class(`Board', `
+    Field(`position', `Tile[][]'),
+    Field(`finishTiles', `List_Tile_')',
+`
+    Constructor(`tileArray:int[][],p:Player'),
+    Method(`getFinishTiles', `', `List_Tile_'),
+    Method(`getPosition', `pos:Coord', `Tile'),
+    Method(`getTiles', `', `Tile[][]')');
+Aggregates(`Board', `Tile');
+AssociatedWith(`Board', `Player');
+AssociatedWith(`Board', `Coord');
+
+Class(`ContainerTile', `
+    Field(`contents', `Object')',
+`
+    Constructor(`startCoord:Coord'),
+    Method(`canBeFilled', `', `boolean'),
+    Method(`setContents', `content:Object', `void'),
+    Method(`getContents', `', `Object')');
+AssociatedWith(`ContainerTile', `Coord');
+Extends(`ContainerTile', `Tile');
+
+UMLEnd
