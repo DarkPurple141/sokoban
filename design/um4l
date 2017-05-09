@@ -1,0 +1,11 @@
+#!/bin/sh
+# um4l: horrible uml with m4 and graphviz
+# jashankj@cse.unsw.edu.au
+
+if [ "X$1" = "X" ]
+then
+	echo "usage: um4l <file.um4l>"
+	exit 64 #EX_USAGE
+fi
+
+m4 ./uml.dot.m4 "$1" | dot -Tpdf -o "${1%.um4l}.pdf"
