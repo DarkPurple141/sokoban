@@ -3,14 +3,14 @@ package wb;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-class Controller {
+public class Controller {
 
 	private View v;
 	private Model m;
 
 	public Controller() {
 		v = new View();
-		m = new Model();
+		//m = new Model();
 		// this.makeModel(filePath)
 	}
 

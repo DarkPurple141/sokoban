@@ -3,8 +3,9 @@ import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 
-class View {
+public class View {
     private JFrame mainFrame;
 
     public View() {
@@ -21,6 +22,10 @@ class View {
 
     public JFrame getFrame() {
         return this.mainFrame;
+    }
+
+    public void render() {
+        
     }
 
 }
