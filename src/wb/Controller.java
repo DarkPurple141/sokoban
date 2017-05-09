@@ -7,12 +7,10 @@ public class Controller {
 
 	private View v;
 	private Model m;
-	private WBListener l;
 
 	public Controller(String path) {
-		l = new WBListener(this);
 		this.makeModel(path);
-		v = new View(l,3,3,m.getBoard()); // this is not good for future.
+		v = new View(new WBListener(this),3,3,m.getBoard()); // this is not good for future.
 		//m = new Model();
 		//this.makeModel(filePath)
 	}
