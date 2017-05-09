@@ -66,4 +66,8 @@ class Board {
 		int y = pos.getY();
 		return positions[x][y];
 	}
+
+	public Tile[][] getTiles(){
+		return positions;
+	}
 }
