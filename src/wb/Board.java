@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-class Board implements Iterable<Tile>
-{
+class Board implements Iterable<Tile> {
 	private Tile[][] positions;
 	private List<FloorTile> finishTiles;
 
