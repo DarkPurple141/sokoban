@@ -19,12 +19,14 @@ public class Controller {
 	}
 
 	/// this is pseudo java
+	
 	public void run() {
-        while (true) {
+       /* while (true) {
             if (processEvent(e)) {
                 v.render();
             }
         }
+        */
 		/*
 		while (true) {
 			if (gameOver) { // check current games state
@@ -43,6 +45,7 @@ public class Controller {
 		*/
 	}
 
+	
 	/*
 	 * What's the view said has just happened?
 	 * Update model to new state.
@@ -52,22 +55,22 @@ public class Controller {
 	private boolean processEvent(KeyEvent e) {
 
         int curr = e.getKeyCode();
-        Player p = m.getPlayer();
+        //Player p = m.getPlayer();
 
         // possibly change to vector format
 
 		switch (curr) {
 		case KeyEvent.VK_KP_UP:
-			return p.makeMove(0);
+			return m.doMove(0);
 
 		case KeyEvent.VK_KP_RIGHT:
-			return p.makeMove(1);
+			return m.doMove(1);
 
 		case KeyEvent.VK_KP_DOWN:
-			return p.makeMove(2);
+			return m.doMove(2);
 
 		case KeyEvent.VK_KP_LEFT:
-			return p.makeMove(3);
+			return m.doMove(3);
 		}
 
 		/* FIXME jashankj: why is this `false`?

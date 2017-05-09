@@ -101,8 +101,8 @@ public class Model {
 		return p.canMove(direction, board);
 	}
 
-	public void makeMove(int direction){
-		p.doMove(direction, board);
+	public boolean doMove(int direction){
+		return p.doMove(direction, board);
 	}
 
 }

@@ -33,12 +33,17 @@ public class Crate
 	 * Therefore probably not needd to be called directly
 	 *
 	 */
-	public void doMove(int direction, Board gameBoard){
-		ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
-		moveInto.setContents(this);
-		ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
-		moveFrom.setContents(null);
-		thisCoord = moveInto.getCoord();
+	public boolean doMove(int direction, Board gameBoard){
+		if (canMove(direction, gameBoard)){
+			ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
+			moveInto.setContents(this);
+			ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
+			moveFrom.setContents(null);
+			thisCoord = moveInto.getCoord();
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public void setCoord(Coord updated){

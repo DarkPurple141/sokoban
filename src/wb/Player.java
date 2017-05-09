@@ -47,16 +47,22 @@ public class Player{
 	 * The method also moves an adjacent crate if necessary
 	 *
 	 */
-	public void doMove(int direction, Board gameBoard){
-		ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
-		Object pushing = moveInto.getContents();
-		if (pushing != null && pushing instanceof Crate){
-			((Crate)pushing).doMove(direction, gameBoard);
+	public boolean doMove(int direction, Board gameBoard){
+		if (canMove(direction, gameBoard)){
+			ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
+			Object pushing = moveInto.getContents();
+			if (pushing != null && pushing instanceof Crate){
+				if(((Crate)pushing).doMove(direction, gameBoard)){
+					moveInto.setContents(this);
+					ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
+					moveFrom.setContents(null);
+					thisCoord = moveInto.getCoord();
+					return true;
+				}
+			}
+			
 		}
-		moveInto.setContents(this);
-		ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
-		moveFrom.setContents(null);
-		thisCoord = moveInto.getCoord();
+		return false;
 	}
 
 	public void setCoord(Coord updated){
