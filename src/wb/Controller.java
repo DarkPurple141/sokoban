@@ -84,7 +84,7 @@ public class Controller {
 		}
 
 		if (change) {
-			System.out.print("HERE");
+			System.out.print("REPAINT OCCURRING\n");
 			v.paintTiles();
 		}
 
