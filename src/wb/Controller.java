@@ -20,6 +20,11 @@ class Controller {
 
 	/// this is pseudo java
 	public void run() {
+        while (true) {
+            if (processEvent(e)) {
+                v.render();
+            }
+        }
 		/*
 		while (true) {
 			if (gameOver) { // check current games state
