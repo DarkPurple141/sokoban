@@ -23,7 +23,10 @@ public class Crate
 	 */ 
 	public boolean canMove(int direction, Board gameBoard){
 		Tile moveInto = gameBoard.getPosition(thisCoord.getNeighbour(direction));
-		return (moveInto != null && moveInto.canBeFilled());
+		if((moveInto != null && (moveInto instanceof ContainerTile) &&((ContainerTile)moveInto).canBeFilled())){
+			System.out.println("Works now");
+		}
+		return (moveInto != null && (moveInto instanceof ContainerTile) &&((ContainerTile)moveInto).canBeFilled());
 	}
 
 	/**
