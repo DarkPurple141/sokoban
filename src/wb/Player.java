@@ -37,7 +37,7 @@ public class Player{
 	}
 
 	/**
-	 * Moves the player, and box if necessary, in the direction indicated by the 
+	 * Moves the player, and box if necessary, in the direction indicated by the
 	 * 'direction' param.
 	 *
 	 * Does no validation on the move and therefore must always be preceded by a call to canMove()
