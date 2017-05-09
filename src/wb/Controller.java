@@ -11,7 +11,7 @@ public class Controller {
 	public Controller() {
 		v = new View();
 		//m = new Model();
-		// this.makeModel(filePath)
+		//this.makeModel(filePath)
 	}
 
 	public void makeModel(String filePath) {
@@ -21,6 +21,9 @@ public class Controller {
 	/// this is pseudo java
 	
 	public void run() {
+		while (true) {
+			continue;
+		}
        /* while (true) {
             if (processEvent(e)) {
                 v.render();
