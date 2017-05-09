@@ -32,10 +32,6 @@ public class View {
         return this.mainFrame;
     }
 
-    public Board getBoard() {
-        return b;
-    }
-
     public void paintTiles() {
         mainFrame.validate();
         mainFrame.repaint();

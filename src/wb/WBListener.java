@@ -15,25 +15,10 @@ public class WBListener extends KeyAdapter {
         c.processEvent(e);
     }
 
-    /*
-    @Override
-    public void keyTyped(KeyEvent e) {
-        c.processEvent(e);
-        System.out.println(e.getKeyCode());
-    }
-    */
-
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.println(e.getKeyCode());
         this.update(e);
     }
-    /*
-    @Override
-    public void keyReleased(KeyEvent e) {
-        c.processEvent(e);
-    }
-    */
-
 
 }
