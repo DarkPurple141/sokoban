@@ -84,6 +84,7 @@ public class Controller {
 		}
 
 		if (change) {
+			System.out.print("HERE");
 			v.paintTiles();
 		}
 
