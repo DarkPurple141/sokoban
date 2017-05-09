@@ -1,5 +1,5 @@
 package wb;
-import java.util.List;
+import java.util.Iterator;
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import java.io.*;
@@ -40,6 +40,11 @@ public class Model {
 	 */
 	public Board getBoard(){
 		return board;
+	}
+
+	public Iterator<Tile> getIterator()
+	{
+		return board.iterator();
 	}
 
 	public boolean doMove(int direction){
