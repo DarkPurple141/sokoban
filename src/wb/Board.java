@@ -60,10 +60,17 @@ class Board {
 	}
 
 	public Tile getPosition(Coord pos) {
+
 		if(pos == null)
 			return null;
 		int x = pos.getX();
+		if (x < 0 || x > position.length){
+			return null;
+		}
 		int y = pos.getY();
+		if (y < 0 || y > positions.length){
+			return null;
+		}
 		return positions[x][y];
 	}
 

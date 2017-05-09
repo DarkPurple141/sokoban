@@ -104,4 +104,27 @@ public class Model {
 		return p.doMove(direction, board);
 	}
 
+	public void saveGame(String filename){
+		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
+		try{
+			DocumentBuilder builder = docFactory.newDocumentBuilder();
+			Document saveFile = builder.newDocument();
+			Element board = saveFile.createElement('board');
+			saveFile.appendChild(board);
+			for (Tile[] rowTiles : board.getTiles()){
+				Element row = saveFile.createElement('row');
+				board.appendChild(row);
+				for (Tile colTile : rowTiles){
+					Element col = saveFile.createElement('col');
+					Object contentsOfTile = colTile.getContents();
+					if (colTile instanceof FinishTile){
+						col.appendChild(saveFile.createTextNode());
+					}
+					
+				}
+			}
+
+		}
+	}
+
 }
