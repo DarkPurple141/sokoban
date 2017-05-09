@@ -22,4 +22,17 @@ Class(`ContainerTile', `
 AssociatedWith(`ContainerTile', `Coord');
 Extends(`ContainerTile', `Tile');
 
+Class(`Controller', `
+    Field(`v', `View'),
+    Field(`m', `Model'),
+    Field(`l', `WBListener')',
+`
+    Constructor(`path:String'),
+    Method(`makeModel', `filePath:String', `void'),
+    Method(`run', `', `'),
+    Method(`processEvent', `e:KeyEvent', `void')');
+Aggregates(`Controller', `View');
+Aggregates(`Controller', `Model');
+Aggregates(`Controller', `WBListener');
+
 UMLEnd
