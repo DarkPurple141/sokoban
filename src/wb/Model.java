@@ -15,6 +15,10 @@ class Model {
 		// constructor from randomly generated
 	}
 
+    public Player getPlayer() {
+        return p;
+    }
+
 	/**
 	 * Constructor. Use this for demo
 	 *

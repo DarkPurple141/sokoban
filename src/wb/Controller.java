@@ -4,7 +4,6 @@ import java.awt.Event;
 
 class Controller {
 
-
 	private View v;
 	private Model m;
 
@@ -44,22 +43,26 @@ class Controller {
 	 * directions in clockwise form.
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
-	private boolean processEvent(Event e) {
-		/*
-		switch (e.getKeyCode()) {
+	private boolean processEvent(KeyEvent e) {
+
+        int curr = e.getKeyCode();
+        Player p = m.getPlayer();
+
+        // possibly change to vector format
+
+		switch (curr) {
 		case KeyEvent.VK_KP_UP:
-			return m.makeMove(0);
+			return p.makeMove(0);
 
 		case KeyEvent.VK_KP_RIGHT:
-			return m.makeMove(1);
+			return p.makeMove(1);
 
 		case KeyEvent.VK_KP_DOWN:
-			return m.makeMove(2);
+			return p.makeMove(2);
 
 		case KeyEvent.VK_KP_LEFT:
-			return m.makeMove(3);
+			return p.makeMove(3);
 		}
-		*/
 
 		/* FIXME jashankj: why is this `false`?
             alexh -- attempts to update game state. If no update is made
