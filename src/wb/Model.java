@@ -4,7 +4,7 @@ import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import java.io.*;
 
-class Model {
+public class Model {
 
 	private Board board;
 	// Change to a list of players if we implement multiplayer
@@ -14,6 +14,10 @@ class Model {
 	public Model() {
 		// constructor from randomly generated
 	}
+
+    public Player getPlayer() {
+        return p;
+    }
 
 	/**
 	 * Constructor. Use this for demo
