@@ -115,4 +115,12 @@ Class(`WarehouseBoss', `', `
     Method(`(static)main', `args:String[]', `void')');
 AssociatedWith(`WarehouseBoss', `Controller');
 
+Class(`WBListener', `
+    Field(`c', `Controller')',
+`
+    Constructor(`n:Controller'),
+    Method(`update', `e:KeyEvent', `void'),
+    Method(`keyPressed', `e:KeyEvent', `void')');
+Aggregates(`WBListener', `Controller')
+
 UMLEnd
