@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 0=free 1=wall 2=player 3=box 4=goal -->
+<board>
+	<row>
+		<col>0</col>
+		<col>0</col>
+		<col>0</col>
+	</row>
+	<row>
+		<col>2</col>
+		<col>3</col>
+		<col>4</col>
+	</row>
+	<row>
+		<col>0</col>
+		<col>3</col>
+		<col>4</col>
+	</row>
+</board>
+
