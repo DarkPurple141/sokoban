@@ -1,4 +1,5 @@
 UMLBegin
+dnl Keep the class names in alphabetical order, please.
 
 Class(`Board', `
     Field(`position', `Tile[][]'),
@@ -34,5 +35,15 @@ Class(`Controller', `
 Aggregates(`Controller', `View');
 Aggregates(`Controller', `Model');
 Aggregates(`Controller', `WBListener');
+
+Class(`Coord', `
+    Field(`x', `int'),
+    Field(`y', `int')',
+`
+    Constructor(`x:int,y:int'),
+    Method(`getX', `', `int'),
+    Method(`getY', `', `int'),
+    Method(`getNeighbour', `direction:int', `Coord'),
+    Method(`addCoord', `vector:Coord', `Coord')');
 
 UMLEnd
