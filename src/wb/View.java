@@ -24,11 +24,7 @@ public class View {
         mainFrame.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
         mainFrame.setBackground(Color.BLACK);
         mainFrame.getContentPane().add(new wbPanel(SCREEN_WIDTH,SCREEN_HEIGHT,rows,cols,this));
-        mainFrame.addWindowListener(new WindowAdapter() {
-         public void windowClosing(WindowEvent windowEvent){
-            System.exit(0);
-         }
-      });
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.addKeyListener(w);
         //mainFrame.setLayout(new GridLayout(rows, cols));
