@@ -33,6 +33,14 @@ public class wbPanel extends JPanel {
                     g.setColor(Color.YELLOW);
                     g.fillRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
                 } else {
+                    if (col instanceof ContainerTile) {
+                        if (((ContainerTile)col).getContents() instanceof Crate) {
+                            g.setColor(Color.BLUE);
+                            g.fillRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
+                        } else if (((ContainerTile)col).getContents() instanceof Player) {
+                            g.clearRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
+                        }
+                    }
 
                 }
                 width += SCREEN_WIDTH/3;
