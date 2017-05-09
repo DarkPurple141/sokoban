@@ -73,6 +73,15 @@ class Board {
 		return positions[x][y];
 	}
 
+	public int getHeight() {
+		return 3;
+	}
+
+	public int getWidth() {
+		//return positions.length();
+		return 3;
+	}
+
 	public Tile[][] getTiles(){
 		return positions;
 	}

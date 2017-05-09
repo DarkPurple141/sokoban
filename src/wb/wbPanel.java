@@ -6,23 +6,19 @@ import java.awt.Color;
 
 public class wbPanel extends JPanel {
 
-    private int rows;
-    private int cols;
-    private View parent;
-    private static int SCREEN_WIDTH;
-    private static int SCREEN_HEIGHT;
+    Board b;
 
-    public wbPanel (int width, int height,int rows,int cols,View v) {
+    public wbPanel (Board b) {
         super();
-        this.rows = rows;
-        this.cols = cols;
-        this.SCREEN_WIDTH = width;
-        this.SCREEN_HEIGHT = height;
-        this.parent = v;
+        this.b = b;
     }
 
     public void paint(Graphics g) {
-        Tile[][] tiles = parent.getBoard().getTiles();
+        int panel_width = this.getWidth();
+        int panel_height = this.getHeight();
+        Tile[][] tiles = b.getTiles();
+        int board_rows = b.getHeight();
+        int board_cols = b.getWidth();
 
         int height = 0;
         for (Tile[] row : tiles) {
@@ -31,27 +27,27 @@ public class wbPanel extends JPanel {
                 //col.get()
                 if (col instanceof FinishTile) {
                     g.setColor(Color.YELLOW);
-                    g.fillRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
+                    g.fillRect(width,height,panel_width/board_cols,panel_height/board_rows);
                 } else {
                     if (col instanceof ContainerTile) {
                         if (((ContainerTile)col).getContents() instanceof Crate) {
                             g.setColor(Color.BLUE);
-                            g.fillRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
+                            g.fillRect(width,height,panel_width/board_cols,panel_height/board_rows);
                         } else if (((ContainerTile)col).getContents() instanceof Player) {
                             g.setColor(Color.WHITE);
-                            g.fillRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
+                            g.fillRect(width,height,panel_width/board_cols,panel_height/board_rows);
                         }
                     } else {
                         g.setColor(Color.RED);
-                        g.fillRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
+                        g.fillRect(width,height,panel_width/board_cols,panel_height/board_rows);
                     }
 
                 }
-                width += SCREEN_WIDTH/3;
+                width += panel_width/board_cols;
             }
-            height += SCREEN_HEIGHT/3;
+            height += panel_height/board_rows;
         }
-        //g.fillRect(100,100,400,400);
+
     }
 
 }
