@@ -5,8 +5,7 @@ class Tile {
 
 	private Coord thisCoord;
 
-	public Tile(Coord startCoord)
-	{
+	public Tile(Coord startCoord) {
 		this.thisCoord = startCoord;
 	}
 

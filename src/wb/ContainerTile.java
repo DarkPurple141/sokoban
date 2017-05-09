@@ -2,11 +2,9 @@ package wb;
 
 public class ContainerTile extends Tile
 {
-
 	private Object contents;
 
-	public ContainerTile(Coord startCoord)
-	{
+	public ContainerTile(Coord startCoord) {
 		super(startCoord);
 		this.contents = null;
 	}

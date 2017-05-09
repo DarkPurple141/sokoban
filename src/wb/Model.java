@@ -11,7 +11,7 @@ class Model {
 	private Player p;
 
 
-	public Model(){
+	public Model() {
 		// constructor from randomly generated
 	}
 
@@ -22,7 +22,8 @@ class Model {
 	 * Used to create fixed levels
 	 *
 	 */
-	public Model(String filePath){
+
+	public Model(String filePath) {
 		int[][] boardArray = parseXML(filePath);
 		board = new Board(boardArray, p);
 
@@ -68,12 +69,12 @@ class Model {
 						}
 					}
 				}
-			} catch (Exception e){
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		}finally{
+		} finally {
 			//TODO doesn't seem like a good way to return something if parse fails
 			// finally *always* executes. AH.
 			return boardArray;

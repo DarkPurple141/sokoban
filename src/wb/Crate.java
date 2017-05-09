@@ -23,7 +23,7 @@ public class Crate
 	 *
 	 */ 
 	public boolean canMove(int direction, Board gameBoard){
-		Tile moveInto = gameBoard.getNeighbour(thisCoord, direction);
+		Tile moveInto = gameBoard.getPosition(thisCoord.getNeighbour(direction));
 		return (moveInto != null && moveInto.canBeFilled());
 	}
 
@@ -34,7 +34,7 @@ public class Crate
 	 *
 	 */
 	public void doMove(int direction, Board gameBoard){
-		ContainerTile moveInto = (ContainerTile)gameBoard.getNeighbour(thisCoord, direction);
+		ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
 		moveInto.setContents(this);
 		ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
 		moveFrom.setContents(null);

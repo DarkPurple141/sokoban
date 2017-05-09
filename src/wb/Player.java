@@ -21,7 +21,8 @@ public class Player{
 	 * This call takes into account an adjacent crate
 	 */
 	public boolean canMove(int direction, Board gameBoard){
-		Tile moveInto = gameBoard.getNeighbour(thisCoord, direction);
+		Tile moveInto = gameBoard.getPosition(thisCoord.getNeighbour(direction));
+
 		if (moveInto != null && moveInto instanceof ContainerTile){
 			Object existingContents = ((ContainerTile)moveInto).getContents();
 			if(existingContents != null){
@@ -47,7 +48,7 @@ public class Player{
 	 *
 	 */
 	public void doMove(int direction, Board gameBoard){
-		ContainerTile moveInto = (ContainerTile)gameBoard.getNeighbour(thisCoord, direction);
+		ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
 		Object pushing = moveInto.getContents();
 		if (pushing != null && pushing instanceof Crate){
 			((Crate)pushing).doMove(direction, gameBoard);
