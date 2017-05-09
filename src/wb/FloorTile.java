@@ -18,6 +18,7 @@ public class FloorTile extends Tile {
 		return contents;
 	}
 
+	// TODO ? should this be void
 	public boolean setContents(GamePiece content) {
 		contents = content;
 		return true;
