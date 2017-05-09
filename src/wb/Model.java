@@ -15,10 +15,6 @@ public class Model {
 		// constructor from randomly generated
 	}
 
-    public Player getPlayer() {
-        return p;
-    }
-
 	/**
 	 * Constructor. Use this for demo
 	 *
@@ -31,6 +27,23 @@ public class Model {
 		int[][] boardArray = parseXML(filePath);
 		board = new Board(boardArray, p);
 
+	}
+
+	public Player getPlayer() {
+		return p;
+	}
+
+	/**
+	 * Gives the entire board back
+	 * Board can then be used to get the 2D array of tiles
+	 * or the List of finish tiles.
+	 */
+	public Board getBoard(){
+		return board;
+	}
+
+	public boolean doMove(int direction){
+		return p.doMove(board, direction);
 	}
 
 	/**
@@ -85,23 +98,4 @@ public class Model {
 		}
 
 	}
-
-	/**
-	 * Gives the entire board back
-	 * Board can then be used to get the 2D array of tiles
-	 * or the List of finish tiles.
-	 */
-	public Board getBoard(){
-		return board;
-	}
-
-
-	public boolean canMove(int direction){
-		return p.canMove(direction, board);
-	}
-
-	public boolean doMove(int direction){
-		return p.doMove(direction, board);
-	}
-
 }

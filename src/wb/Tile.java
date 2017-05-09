@@ -1,19 +1,22 @@
 package wb;
 
-public class Tile {
+import java.awt.*;
 
+public abstract class Tile {
 
-	private Coord thisCoord;
+	private Point thisCoord;
 
-	public Tile(Coord startCoord) {
+	public Tile(Point startCoord) {
 		this.thisCoord = startCoord;
 	}
 
-	public Coord getCoord(){
+	public Point getCoord(){
 		return thisCoord;
 	}
 
-	public boolean canBeFilled(){
-		return false;
-	}
+	public abstract boolean canBeFilled();
+
+	public abstract GamePiece getContents();
+
+	public abstract boolean setContents(GamePiece newContents);
 }
