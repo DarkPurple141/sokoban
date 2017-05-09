@@ -46,4 +46,16 @@ Class(`Coord', `
     Method(`getNeighbour', `direction:int', `Coord'),
     Method(`addCoord', `vector:Coord', `Coord')');
 
+Class(`Crate', `
+    Field(`thisCoord', `Coord')',
+`
+    Constructor(`startCoord:Coord'),
+    Method(`getCoord', `', `Coord'),
+    Method(`canMove', `direction:int,gameBoard:Board', `boolean'),
+    Method(`doMove', `direction:int,gameBoard:Board', `boolean'),
+    Method(`setCoord', `updated:Coord', `void')');
+Aggregates(`Crate', `Coord');
+AssociatedWith(`Crate', `Board');
+DependsOn(`Crate', `Tile');
+
 UMLEnd
