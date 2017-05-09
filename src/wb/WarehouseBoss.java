@@ -7,8 +7,7 @@ package wb;
 public class WarehouseBoss {
 	public static void main (String[] args) {
 		// TODO let's get some code!
-		Controller c = new Controller();
-		c.makeModel("level1.xml");
+		Controller c = new Controller("level1.xml");
 		c.run();
 	}
 }

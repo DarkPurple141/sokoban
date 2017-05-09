@@ -1,6 +1,6 @@
 package wb;
 
-class Tile {
+public class Tile {
 
 
 	private Coord thisCoord;

@@ -7,9 +7,12 @@ public class Controller {
 
 	private View v;
 	private Model m;
+	private WBListener l;
 
-	public Controller() {
-		v = new View();
+	public Controller(String path) {
+		l = new WBListener(this);
+		this.makeModel(path);
+		v = new View(l,3,3,m.getBoard()); // this is not good for future.
 		//m = new Model();
 		//this.makeModel(filePath)
 	}
@@ -19,7 +22,7 @@ public class Controller {
 	}
 
 	/// this is pseudo java
-	
+
 	public void run() {
 		while (true) {
 			continue;
@@ -48,32 +51,40 @@ public class Controller {
 		*/
 	}
 
-	
+
 	/*
 	 * What's the view said has just happened?
 	 * Update model to new state.
 	 * directions in clockwise form.
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
-	private boolean processEvent(KeyEvent e) {
+	public void processEvent(KeyEvent e) {
 
         int curr = e.getKeyCode();
-        //Player p = m.getPlayer();
-
+		boolean change = false;
         // possibly change to vector format
-
 		switch (curr) {
-		case KeyEvent.VK_KP_UP:
-			return m.doMove(0);
 
-		case KeyEvent.VK_KP_RIGHT:
-			return m.doMove(1);
+			case KeyEvent.VK_UP:
+				System.out.println("UP");
+				change = m.doMove(0);
+				break;
+			case KeyEvent.VK_RIGHT:
+				System.out.println("RIGHT");
+				change = m.doMove(1);
+				break;
+			case KeyEvent.VK_DOWN:
+				System.out.println("DOWN");
+				change = m.doMove(2);
+				break;
+			case KeyEvent.VK_LEFT:
+				System.out.println("LEFT");
+				change = m.doMove(3);
+				break;
+		}
 
-		case KeyEvent.VK_KP_DOWN:
-			return m.doMove(2);
-
-		case KeyEvent.VK_KP_LEFT:
-			return m.doMove(3);
+		if (change) {
+			v.paintTiles();
 		}
 
 		/* FIXME jashankj: why is this `false`?
@@ -81,6 +92,5 @@ public class Controller {
             then return false indicates no need to re-render. See main control loop
             above.
         */
-		return false;
 	}
 }
