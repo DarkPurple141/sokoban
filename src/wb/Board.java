@@ -53,8 +53,24 @@ class Board implements Iterable<Tile> {
 		return width;
 	}
 
+<<<<<<< 2823ad0ede5edc431ffaf95a7b04c226201f175b
 	public boolean doMove(int direction){
 		return players.get(0).doMove(direction);//Can only use player 0 for now
+=======
+	public Tile getPosition(Coord pos) {
+
+		if(pos == null)
+			return null;
+		int x = pos.getX();
+		if (x < 0 || x > position.length){
+			return null;
+		}
+		int y = pos.getY();
+		if (y < 0 || y > positions.length){
+			return null;
+		}
+		return positions[x][y];
+>>>>>>> Started some save method
 	}
 
 	public Tile[][] getTiles(){
