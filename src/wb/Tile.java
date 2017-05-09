@@ -2,7 +2,6 @@ package wb;
 
 public class Tile {
 
-
 	private Coord thisCoord;
 
 	public Tile(Coord startCoord) {
