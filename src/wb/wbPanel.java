@@ -30,7 +30,8 @@ public class wbPanel extends JPanel {
             for (Tile col : row) {
                 //col.get()
                 if (col instanceof FinishTile) {
-                    g.clearRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
+                    g.setColor(Color.YELLOW);
+                    g.fillRect(width,height,SCREEN_WIDTH/3,SCREEN_WIDTH/3);
                 } else {
 
                 }
