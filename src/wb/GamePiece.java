@@ -23,7 +23,7 @@ public abstract class GamePiece
 	public abstract boolean doMove(Board gameBoard, int direction);
 
 	public abstract boolean bePushed(Board gameBoard, int direction);
-
+	
 	public Point nearbyPoint(Board gameBoard, int direction) {
 		int newx = thisCoord.x;
 		int newy = thisCoord.y;
