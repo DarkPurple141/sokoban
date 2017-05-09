@@ -12,7 +12,7 @@ class Board {
 	 * Given the 2D array of board setup, initialises the list of Tiles
 	 * with their coords/contents set correctly.
 	 *
-	 * 
+	 *
 	 * @param tileArray : The 2D array representation of a board with the numbers
 	 *                  representing what object is on the Tile at the corresponding coordinate
 	 *
