@@ -1,7 +1,6 @@
 package wb;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class Controller {
 
@@ -10,13 +9,23 @@ public class Controller {
 
 	public Controller(String path) {
 		this.makeModel(path);
-		v = new View(new WBListener(this),3,3,m.getBoard()); // this is not good for future.
+		v = new View(new WBListener(this),m.getBoard()); // this is not good for future.
 		//m = new Model();
 		//this.makeModel(filePath)
 	}
 
-	public void makeModel(String filePath) {
+	public Controller() {
+		this.makeModel("level1.xml");
+		v = new View(new WBListener(this),m.getBoard());
+	}
+
+	private void makeModel(String filePath) {
 		m = new Model(filePath);
+	}
+
+	public void newGame() {
+		// creates a new game after old one has finished.
+		return;
 	}
 
 	/// this is pseudo java

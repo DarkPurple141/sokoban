@@ -10,20 +10,16 @@ import java.awt.Color;
 
 public class View {
     private JFrame mainFrame;
-    private int rows;
-    private int cols;
     private Board b;
     private static int SCREEN_WIDTH = 512;
     private static int SCREEN_HEIGHT = 512;
 
-    public View(WBListener w, int rows, int cols, Board b) {
-        this.rows = rows;
-        this.cols = cols;
+    public View(WBListener w, Board b) {
         this.b = b;
         mainFrame = new JFrame("WarehouseBoss");
         mainFrame.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
         mainFrame.setBackground(Color.BLACK);
-        mainFrame.getContentPane().add(new wbPanel(SCREEN_WIDTH,SCREEN_HEIGHT,rows,cols,this));
+        mainFrame.getContentPane().add(new wbPanel(b));
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.addKeyListener(w);
