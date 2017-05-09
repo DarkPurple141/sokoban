@@ -2,8 +2,7 @@ package wb;
 
 import java.awt.*;
 
-public class FloorTile extends Tile
-{
+public class FloorTile extends Tile {
 	private GamePiece contents;
 
 	public FloorTile(Point startCoord) {

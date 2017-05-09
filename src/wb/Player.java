@@ -2,8 +2,7 @@ package wb;
 
 import java.awt.*;
 
-public class Player extends GamePiece
-{
+public class Player extends GamePiece {
 	public Player(Point startCoord) {
 		super(startCoord);
 	}

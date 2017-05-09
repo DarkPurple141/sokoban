@@ -2,8 +2,7 @@ package wb;
 
 import java.awt.*;
 
-public abstract class GamePiece
-{
+public abstract class GamePiece {
 	private Point thisCoord;
 
 	public GamePiece(Point startCoord) {
