@@ -23,18 +23,17 @@ public class Player{
 	public boolean canMove(int direction, Board gameBoard){
 		Tile moveInto = gameBoard.getPosition(thisCoord.getNeighbour(direction));
 
-		if (moveInto != null && moveInto instanceof ContainerTile){
-			Object existingContents = ((ContainerTile)moveInto).getContents();
-			if(existingContents != null){
-				if(existingContents instanceof Crate){
-					if (!((Crate)existingContents).canMove(direction, gameBoard)){
-						return false;
-					}
-				}
-				return true;
-			}
-		}
-		return false;
+		if(moveInto == null || !(moveInto instanceof  ContainerTile))
+			return false;
+
+		Object existingContents = ((ContainerTile)moveInto).getContents();
+		if(existingContents == null || !(existingContents instanceof  Crate))
+			return false;
+
+		if (!((Crate)existingContents).canMove(direction, gameBoard))
+			return false;
+
+		return true;
 	}
 
 	/**
@@ -45,24 +44,28 @@ public class Player{
 	 * with the same direction
 	 *
 	 * The method also moves an adjacent crate if necessary
-	 *
 	 */
 	public boolean doMove(int direction, Board gameBoard){
-		if (canMove(direction, gameBoard)){
-			ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
-			Object pushing = moveInto.getContents();
-			if (pushing != null && pushing instanceof Crate){
-				if(((Crate)pushing).doMove(direction, gameBoard)){
-					moveInto.setContents(this);
-					ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
-					moveFrom.setContents(null);
-					thisCoord = moveInto.getCoord();
-					return true;
-				}
-			}
-			
-		}
-		return false;
+
+		if(!canMove(direction, gameBoard))
+			return false;
+
+		ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
+
+		Object pushing = moveInto.getContents();
+
+		if(pushing instanceof Player)
+			return false;
+
+		if(!((Crate)pushing).doMove(direction, gameBoard))
+			return false;
+
+		moveInto.setContents(this);
+		ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
+		moveFrom.setContents(null);
+		thisCoord = moveInto.getCoord();
+
+		return true;
 	}
 
 	public void setCoord(Coord updated){

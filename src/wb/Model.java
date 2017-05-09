@@ -90,7 +90,6 @@ public class Model {
 	 * Gives the entire board back
 	 * Board can then be used to get the 2D array of tiles
 	 * or the List of finish tiles.
-	 *
 	 */
 	public Board getBoard(){
 		return board;
