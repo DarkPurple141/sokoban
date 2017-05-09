@@ -9,5 +9,6 @@ public class WarehouseBoss {
 		// TODO let's get some code!
 		Controller c = new Controller();
 		c.makeModel("level1.xml");
+		c.run();
 	}
 }
