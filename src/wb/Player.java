@@ -21,10 +21,11 @@ public class Player{
 	 * This call takes into account an adjacent crate
 	 */
 	public boolean canMove(int direction, Board gameBoard){
+
 		Tile moveInto = gameBoard.getPosition(thisCoord.getNeighbour(direction));
 
 		if(moveInto == null || !(moveInto instanceof ContainerTile)){
-			
+
 			return false;
 		}
 
