@@ -1,10 +1,11 @@
 package wb;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 class Board {
 	private Tile[][] positions;
-	private List<Tile> finishTiles;
+	private List<FloorTile> finishTiles;
 
 	/**
 	 * Constructor
@@ -21,21 +22,21 @@ class Board {
 
 	public Board(int[][] tileArray, Player p) {
 		positions = new Tile[tileArray.length][tileArray.length];
-		finishTiles = new ArrayList<Tile>();
+		finishTiles = new ArrayList<FloorTile>();
 		int currentY = 0;
 		for (int[] row : tileArray) {
 			int currentX = 0;
-			Coord tileCoord = new Coord(currentX, currentY);
+			Point tileCoord = new Point(currentX, currentY);
 			for (int col : row) {
 				if (col == 1) {
-					Tile toAdd = new Tile(tileCoord);
+					Tile toAdd = new Wall(tileCoord);
 					positions[currentY][currentX] = toAdd;
 				} else if (col == 4) {
-					FinishTile toAdd = new FinishTile(tileCoord);
+					FloorTile toAdd = new FloorTile(tileCoord);
 					finishTiles.add(toAdd);
 					positions[currentY][currentX] = toAdd;
 				} else {
-					ContainerTile toAdd = new ContainerTile(tileCoord);
+					FloorTile toAdd = new FloorTile(tileCoord);
 					switch (col) {
 						case 2:
 							p.setCoord(tileCoord);
@@ -55,19 +56,15 @@ class Board {
 
 	}
 
-	public List<Tile> getFinishTiles() {
-		return finishTiles;
-	}
 
-	public Tile getPosition(Coord pos) {
-
+	public Tile getPosition(Point pos) {
 		if(pos == null)
 			return null;
-		int x = pos.getX();
+		int x = pos.x;
+		int y = pos.y;
 		if (x < 0 || x > positions.length){
 			return null;
 		}
-		int y = pos.getY();
 		if (y < 0 || y > positions.length){
 			return null;
 		}
@@ -85,5 +82,9 @@ class Board {
 
 	public Tile[][] getTiles(){
 		return positions;
+	}
+
+	public List<FloorTile> getFinishTiles() {
+		return finishTiles;
 	}
 }

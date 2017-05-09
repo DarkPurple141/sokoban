@@ -1,83 +1,37 @@
 package wb;
 
-public class Player{
+import java.awt.*;
 
-	private Coord thisCoord;
-
-	public Player(Coord startCoord){
-		this.thisCoord = startCoord;
+public class Player extends GamePiece
+{
+	public Player(Point startCoord) {
+		super(startCoord);
 	}
 
-	public Coord getCoord(){
-		return thisCoord;
+	public int getType() {
+		return 0;
 	}
 
-	/**
-	 * Determines whether or not a player can move in
-	 * a certain direction
-	 *
-	 * Must always be called before doMove()!!
-	 *
-	 * This call takes into account an adjacent crate
-	 */
-	public boolean canMove(int direction, Board gameBoard){
+	public boolean doMove(Board gameBoard, int direction) {
+		Point sourceCoord = super.getCoord();
+		Point destCoord = super.nearbyPoint(gameBoard, direction);
 
-		Tile moveInto = gameBoard.getPosition(thisCoord.getNeighbour(direction));
+		Tile source = gameBoard.getPosition(sourceCoord);
+		Tile destination = gameBoard.getPosition(destCoord);
 
-		if(moveInto == null || !(moveInto instanceof ContainerTile)){
+		if(!destination.canBeFilled())
+			return false;//Encountered wall
 
-			return false;
-		}
-
-		Object existingContents = ((ContainerTile)moveInto).getContents();
-		if(existingContents == null || !(existingContents instanceof  Crate)){
-
-			return false;
-		}
-
-		if (!((Crate)existingContents).canMove(direction, gameBoard)){
-			System.out.println("Faillll");
-			return false;
-		}
-
+		GamePiece blocking = destination.getContents();
+		if(blocking != null && !blocking.bePushed(gameBoard, direction))
+			return false;//Encountered unmovable object
+		source.setContents(null);
+		destination.setContents(this);
+		super.setCoord(destCoord);
 		return true;
 	}
 
-	/**
-	 * Moves the player, and box if necessary, in the direction indicated by the
-	 * 'direction' param.
-	 *
-	 * Does no validation on the move and therefore must always be preceded by a call to canMove()
-	 * with the same direction
-	 *
-	 * The method also moves an adjacent crate if necessary
-	 */
-	public boolean doMove(int direction, Board gameBoard){
-
-		if(!canMove(direction, gameBoard)){
-			System.out.println("Fail");
-			return false;
-		}
-
-		ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
-
-		Object pushing = moveInto.getContents();
-
-		if(pushing instanceof Player)
-			return false;
-
-		if(!((Crate)pushing).doMove(direction, gameBoard))
-			return false;
-
-		moveInto.setContents(this);
-		ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
-		moveFrom.setContents(null);
-		thisCoord = moveInto.getCoord();
-
-		return true;
-	}
-
-	public void setCoord(Coord updated){
-		thisCoord = updated;
+	public boolean bePushed(Board gameBoard, int direction) {
+		return false;
 	}
 }

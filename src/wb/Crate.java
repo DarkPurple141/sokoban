@@ -1,53 +1,37 @@
 package wb;
 
-/**
- * Created by Ben on 7/5/17.
- */
-public class Crate
+import java.awt.*;
+
+public class Crate extends GamePiece
 {
-	private Coord thisCoord;
-
-	public Crate(Coord startCoord) {
-		this.thisCoord = startCoord;
+	public Crate(Point startCoord) {
+		super(startCoord);
 	}
 
-	public Coord getCoord(){
-		return thisCoord;
+	public int getType() {
+		return 1;
 	}
 
-
-	/**
-	 * Checks whether a Crate can move in the direction specified.
-	 * Probably won't have to be called directly since it is part of the check of whether a
-	 * Player can move or not.
-	 */ 
-	public boolean canMove(int direction, Board gameBoard){
-		Tile moveInto = gameBoard.getPosition(thisCoord.getNeighbour(direction));
-		if((moveInto != null && (moveInto instanceof ContainerTile) &&((ContainerTile)moveInto).canBeFilled())){
-			System.out.println("Works now");
-		}
-		return (moveInto != null && (moveInto instanceof ContainerTile) &&((ContainerTile)moveInto).canBeFilled());
+	public boolean doMove(Board gameBoard, int direction) {
+		return false;
 	}
 
-	/**
-	 * Moves the Crate in the direction specified
-	 * Is called as part of the doMove method for a Player
-	 * Therefore probably not need to be called directly
-	 */
-	public boolean doMove(int direction, Board gameBoard){
-		if (canMove(direction, gameBoard)){
-			ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
-			moveInto.setContents(this);
-			ContainerTile moveFrom = (ContainerTile)gameBoard.getPosition(thisCoord);
-			moveFrom.setContents(null);
-			thisCoord = moveInto.getCoord();
-			return true;
-		}else{
-			return false;
-		}
-	}
+	public boolean bePushed(Board gameBoard, int direction) {
+		Point sourceCoord = super.getCoord();
+		Point destCoord = super.nearbyPoint(gameBoard, direction);
 
-	public void setCoord(Coord updated){
-		thisCoord = updated;
+		Tile source = gameBoard.getPosition(sourceCoord);
+		Tile destination = gameBoard.getPosition(destCoord);
+
+		if(!destination.canBeFilled())
+			return false;//Encountered wall
+
+		GamePiece blocking = destination.getContents();
+		if(blocking != null)
+			return false;//Encountered another object
+		source.setContents(null);
+		destination.setContents(this);
+		super.setCoord(destCoord);
+		return true;
 	}
 }
