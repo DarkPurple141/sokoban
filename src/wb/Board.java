@@ -21,15 +21,14 @@ class Board implements Iterable<Tile> {
 	 *
 	 */
 
-
 	public Board(int[][] tileArray, Player p) {
 		positions = new Tile[tileArray.length][tileArray.length];
 		finishTiles = new ArrayList<FloorTile>();
 		int currentY = 0;
 		for (int[] row : tileArray) {
 			int currentX = 0;
-			Point tileCoord = new Point(currentX, currentY);
 			for (int col : row) {
+				Point tileCoord = new Point(currentX, currentY);
 				if (col == 1) {
 					Tile toAdd = new Wall(tileCoord);
 					positions[currentY][currentX] = toAdd;
@@ -58,6 +57,8 @@ class Board implements Iterable<Tile> {
 
 	}
 
+	// TODO pretty sure this is a cause for concern unless
+	// u guys have functions that are handling null returns properly.
 	public Tile getPosition(Point pos) {
 		if(pos == null)
 			return null;
