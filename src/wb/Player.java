@@ -23,15 +23,21 @@ public class Player{
 	public boolean canMove(int direction, Board gameBoard){
 		Tile moveInto = gameBoard.getPosition(thisCoord.getNeighbour(direction));
 
-		if(moveInto == null || !(moveInto instanceof  ContainerTile))
+		if(moveInto == null || !(moveInto instanceof ContainerTile)){
+			
 			return false;
+		}
 
 		Object existingContents = ((ContainerTile)moveInto).getContents();
-		if(existingContents == null || !(existingContents instanceof  Crate))
-			return false;
+		if(existingContents == null || !(existingContents instanceof  Crate)){
 
-		if (!((Crate)existingContents).canMove(direction, gameBoard))
 			return false;
+		}
+
+		if (!((Crate)existingContents).canMove(direction, gameBoard)){
+			System.out.println("Faillll");
+			return false;
+		}
 
 		return true;
 	}
@@ -47,8 +53,10 @@ public class Player{
 	 */
 	public boolean doMove(int direction, Board gameBoard){
 
-		if(!canMove(direction, gameBoard))
+		if(!canMove(direction, gameBoard)){
+			System.out.println("Fail");
 			return false;
+		}
 
 		ContainerTile moveInto = (ContainerTile)gameBoard.getPosition(thisCoord.getNeighbour(direction));
 
