@@ -58,4 +58,23 @@ Aggregates(`Crate', `Coord');
 AssociatedWith(`Crate', `Board');
 DependsOn(`Crate', `Tile');
 
+Class(`FinishTile', `', `
+    Constructor(`startCoord:Coord'),
+    Method(`hasBox', `', `boolean')');
+Extends(`FinishTile', `ContainerTile');
+AssociatedWith(`FinishTile', `Coord');
+
+Class(`Model', `
+    Field(`board', `Board'),
+    Field(`p', `Player')',
+`
+    Constructor(`'),
+    Constructor(`filePath:String'),
+    Method(`getPlayer', `', `Player'),
+    Method(`parseXML', `filePath:String', `int[][]'),
+    Method(`getBoard', `', `Board'),
+    Method(`canMove', `direction:int', `boolean'),
+    Method(`doMove', `direction:int', `boolean')
+    ');
+
 UMLEnd
