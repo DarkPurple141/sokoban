@@ -24,7 +24,7 @@ public abstract class GamePiece
 
 	public abstract boolean bePushed(Board gameBoard, int direction);
 
-	protected Point nearbyPoint(Board gameBoard, int direction) {
+	private Point nearbyPoint(Board gameBoard, int direction) {
 		int newx = thisCoord.x;
 		int newy = thisCoord.y;
 		switch (direction) {
