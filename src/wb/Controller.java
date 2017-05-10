@@ -20,7 +20,7 @@ public class Controller {
 	}
 
 	private void makeModel(String filePath) {
-		b = new Board(3, 3, filePath);//Using 3x3 as test boards
+		b = new Board(filePath);//Using 3x3 as test boards
 	}
 
 	public void newGame() {
