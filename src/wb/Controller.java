@@ -5,11 +5,11 @@ import java.awt.event.KeyEvent;
 public class Controller {
 
 	private View v;
-	private Model m;
+	private Board b;
 
 	public Controller(String path) {
 		this.makeModel(path);
-		v = new View(new WBListener(this), m.getBoard()); // this is not good for future.
+		v = new View(new WBListener(this), b); // this is not good for future.
 		//m = new Model();
 		//this.makeModel(filePath)
 	}
