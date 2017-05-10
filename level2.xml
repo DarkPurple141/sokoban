@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- 0=free 1=wall 2=player 3=box 4=goal -->
-<board size="3">
+<board width="3" height="3">
 	<row>
 		<col>0</col>
 		<col>0</col>
