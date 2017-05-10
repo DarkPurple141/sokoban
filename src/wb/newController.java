@@ -8,6 +8,7 @@ import java.awt.*;
 
 public class newController extends JFrame implements ActionListener {
 
+
 	private GameView v;
 	private Model m;
 	private boolean running;
