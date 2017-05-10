@@ -25,6 +25,7 @@ class Board implements Iterable<Tile> {
 	public Board(int[][] tileArray, Player p) {
 		positions = new Tile[tileArray.length][tileArray.length];
 		finishTiles = new ArrayList<FloorTile>();
+		crates = new ArrayList<Crate>();
 		int currentY = 0;
 		for (int[] row : tileArray) {
 			int currentX = 0;
@@ -93,7 +94,6 @@ class Board implements Iterable<Tile> {
 	@Override
 	public Iterator<Tile> iterator() {
 		List<Tile> flatten = new ArrayList<>();
-		List<Crate> crates = new ArrayList<>();
 		for(Tile[] array : positions) {
 			flatten.addAll(Arrays.asList(array));
 		}
