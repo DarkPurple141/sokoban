@@ -11,9 +11,9 @@ public class GameView extends JPanel {
 
     public GameView(Board b) {
         super();
-        setBorder(BorderFactory.createLineBorder(Color.black));
         this.b = b;
     }
+
 
     private void paintBackground(Graphics g) {
         int panel_width = this.getWidth();

@@ -1,10 +1,14 @@
 package wb;
 
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.*;
 
-public class Controller extends JFrame implements ActionListener {
+public class newController extends JFrame implements ActionListener {
 
-	private gameView v = new GameView();
+	private GameView v;
 	private Model m;
 	private boolean running;
 	private boolean paused = false;
@@ -13,15 +17,22 @@ public class Controller extends JFrame implements ActionListener {
 	private JButton startButton = new JButton("Start");
    	private JButton quitButton = new JButton("Quit");
    	private JButton pauseButton = new JButton("Pause");
+	private static int SCREEN_WIDTH = 512;
+    private static int SCREEN_HEIGHT = 512;
 
-	public Controller(String path) {
+	public newController(String path) {
 		this.makeModel(path);
-		Controller();
+		this.constructorHelper();
 	}
 
-	public Controller() {
+	public newController() {
+		this.constructorHelper();
+	}
+
+	private void constructorHelper() {
 		super("Warehouse Boss V0.2");
 		this.makeModel("level1.xml");
+		v = new GameView(m.getBoard());
 		Container cp = getContentPane();
 	    cp.setLayout(new BorderLayout());
 	    JPanel p = new JPanel();
@@ -29,24 +40,19 @@ public class Controller extends JFrame implements ActionListener {
 	    p.add(startButton);
 	    p.add(pauseButton);
 	    p.add(quitButton);
-	    cp.add(gamePanel, BorderLayout.CENTER);
+	    cp.add(v, BorderLayout.CENTER);
 	    cp.add(p, BorderLayout.SOUTH);
 		startButton.addActionListener(this);
       	quitButton.addActionListener(this);
       	pauseButton.addActionListener(this);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		v = new View(new WBListener(this), m.getBoard());
+		addKeyListener(new WBListener(this));
+		this.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
 	}
 
 
 	private void makeModel(String filePath) {
 		m = new Model(filePath);
-	}
-
-	public void newGame() {
-		// creates a new game after old one has finished.
-		return;
 	}
 
 
@@ -62,6 +68,7 @@ public class Controller extends JFrame implements ActionListener {
 	}
 
 	private void gameLoop() {
+		int delay = 1000/fps;
 
 		while (running) {
 
@@ -70,16 +77,22 @@ public class Controller extends JFrame implements ActionListener {
 				updateGameState();
 				drawGame();
 			}
+			try {
+        		Thread.sleep(delay); // 10fps
+    		}
+    			catch(InterruptedException e) {
+    		}
+			frameCount++;
 		}
 	}
 
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		float standard = 0.2;
+		double standard = 0.2;
 		for (GamePiece curr : m.getMovables()) {
-			float newx = curr.getCoord().getX();
-			float newy = curr.getCoord().getY();
+			double newx = curr.getCoord().getX();
+			double newy = curr.getCoord().getY();
 			if (curr.getTargetX() > newx) {
 				newx+=standard;
 			} else if (curr.getTargetX() < newx) {
@@ -95,12 +108,12 @@ public class Controller extends JFrame implements ActionListener {
 	}
 
 	private void drawGame() {
-		v.paintTiles();
+		this.validate();
+		this.repaint();
+		/// calls paint in all child components
 	}
 
-
 	/*
-	 * What's the view said has just happened?
 	 * Update model to new state.
 	 * directions in clockwise form.
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
@@ -111,7 +124,6 @@ public class Controller extends JFrame implements ActionListener {
 		boolean change = false;
         // possibly change to vector format
 		switch (curr) {
-
 			case KeyEvent.VK_UP:
 				System.out.println("UP");
 				change = m.doMove(0);
@@ -129,16 +141,28 @@ public class Controller extends JFrame implements ActionListener {
 				change = m.doMove(3);
 				break;
 		}
-
-		if (change) {
-			System.out.print("REPAINT OCCURRING\n");
-			v.paintTiles();
-		}
-
-		/* FIXME jashankj: why is this `false`?
-            alexh -- attempts to update game state. If no update is made
-            then return false indicates no need to re-render. See main control loop
-            above.
-        */
 	}
+
+	public void actionPerformed(ActionEvent e) {
+		Object s = e.getSource();
+		if (s == startButton) {
+        	running = !running;
+			if (running) {
+            	startButton.setText("Stop");
+            	runGameLoop();
+			} else {
+            	startButton.setText("Start");
+         	}
+      	} else if (s == pauseButton) {
+        	paused = !paused;
+        	if (paused) {
+            	pauseButton.setText("Unpause");
+         	} else {
+            	pauseButton.setText("Pause");
+         	}
+      	} else if (s == quitButton) {
+         	System.exit(0);
+      	}
+   	}
+
 }
