@@ -57,7 +57,6 @@ public class WBPanel extends JPanel {
 
 		while(i.hasNext()) {
 			Tile t = i.next();
-			System.out.println(t);
 			Point pos = t.getCoord();
 			GamePiece contents = t.getContents();
 			//Render bottom layer here
