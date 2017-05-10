@@ -7,8 +7,8 @@ import java.awt.event.KeyEvent;
 public class WBListener extends KeyAdapter {
 
     private Controller c;
-    public WBListener (Controller n) {
-        c = n;
+    public WBListener (Controller c) {
+        this.c = c;
     }
 
     public void update(KeyEvent e) {
