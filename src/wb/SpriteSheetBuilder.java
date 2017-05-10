@@ -8,16 +8,29 @@ public class SpriteSheetBuilder {
 
     private BufferedImage spriteSheet;
     private int rows, cols;
+    private int widthOffset, heightOffset;
     private int spriteWidth, spriteHeight;
     private int spriteCount;
 
     public SpriteSheetBuilder withSheet(BufferedImage img) {
         spriteSheet = img;
+        widthOffset = 0;
+        heightOffset = 0;
         return this;
     }
 
     public SpriteSheetBuilder withRows(int rows) {
         this.rows = rows;
+        return this;
+    }
+
+    public SpriteSheetBuilder withxOffset(int x) {
+        this.widthOffset = x;
+        return this;
+    }
+
+    public SpriteSheetBuilder withyOffset(int y) {
+        this.heightOffset = y;
         return this;
     }
 
@@ -86,10 +99,10 @@ public class SpriteSheetBuilder {
 
         for (int index = 0; index < count; index++) {
             sprites.add(sheet.getSubimage(x, y, width, height));
-            x += width;
+            x += width + this.widthOffset;
             if (x >= width * cols) {
                 x = 0;
-                y += height;
+                y += height + this.heightOffset;
             }
         }
 

@@ -9,6 +9,7 @@ import java.io.*;
 public class GameView extends JPanel {
 
     private Board b;
+    private SpriteSheet crates;
     private SpriteSheet tiles;
     private SpriteSheet player;
 
@@ -20,13 +21,26 @@ public class GameView extends JPanel {
 
     private void GameViewBuilder() {
         try {
+            crates = new SpriteSheetBuilder()
+                .withSheet(ImageIO.read(new File("assets/crate_walls.png")))
+                .withRows(1)
+                .withColumns(5)
+                .withxOffset(22)
+                .withSpriteCount(5)
+                .build();
             tiles = new SpriteSheetBuilder()
-                .withSheet(ImageIO.read(new File("assets/tileset.png")))
-                .
+                .withSheet(ImageIO.read(new File("assets/tiles.png")))
+                .withRows(1)
+                .withColumns(5)
+                .withxOffset(22)
+                .withSpriteCount(5)
                 .build();
             player = new SpriteSheetBuilder()
-            .withSheet(ImageIO.read(new File("assets/player.png")))
-            .build();
+                .withSheet(ImageIO.read(new File("assets/player_4x4_48x48.png")))
+                .withRows(4)
+                .withColumns(4)
+                .withSpriteCount(16)
+                .build();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             System.exit(1);
