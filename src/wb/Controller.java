@@ -9,14 +9,14 @@ public class Controller {
 
 	public Controller(String path) {
 		this.makeModel(path);
-		v = new View(new WBListener(this),m.getBoard()); // this is not good for future.
+		v = new View(new WBListener(this), m.getBoard()); // this is not good for future.
 		//m = new Model();
 		//this.makeModel(filePath)
 	}
 
 	public Controller() {
 		this.makeModel("level1.xml");
-		v = new View(new WBListener(this),m.getBoard());
+		v = new View(new WBListener(this), m.getBoard());
 	}
 
 	private void makeModel(String filePath) {
