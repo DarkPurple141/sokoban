@@ -16,11 +16,11 @@ public class Controller {
 
 	public Controller() {
 		this.makeModel("level1.xml");
-		v = new View(new WBListener(this), m.getBoard());
+		v = new View(new WBListener(this), b);
 	}
 
 	private void makeModel(String filePath) {
-		m = new Model(filePath);
+		b = new Board(3, 3, filePath);//Using 3x3 as test boards
 	}
 
 	public void newGame() {
@@ -74,19 +74,19 @@ public class Controller {
 
 			case KeyEvent.VK_UP:
 				System.out.println("UP");
-				change = m.doMove(0);
+				change = b.doMove(0);
 				break;
 			case KeyEvent.VK_RIGHT:
 				System.out.println("RIGHT");
-				change = m.doMove(1);
+				change = b.doMove(1);
 				break;
 			case KeyEvent.VK_DOWN:
 				System.out.println("DOWN");
-				change = m.doMove(2);
+				change = b.doMove(2);
 				break;
 			case KeyEvent.VK_LEFT:
 				System.out.println("LEFT");
-				change = m.doMove(3);
+				change = b.doMove(3);
 				break;
 		}
 
