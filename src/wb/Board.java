@@ -53,10 +53,9 @@ class Board implements Iterable<Tile> {
 		return width;
 	}
 
-<<<<<<< 2823ad0ede5edc431ffaf95a7b04c226201f175b
 	public boolean doMove(int direction){
 		return players.get(0).doMove(direction);//Can only use player 0 for now
-=======
+	}
 	public Tile getPosition(Coord pos) {
 
 		if(pos == null)
@@ -70,7 +69,7 @@ class Board implements Iterable<Tile> {
 			return null;
 		}
 		return positions[x][y];
->>>>>>> Started some save method
+
 	}
 
 	public Tile[][] getTiles(){
@@ -231,4 +230,32 @@ class Board implements Iterable<Tile> {
 //		}
 //
 //	}
+	public void saveGame(String filename){
+		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
+		try{
+			DocumentBuilder builder = docFactory.newDocumentBuilder();
+			Document saveFile = builder.newDocument();
+			Element board = saveFile.createElement('board');
+			Attr saveWidth = saveFile.createAttribute('width');
+			saveWidth.setValue(width);
+			board.setAttribute(width);
+			Attr saveHeight = saveFile.createAttribute('height');
+			saveHeight.setValue(height);
+			board.setAttribute(saveHeight);
+			saveFile.appendChild(board);
+			for (Tile[] rowTiles : positions){
+				Element row = saveFile.createElement('row');
+				board.appendChild(row);
+				for (Tile colTile : rowTiles){
+					Element col = saveFile.createElement('col');
+					Object contentsOfTile = colTile.getContents();
+					if (colTile instanceof FinishTile){
+						col.appendChild(saveFile.createTextNode());
+					}
+					
+				}
+			}
+
+		}
+	}
 }
