@@ -6,11 +6,11 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.*;
 
-public class newController extends JFrame implements ActionListener {
+public class Controller extends JFrame implements ActionListener {
 
 
 	private GameView v;
-	private Model m;
+	private Board b;
 	private boolean running;
 	private boolean paused = false;
 	private int fps = 10;
@@ -21,20 +21,20 @@ public class newController extends JFrame implements ActionListener {
 	private static int SCREEN_WIDTH = 512;
     private static int SCREEN_HEIGHT = 512;
 
-	public newController(String path) {
+	public Controller(String path) {
 		super("Warehouse Boss V0.2");
 		this.makeModel(path);
 		this.constructorHelper();
 	}
 
-	public newController() {
+	public Controller() {
 		super("Warehouse Boss V0.2");
 		this.constructorHelper();
 	}
 
 	private void constructorHelper() {
 		this.makeModel("level1.xml");
-		v = new GameView(m.getBoard());
+		v = new GameView(b);
 		Container cp = getContentPane();
 	    cp.setLayout(new BorderLayout());
 	    JPanel p = new JPanel();
@@ -54,7 +54,7 @@ public class newController extends JFrame implements ActionListener {
 
 
 	private void makeModel(String filePath) {
-		m = new Model(filePath);
+		b = new Board(filePath);
 	}
 
 
@@ -128,19 +128,19 @@ public class newController extends JFrame implements ActionListener {
 		switch (curr) {
 			case KeyEvent.VK_UP:
 				System.out.println("UP");
-				change = m.doMove(0);
+				change = b.doMove(0);
 				break;
 			case KeyEvent.VK_RIGHT:
 				System.out.println("RIGHT");
-				change = m.doMove(1);
+				change = b.doMove(1);
 				break;
 			case KeyEvent.VK_DOWN:
 				System.out.println("DOWN");
-				change = m.doMove(2);
+				change = b.doMove(2);
 				break;
 			case KeyEvent.VK_LEFT:
 				System.out.println("LEFT");
-				change = m.doMove(3);
+				change = b.doMove(3);
 				break;
 		}
 	}
