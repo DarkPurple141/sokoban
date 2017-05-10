@@ -115,6 +115,8 @@ class Board implements Iterable<Tile> {
 			File levelFile = new File(filePath);
 
 			Document levelDoc = builder.parse(levelFile);
+			Element board = levelDoc.getDocumentElement();
+			System.out.println(board);
 			NodeList rows = levelDoc.getElementsByTagName("row");
 			for(int y = 0; y < rows.getLength(); y++) {
 				Element row = (Element)rows.item(y);
