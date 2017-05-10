@@ -3,17 +3,35 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.util.Iterator;
 import javax.swing.BorderFactory;
-import java.awt.Dimension;
+import javax.imageio.ImageIO;
+import java.io.*;
 
 public class GameView extends JPanel {
 
     private Board b;
+    private SpriteSheet tiles;
+    private SpriteSheet player;
 
     public GameView(Board b) {
         super();
         this.b = b;
+        GameViewBuilder();
     }
 
+    private void GameViewBuilder() {
+        try {
+            tiles = new SpriteSheetBuilder()
+                .withSheet(ImageIO.read(new File("assets/tileset.png")))
+                .
+                .build();
+            player = new SpriteSheetBuilder()
+            .withSheet(ImageIO.read(new File("assets/player.png")))
+            .build();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+    }
 
     private void paintBackground(Graphics g) {
         int panel_width = this.getWidth();
