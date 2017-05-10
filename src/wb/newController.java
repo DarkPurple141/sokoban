@@ -22,16 +22,17 @@ public class newController extends JFrame implements ActionListener {
     private static int SCREEN_HEIGHT = 512;
 
 	public newController(String path) {
+		super("Warehouse Boss V0.2");
 		this.makeModel(path);
 		this.constructorHelper();
 	}
 
 	public newController() {
+		super("Warehouse Boss V0.2");
 		this.constructorHelper();
 	}
 
 	private void constructorHelper() {
-		super("Warehouse Boss V0.2");
 		this.makeModel("level1.xml");
 		v = new GameView(m.getBoard());
 		Container cp = getContentPane();
