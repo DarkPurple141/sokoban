@@ -44,7 +44,7 @@ class Board implements Iterable<Tile> {
 		if (y < 0 || y >= height){
 			return null;
 		}
-		return positions[y][x];
+		return positions[x][y];
 	}
 
 	public int getHeight() {
@@ -122,8 +122,10 @@ class Board implements Iterable<Tile> {
 			for(int y = 0; y < rows.getLength(); y++) {
 				Element row = (Element)rows.item(y);
 				NodeList cols = row.getElementsByTagName("col");
-				for(int x = 0; x < cols.getLength(); x++)
+				for(int x = 0; x < cols.getLength(); x++){
 					positions[x][y] = int2Tile(Integer.parseInt(cols.item(x).getTextContent()), x, y);
+				}
+
 			}
 		} catch(Exception e) {
 			System.out.println(e.getMessage());

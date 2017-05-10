@@ -7,20 +7,20 @@ import java.awt.Dimension;
 
 public class WBPanel extends JPanel {
 
-    private Board b;
+	private Board b;
 
-    public WBPanel(Board b) {
-        super();
-        setBorder(BorderFactory.createLineBorder(Color.black));
-        this.b = b;
-    }
+	public WBPanel(Board b) {
+		super();
+		setBorder(BorderFactory.createLineBorder(Color.black));
+		this.b = b;
+	}
 
-    private void paintBackground(Graphics g) {
-        int panel_width = this.getWidth();
-        int panel_height = this.getHeight();
+	private void paintBackground(Graphics g) {
+		int panel_width = this.getWidth();
+		int panel_height = this.getHeight();
 
-        int board_rows = b.getHeight();
-        int board_cols = b.getWidth();
+		int board_rows = b.getHeight();
+		int board_cols = b.getWidth();
 
 		Iterator<Tile> i = b.iterator();
 		while(i.hasNext()) {
@@ -40,25 +40,24 @@ public class WBPanel extends JPanel {
 				//Wall
 				g.setColor(Color.RED);
 			}
-            g.fillRect(pos.x*panel_width/board_cols, pos.y*panel_height/board_rows,
-            panel_width/board_cols,panel_height/board_rows);
-        }
-    }
+			g.fillRect(pos.x*panel_width/board_cols, pos.y*panel_height/board_rows,
+			panel_width/board_cols,panel_height/board_rows);
+		}
+	}
 
-    @Override
-    public void paint(Graphics g) {
-        int panel_width = this.getWidth();
-        int panel_height = this.getHeight();
-
-        int board_rows = b.getHeight();
-        int board_cols = b.getWidth();
+	@Override
+	public void paint(Graphics g) {
+		int panel_width = this.getWidth();
+		int panel_height = this.getHeight();
+		int board_rows = b.getHeight();
+		int board_cols = b.getWidth();
 
 		Iterator<Tile> i = b.iterator();
+
 		while(i.hasNext()) {
 			Tile t = i.next();
 			Point pos = t.getCoord();
 			GamePiece contents = t.getContents();
-
 			//Render bottom layer here
 			if(t.canBeFilled()) {
 				if(b.getFinishTiles().contains(t)) {
@@ -84,9 +83,8 @@ public class WBPanel extends JPanel {
 				}
 			}
 			g.fillRect(pos.x*panel_width/board_cols, pos.y*panel_height/board_rows,
-            panel_width/board_cols,panel_height/board_rows);
+			panel_width/board_cols,panel_height/board_rows);
 		}
 
-    }
-
+	}    
 }
