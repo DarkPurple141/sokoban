@@ -23,17 +23,17 @@ public class Controller extends JFrame implements ActionListener {
 
 	public Controller(String path) {
 		super("Warehouse Boss V0.2");
-		this.makeModel(path);
-		this.constructorHelper();
+		makeModel(path);
+		constructorHelper();
 	}
 
 	public Controller() {
 		super("Warehouse Boss V0.2");
-		this.constructorHelper();
+		//TODO Generate level
+		constructorHelper();
 	}
 
 	private void constructorHelper() {
-		this.makeModel("level1.xml");
 		v = new GameView(b);
 		Container cp = getContentPane();
 	    cp.setLayout(new BorderLayout());
@@ -47,9 +47,9 @@ public class Controller extends JFrame implements ActionListener {
 		startButton.addActionListener(this);
       	quitButton.addActionListener(this);
       	pauseButton.addActionListener(this);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addKeyListener(new WBListener(this));
-		this.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
+		setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
 	}
 
 
@@ -81,8 +81,7 @@ public class Controller extends JFrame implements ActionListener {
 			}
 			try {
         		Thread.sleep(delay); // 10fps
-    		}
-    			catch(InterruptedException e) {
+    		} catch(InterruptedException e) {
     		}
 			frameCount++;
 		}
@@ -101,9 +100,9 @@ public class Controller extends JFrame implements ActionListener {
 				newx-=standard;
 			}
 
-			if (curr.getTargetX() > newy) {
+			if (curr.getTargetY() > newy) {
 				newy+=standard;
-			} else if (curr.getTargetX() < newy) {
+			} else if (curr.getTargetY() < newy) {
 				newy-=standard;
 			}
 		}
