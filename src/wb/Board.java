@@ -155,26 +155,29 @@ class Board implements Iterable<Tile> {
 		Point pos = new Point();
 		pos.x = x;
 		pos.y = y;
-		switch(code) {
-			case 1:
-				return new Wall(pos);
-			case 2:
-				Tile t = new FloorTile(pos);
-				Player p = new Player(this, pos);
-				players.add(p);
-				t.setContents(p);
-				return t;
-			case 3:
-				Tile t = new FloorTile(pos);
-				Crate c = new Crate(this, pos);
-				crates.add(c);
-				t.setContents(c);
-				return t;
-			case 4:
-				Tile t = new FloorTile(pos);
-				finishTiles.add(t);
-				return t;
+		if(code == 1) {
+			return new Wall(pos);
 		}
+		if(code == 2) {
+			Tile t = new FloorTile(pos);
+			Player p = new Player(this, pos);
+			players.add(p);
+			t.setContents(p);
+			return t;
+		}
+		if(code == 3) {
+			FloorTile t = new FloorTile(pos);
+			Crate c = new Crate(this, pos);
+			crates.add(c);
+			t.setContents(c);
+			return t;
+		}
+		if(code == 4) {
+			FloorTile t = new FloorTile(pos);
+			finishTiles.add(t);
+			return t;
+		}
+		return null;
 	}
 
 	/**
