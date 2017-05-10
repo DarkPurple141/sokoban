@@ -126,19 +126,19 @@ public class newController extends JFrame implements ActionListener {
 		switch (curr) {
 			case KeyEvent.VK_UP:
 				System.out.println("UP");
-				change = m.doMove(0);
+				change = b.doMove(0);
 				break;
 			case KeyEvent.VK_RIGHT:
 				System.out.println("RIGHT");
-				change = m.doMove(1);
+				change = b.doMove(1);
 				break;
 			case KeyEvent.VK_DOWN:
 				System.out.println("DOWN");
-				change = m.doMove(2);
+				change = b.doMove(2);
 				break;
 			case KeyEvent.VK_LEFT:
 				System.out.println("LEFT");
-				change = m.doMove(3);
+				change = b.doMove(3);
 				break;
 		}
 	}
