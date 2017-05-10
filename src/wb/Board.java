@@ -8,6 +8,7 @@ import java.util.List;
 class Board implements Iterable<Tile> {
 	private Tile[][] positions;
 	private List<FloorTile> finishTiles;
+	private List<Crate> crates;
 
 	/**
 	 * Constructor
@@ -46,6 +47,7 @@ class Board implements Iterable<Tile> {
 						case 3:
 							Crate crate = new Crate(tileCoord);
 							toAdd.setContents(crate);
+							crates.add(crate);
 							break;
 					}
 					positions[currentY][currentX] = toAdd;
@@ -93,6 +95,7 @@ class Board implements Iterable<Tile> {
 	@Override
 	public Iterator<Tile> iterator() {
 		List<Tile> flatten = new ArrayList<>();
+		List<Crate> crates = new ArrayList<>();
 		for(Tile[] array : positions) {
 			flatten.addAll(Arrays.asList(array));
 		}
