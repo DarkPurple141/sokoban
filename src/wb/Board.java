@@ -79,9 +79,6 @@ class Board implements Iterable<Tile> {
 	public Iterator<Tile> iterator() {
 		List<Tile> flatten = new ArrayList<>();
 		for(Tile[] array : positions) {
-			for (Tile t : array){
-				System.out.print(t.getCoord() + "|");
-			}
 			flatten.addAll(Arrays.asList(array));
 		}
 		return flatten.iterator();
