@@ -18,7 +18,7 @@ public class Player extends GamePiece {
 		Tile source = gameBoard.getPosition(sourceCoord);
 		Tile destination = gameBoard.getPosition(destCoord);
 
-		if(!destination.canBeFilled())
+		if(destination == null || !destination.canBeFilled())
 			return false;//Encountered wall
 
 		GamePiece blocking = destination.getContents();

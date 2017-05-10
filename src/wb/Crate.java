@@ -22,12 +22,15 @@ public class Crate extends GamePiece {
 		Tile source = gameBoard.getPosition(sourceCoord);
 		Tile destination = gameBoard.getPosition(destCoord);
 
-		if(!destination.canBeFilled())
+		if(destination == null || !destination.canBeFilled()){
 			return false;//Encountered wall
+		}
 
 		GamePiece blocking = destination.getContents();
-		if(blocking != null)
+		if(blocking != null){
+			
 			return false;//Encountered another object
+		}
 		source.setContents(null);
 		destination.setContents(this);
 		super.setCoord(destCoord);

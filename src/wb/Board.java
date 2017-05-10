@@ -64,22 +64,22 @@ class Board implements Iterable<Tile> {
 			return null;
 		int x = pos.x;
 		int y = pos.y;
-		if (x < 0 || x > positions.length){
+		if (x < 0 || x >= positions.length){
 			return null;
 		}
-		if (y < 0 || y > positions.length){
+		if (y < 0 || y >= positions.length){
 			return null;
 		}
-		return positions[x][y];
+		return positions[y][x];
 	}
 
 	public int getHeight() {
-		return 3;
+		return positions.length;
 	}
 
 	public int getWidth() {
 		//return positions.length();
-		return 3;
+		return positions.length;
 	}
 
 	public Tile[][] getTiles(){
