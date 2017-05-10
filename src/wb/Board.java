@@ -17,8 +17,8 @@ class Board implements Iterable<Tile> {
 	int height;
 	private Tile[][] positions;
 	private List<Player> players;
-	private List<FloorTile> finishTiles;
 	private List<Crate> crates;
+	private List<FloorTile> finishTiles;
 
 	public Board(int width, int height, String filePath) {
 		//Initialise all local variables
@@ -70,22 +70,21 @@ class Board implements Iterable<Tile> {
 			return null;
 		int x = pos.x;
 		int y = pos.y;
-		if (x < 0 || x >= positions.length){
+		if (x < 0 || x >= width){
 			return null;
 		}
-		if (y < 0 || y >= positions.length){
+		if (y < 0 || y >= height){
 			return null;
 		}
 		return positions[y][x];
 	}
 
 	public int getHeight() {
-		return positions.length;
+		return height;
 	}
 
 	public int getWidth() {
-		//return positions.length();
-		return positions.length;
+		return width;
 	}
 
 	public boolean doMove(int direction){
@@ -94,6 +93,14 @@ class Board implements Iterable<Tile> {
 
 	public Tile[][] getTiles(){
 		return positions;
+	}
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public List<Crate> getCrates() {
+		return crates;
 	}
 
 	public List<FloorTile> getFinishTiles() {
