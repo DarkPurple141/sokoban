@@ -30,7 +30,7 @@ class Board implements Iterable<Tile> {
 		crates = new ArrayList<>();
 
 		XML2Level(filePath);
-
+		
 //		int currentY = 0;
 //		for (int[] row : tileArray) {
 //			int currentX = 0;
