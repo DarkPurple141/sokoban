@@ -20,10 +20,8 @@ class Board implements Iterable<Tile> {
 	private List<Crate> crates;
 	private List<FloorTile> finishTiles;
 
-	public Board(int width, int height, String filePath) {
+	public Board(String filePath) {
 		//Initialise all local variables
-		this.width = width;
-		this.height = height;
 		players = new ArrayList<>();
 		finishTiles = new ArrayList<>();
 		crates = new ArrayList<>();
