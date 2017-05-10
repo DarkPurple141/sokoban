@@ -3,9 +3,13 @@ package wb;
 import java.awt.*;
 
 public abstract class GamePiece {
+
+	private Board myBoard;
+
 	private Point thisCoord;
 
-	public GamePiece(Point startCoord) {
+	public GamePiece(Board myBoard, Point startCoord) {
+		this.myBoard = myBoard;
 		this.thisCoord = startCoord;
 	}
 
@@ -19,11 +23,15 @@ public abstract class GamePiece {
 
 	public abstract int getType();
 
-	public abstract boolean doMove(Board gameBoard, int direction);
+	public abstract boolean doMove(int direction);
 
-	public abstract boolean bePushed(Board gameBoard, int direction);
+	public abstract boolean bePushed(int direction);
+
+	public Board getBoard() {
+		return myBoard;
+	}
 	
-	public Point nearbyPoint(Board gameBoard, int direction) {
+	public Point nearbyPoint(int direction) {
 		int newx = thisCoord.x;
 		int newy = thisCoord.y;
 		switch (direction) {

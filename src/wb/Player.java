@@ -3,26 +3,26 @@ package wb;
 import java.awt.*;
 
 public class Player extends GamePiece {
-	public Player(Point startCoord) {
-		super(startCoord);
+	public Player(Board myBoard, Point startCoord) {
+		super(myBoard, startCoord);
 	}
 
 	public int getType() {
 		return 0;
 	}
 
-	public boolean doMove(Board gameBoard, int direction) {
+	public boolean doMove(int direction) {
 		Point sourceCoord = super.getCoord();
-		Point destCoord = super.nearbyPoint(gameBoard, direction);
+		Point destCoord = super.nearbyPoint(direction);
 
-		Tile source = gameBoard.getPosition(sourceCoord);
-		Tile destination = gameBoard.getPosition(destCoord);
+		Tile source = super.getBoard().getPosition(sourceCoord);
+		Tile destination = super.getBoard().getPosition(destCoord);
 
 		if(destination == null || !destination.canBeFilled())
 			return false;//Encountered wall
 
 		GamePiece blocking = destination.getContents();
-		if(blocking != null && !blocking.bePushed(gameBoard, direction))
+		if(blocking != null && !blocking.bePushed(direction))
 			return false;//Encountered unmovable object
 		source.setContents(null);
 		destination.setContents(this);
@@ -30,7 +30,7 @@ public class Player extends GamePiece {
 		return true;
 	}
 
-	public boolean bePushed(Board gameBoard, int direction) {
+	public boolean bePushed(int direction) {
 		return false;
 	}
 }

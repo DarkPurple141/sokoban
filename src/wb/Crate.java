@@ -3,24 +3,24 @@ package wb;
 import java.awt.*;
 
 public class Crate extends GamePiece {
-	public Crate(Point startCoord) {
-		super(startCoord);
+	public Crate(Board myBoard, Point startCoord) {
+		super(myBoard, startCoord);
 	}
 
 	public int getType() {
 		return 1;
 	}
 
-	public boolean doMove(Board gameBoard, int direction) {
+	public boolean doMove(int direction) {
 		return false;
 	}
 
-	public boolean bePushed(Board gameBoard, int direction) {
+	public boolean bePushed(int direction) {
 		Point sourceCoord = super.getCoord();
-		Point destCoord = super.nearbyPoint(gameBoard, direction);
+		Point destCoord = super.nearbyPoint(direction);
 
-		Tile source = gameBoard.getPosition(sourceCoord);
-		Tile destination = gameBoard.getPosition(destCoord);
+		Tile source = super.getBoard().getPosition(sourceCoord);
+		Tile destination = super.getBoard().getPosition(destCoord);
 
 		if(destination == null || !destination.canBeFilled()){
 			return false;//Encountered wall
