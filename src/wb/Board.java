@@ -79,6 +79,9 @@ class Board implements Iterable<Tile> {
 	public Iterator<Tile> iterator() {
 		List<Tile> flatten = new ArrayList<>();
 		for(Tile[] array : positions) {
+			for (Tile t : array){
+				System.out.print(t.getCoord() + "|");
+			}
 			flatten.addAll(Arrays.asList(array));
 		}
 		return flatten.iterator();
@@ -137,6 +140,9 @@ class Board implements Iterable<Tile> {
 		Point pos = new Point();
 		pos.x = x;
 		pos.y = y;
+		if(code == 0){
+			return new FloorTile(pos);
+		}
 		if(code == 1) {
 			return new Wall(pos);
 		}

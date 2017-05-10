@@ -47,6 +47,7 @@ public class WBPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
+		
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
 		int board_rows = b.getHeight();
@@ -56,6 +57,7 @@ public class WBPanel extends JPanel {
 
 		while(i.hasNext()) {
 			Tile t = i.next();
+			System.out.println(t);
 			Point pos = t.getCoord();
 			GamePiece contents = t.getContents();
 			//Render bottom layer here
