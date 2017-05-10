@@ -51,6 +51,10 @@ public class Model {
 		return p.doMove(board, direction);
 	}
 
+	public boolean isFinishTile(Tile toCheck){
+		return board.getFinishTiles().contains(toCheck);
+	}
+
 	/**
 	 * Used when constructing a Model from an xml file
 	 * There is potential to use the same XML format for saved games as well
