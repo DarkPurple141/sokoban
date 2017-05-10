@@ -9,7 +9,7 @@ import java.awt.*;
 public class newController extends JFrame implements ActionListener {
 
 	private GameView v;
-	private Model m;
+	private Board b;
 	private boolean running;
 	private boolean paused = false;
 	private int fps = 10;
@@ -32,7 +32,7 @@ public class newController extends JFrame implements ActionListener {
 	private void constructorHelper() {
 		super("Warehouse Boss V0.2");
 		this.makeModel("level1.xml");
-		v = new GameView(m.getBoard());
+		v = new GameView(b);
 		Container cp = getContentPane();
 	    cp.setLayout(new BorderLayout());
 	    JPanel p = new JPanel();
@@ -52,7 +52,7 @@ public class newController extends JFrame implements ActionListener {
 
 
 	private void makeModel(String filePath) {
-		m = new Model(filePath);
+		b = new Board(3, 3, filePath);//TODO read dimentions from XML instead
 	}
 
 
