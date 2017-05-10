@@ -25,7 +25,6 @@ public abstract class GamePiece {
 
 	public abstract boolean doMove(int direction);
 
-
 	public abstract boolean bePushed(int direction);
 
 	public Board getBoard() {
