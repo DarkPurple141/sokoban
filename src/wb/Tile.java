@@ -4,15 +4,8 @@ import java.awt.*;
 
 public abstract class Tile {
 
-<<<<<<< HEAD
-public abstract class Tile {
-
 	private Point thisCoord;
 
-=======
-	private Point thisCoord;
-
->>>>>>> master
 	public Tile(Point startCoord) {
 		this.thisCoord = startCoord;
 	}
