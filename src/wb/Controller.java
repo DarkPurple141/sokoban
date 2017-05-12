@@ -44,12 +44,16 @@ public class Controller extends JFrame implements ActionListener {
 	    p.add(quitButton);
 	    cp.add(v, BorderLayout.CENTER);
 	    cp.add(p, BorderLayout.SOUTH);
+		//cp.addKeyListener(new WBListener(this));
+		//p.addKeyListener(new WBListener(this));
+		addKeyListener(new WBListener(this));
 		startButton.addActionListener(this);
       	quitButton.addActionListener(this);
       	pauseButton.addActionListener(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		addKeyListener(new WBListener(this));
+		//addKeyListener();
 		setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
+		this.setFocusable(true);
 		this.setVisible(true);
 
 	}
@@ -114,7 +118,9 @@ public class Controller extends JFrame implements ActionListener {
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
 	public void processEvent(KeyEvent e) {
-
+		if (!this.running) {
+			return;
+		}
         int curr = e.getKeyCode();
 		boolean change = false;
         // possibly change to vector format
@@ -158,6 +164,7 @@ public class Controller extends JFrame implements ActionListener {
       	} else if (s == quitButton) {
          	System.exit(0);
       	}
+		this.requestFocusInWindow();
    	}
 
 }
