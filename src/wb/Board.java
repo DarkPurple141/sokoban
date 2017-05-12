@@ -166,6 +166,22 @@ class Board implements Iterable<Tile> {
 			finishTiles.add(t);
 			return t;
 		}
+		if(code == 5) {
+			FloorTile t = new FloorTile(pos);
+			finishTiles.add(t);
+			Crate c = new Crate(this, pos);
+			crates.add(c);
+			t.setContents(c);
+			return t;
+		}
+		if(code == 6) {
+			FloorTile t = new FloorTile(pos);
+			finishTiles.add(t);
+			Player p = new Player(this, pos);
+			players.add(p);
+			t.setContents(p);
+			return t;
+		}
 		return null;
 	}
 
@@ -190,16 +206,20 @@ class Board implements Iterable<Tile> {
 					Element col = saveFile.createElement("row");
 					if (!colTile.canBeFilled()){
 						col.appendChild(saveFile.createTextNode("1"));
-					}else if(colTile.getContents() == null){
-						if (finishTiles.contains(colTile)){
+					}else if(finishTiles.contains(colTile)){
+						if (colTile.getContents() == null){
 							col.appendChild(saveFile.createTextNode("4"));
+						}else if(colTile.getContents().getType() == 0){
+							col.appendChild(saveFile.createTextNode("6"));
 						}else{
-							col.appendChild(saveFile.createTextNode("0"));
+							col.appendChild(saveFile.createTextNode("5"));
 						}
-					}else if(colTile.getContents().getType() == 0){
-						col.appendChild(saveFile.createTextNode("2"));
+					}else if(colTile.getContents() == null){
+						col.appendChild(saveFile.createTextNode("0"));
 					}else if(colTile.getContents().getType() == 1){
 						col.appendChild(saveFile.createTextNode("3"));
+					}else{
+						col.appendChild(saveFile.createTextNode("2"));
 					}
 					row.appendChild(col);
 				}

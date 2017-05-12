@@ -6,7 +6,7 @@ package wb;
  */
 public class WarehouseBoss {
 	public static void main (String[] args) {
-		Controller c = new Controller("test.xml");
+		Controller c = new Controller("level1.xml");
 		c.run();
 	}
 }
