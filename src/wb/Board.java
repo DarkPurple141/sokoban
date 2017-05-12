@@ -2,6 +2,13 @@ package wb;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Attr;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -113,16 +120,15 @@ class Board implements Iterable<Tile> {
 
 			Document levelDoc = builder.parse(levelFile);
 			Element board = levelDoc.getDocumentElement();
-			System.out.println(board.getAttribute("size"));
 			width = Integer.parseInt(board.getAttribute("width"));
 			height = Integer.parseInt(board.getAttribute("height"));
 			positions = new Tile[width][height];
-			NodeList rows = levelDoc.getElementsByTagName("row");
-			for(int y = 0; y < rows.getLength(); y++) {
-				Element row = (Element)rows.item(y);
-				NodeList cols = row.getElementsByTagName("col");
-				for(int x = 0; x < cols.getLength(); x++){
-					positions[x][y] = int2Tile(Integer.parseInt(cols.item(x).getTextContent()), x, y);
+			NodeList cols = levelDoc.getElementsByTagName("col");
+			for(int x = 0; x < cols.getLength(); x++) {
+				Element col = (Element)cols.item(x);
+				NodeList rows = col.getElementsByTagName("row");
+				for(int y = 0; y < rows.getLength(); y++){
+					positions[x][y] = int2Tile(Integer.parseInt(rows.item(y).getTextContent()), x, y);
 				}
 
 			}
@@ -163,34 +169,54 @@ class Board implements Iterable<Tile> {
 		return null;
 	}
 
-/*
+
 	public void saveGame(String filename){
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
 		try{
-			DocumentBuilder builder = docFactory.newDocumentBuilder();
+			DocumentBuilder builder = documentBuilderF.newDocumentBuilder();
 			Document saveFile = builder.newDocument();
-			Element board = saveFile.createElement('board');
-			Attr saveWidth = saveFile.createAttribute('width');
-			saveWidth.setValue(width);
-			board.setAttribute(width);
-			Attr saveHeight = saveFile.createAttribute('height');
-			saveHeight.setValue(height);
-			board.setAttribute(saveHeight);
+			Element board = saveFile.createElement("board");
+			Attr saveWidth = saveFile.createAttribute("width");
+			saveWidth.setValue(Integer.toString(width));
+			board.setAttributeNode(saveWidth);
+			Attr saveHeight = saveFile.createAttribute("height");
+			saveHeight.setValue(Integer.toString(height));
+			board.setAttributeNode(saveHeight);
 			saveFile.appendChild(board);
 			for (Tile[] rowTiles : positions){
-				Element row = saveFile.createElement('row');
+				Element row = saveFile.createElement("col");
 				board.appendChild(row);
 				for (Tile colTile : rowTiles){
-					Element col = saveFile.createElement('col');
-					Object contentsOfTile = colTile.getContents();
-					if (colTile instanceof FinishTile){
-						col.appendChild(saveFile.createTextNode());
+					Element col = saveFile.createElement("row");
+					if (!colTile.canBeFilled()){
+						col.appendChild(saveFile.createTextNode("1"));
+					}else if(colTile.getContents() == null){
+						if (finishTiles.contains(colTile)){
+							col.appendChild(saveFile.createTextNode("4"));
+						}else{
+							col.appendChild(saveFile.createTextNode("0"));
+						}
+					}else if(colTile.getContents().getType() == 0){
+						col.appendChild(saveFile.createTextNode("2"));
+					}else if(colTile.getContents().getType() == 1){
+						col.appendChild(saveFile.createTextNode("3"));
 					}
-					
+					row.appendChild(col);
 				}
 			}
 
+			TransformerFactory transformerF = TransformerFactory.newInstance();
+			Transformer transformer = transformerF.newTransformer();
+
+			DOMSource save = new DOMSource(saveFile);
+			StreamResult result = new StreamResult(new File(filename + ".xml"));
+			//StreamResult result = new StreamResult(System.out);
+			transformer.transform(save, result);
+
+
+		}catch(Exception e){
+			System.out.println(e.getMessage());
 		}
 	}
-	*/
+	
 }

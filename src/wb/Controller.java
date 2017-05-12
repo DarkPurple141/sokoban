@@ -10,6 +10,7 @@ public class Controller {
 	public Controller(String path) {
 		this.makeModel(path);
 		v = new View(new WBListener(this), b); // this is not good for future.
+
 		//m = new Model();
 		//this.makeModel(filePath)
 	}
@@ -34,6 +35,7 @@ public class Controller {
 		while (true) {
 			continue;
 		}
+
        /* while (true) {
             if (processEvent(e)) {
                 v.render();
@@ -93,6 +95,7 @@ public class Controller {
 		if (change) {
 			System.out.print("REPAINT OCCURRING\n");
 			v.paintTiles();
+			b.saveGame("test");
 		}
 
 		/* FIXME jashankj: why is this `false`?
