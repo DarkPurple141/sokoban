@@ -2,7 +2,6 @@ package wb;
 
 import java.awt.*;
 
-
 public abstract class Tile {
 
 	private Point thisCoord;
