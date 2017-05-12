@@ -27,6 +27,7 @@ public class Player extends GamePiece {
 		source.setContents(null);
 		destination.setContents(this);
 		super.setCoord(destCoord);
+		prepAnimation(direction);
 		return true;
 	}
 

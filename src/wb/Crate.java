@@ -27,13 +27,12 @@ public class Crate extends GamePiece {
 		}
 
 		GamePiece blocking = destination.getContents();
-		if(blocking != null){
-			
+		if(blocking != null)
 			return false;//Encountered another object
-		}
 		source.setContents(null);
 		destination.setContents(this);
 		super.setCoord(destCoord);
+		prepAnimation(direction);
 		return true;
 	}
 }
