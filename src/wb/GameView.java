@@ -22,7 +22,7 @@ public class GameView extends JPanel {
     private void GameViewBuilder() {
         try {
             crates = new SpriteSheetBuilder()
-                .withSheet(ImageIO.read(new File("assets/crate_walls.png")))
+                .withSheet(ImageIO.read(new File("assets/crates_walls.png")))
                 .withRows(1)
                 .withColumns(5)
                 .withxOffset(22)

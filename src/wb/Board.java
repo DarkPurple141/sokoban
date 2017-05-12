@@ -106,14 +106,14 @@ class Board implements Iterable<Tile> {
 	 *
 	 */
 	private void XML2Level(String filePath) {
+
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
 		try {
+
 			DocumentBuilder builder = documentBuilderF.newDocumentBuilder();
 			File levelFile = new File(filePath);
-
 			Document levelDoc = builder.parse(levelFile);
 			Element board = levelDoc.getDocumentElement();
-			System.out.println(board.getAttribute("size"));
 			width = Integer.parseInt(board.getAttribute("width"));
 			height = Integer.parseInt(board.getAttribute("height"));
 			positions = new Tile[width][height];
@@ -128,6 +128,7 @@ class Board implements Iterable<Tile> {
 			}
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
+
 		}
 	}
 
