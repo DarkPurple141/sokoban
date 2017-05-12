@@ -81,7 +81,7 @@ public class Controller extends JFrame implements ActionListener {
 			}
 			try {
         		Thread.sleep(delay); // 10fps
-    		} catch(InterruptedException e) {
+    		} catch (InterruptedException e) {
     		}
 			frameCount++;
 		}
@@ -91,20 +91,12 @@ public class Controller extends JFrame implements ActionListener {
 		// update animatables
 		// move by standard length
 		double standard = 0.2;
-		for (GamePiece curr : m.getMovables()) {
-			double newx = curr.getCoord().getX();
-			double newy = curr.getCoord().getY();
-			if (curr.getTargetX() > newx) {
-				newx+=standard;
-			} else if (curr.getTargetX() < newx) {
-				newx-=standard;
-			}
+		for (GamePiece curr : b.getPlayers()) {
+			curr.animFrame(standard);
+		}
 
-			if (curr.getTargetY() > newy) {
-				newy+=standard;
-			} else if (curr.getTargetY() < newy) {
-				newy-=standard;
-			}
+		for (GamePiece curr : b.getCrates()) {
+			curr.animFrame(standard);
 		}
 	}
 
