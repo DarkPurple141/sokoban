@@ -186,8 +186,6 @@ class Board implements Iterable<Tile> {
 		}
 		return null;
 	}
-<<<<<<< HEAD
-
 
 	public void saveGame(String filename){
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
@@ -241,7 +239,4 @@ class Board implements Iterable<Tile> {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-=======
->>>>>>> ca90bb3e322d8c1171a07a94d717dc200419c665
 }

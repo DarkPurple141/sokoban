@@ -22,17 +22,9 @@ public class Controller extends JFrame implements ActionListener {
     private static int SCREEN_HEIGHT = 512;
 
 	public Controller(String path) {
-<<<<<<< HEAD
-		this.makeModel(path);
-		v = new View(new WBListener(this), b); // this is not good for future.
-
-		//m = new Model();
-		//this.makeModel(filePath)
-=======
 		super("Warehouse Boss V0.2");
 		makeModel(path);
 		constructorHelper();
->>>>>>> ca90bb3e322d8c1171a07a94d717dc200419c665
 	}
 
 	public Controller() {
@@ -70,32 +62,6 @@ public class Controller extends JFrame implements ActionListener {
 
 	/// this is pseudo java
 
-<<<<<<< HEAD
-	public void run() {
-		while (true) {
-			continue;
-		}
-
-       /* while (true) {
-            if (processEvent(e)) {
-                v.render();
-            }
-        }
-        */
-		/*
-		while (true) {
-			if (gameOver) { // check current games state
-				break;
-			}
-			for (Event e : View) { // this is pseudo code
-				// update game board.
-				if (processEvent(e)) {
-					v.render();
-				}
-				if (gameOver) {
-					break;
-				}
-=======
 	public void runGameLoop() {
 		Thread loop = new Thread() {
 	    	public void run() {
@@ -114,7 +80,6 @@ public class Controller extends JFrame implements ActionListener {
 				// do stuff
 				updateGameState();
 				drawGame();
->>>>>>> ca90bb3e322d8c1171a07a94d717dc200419c665
 			}
 			try {
         		Thread.sleep(delay); // 10fps
@@ -173,13 +138,6 @@ public class Controller extends JFrame implements ActionListener {
 		}
 	}
 
-<<<<<<< HEAD
-		if (change) {
-			System.out.print("REPAINT OCCURRING\n");
-			v.paintTiles();
-			b.saveGame("test");
-		}
-=======
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if (s == startButton) {
@@ -201,6 +159,4 @@ public class Controller extends JFrame implements ActionListener {
          	System.exit(0);
       	}
    	}
->>>>>>> ca90bb3e322d8c1171a07a94d717dc200419c665
-
 }
