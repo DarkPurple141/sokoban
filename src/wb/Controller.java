@@ -44,14 +44,11 @@ public class Controller extends JFrame implements ActionListener {
 	    p.add(quitButton);
 	    cp.add(v, BorderLayout.CENTER);
 	    cp.add(p, BorderLayout.SOUTH);
-		//cp.addKeyListener(new WBListener(this));
-		//p.addKeyListener(new WBListener(this));
 		addKeyListener(new WBListener(this));
 		startButton.addActionListener(this);
       	quitButton.addActionListener(this);
       	pauseButton.addActionListener(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//addKeyListener();
 		setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
 		this.setFocusable(true);
 		this.setVisible(true);
