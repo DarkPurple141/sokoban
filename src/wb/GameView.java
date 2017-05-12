@@ -22,23 +22,26 @@ public class GameView extends JPanel {
     private void GameViewBuilder() {
         try {
             crates = new SpriteSheetBuilder()
-                .withSheet(ImageIO.read(new File("assets/crate_walls.png")))
+                .withSheet(ImageIO.read(new File("assets/crates_walls.png")))
                 .withRows(1)
                 .withColumns(5)
-                .withxOffset(22)
+                .withxOffset(20)
+                .withSpriteSize(90,90)
                 .withSpriteCount(5)
                 .build();
             tiles = new SpriteSheetBuilder()
                 .withSheet(ImageIO.read(new File("assets/tiles.png")))
                 .withRows(1)
                 .withColumns(5)
-                .withxOffset(22)
+                .withxOffset(20)
+                .withSpriteSize(90,90)
                 .withSpriteCount(5)
                 .build();
             player = new SpriteSheetBuilder()
                 .withSheet(ImageIO.read(new File("assets/player_4x4_48x48.png")))
                 .withRows(4)
                 .withColumns(4)
+                .withSpriteSize(48,48)
                 .withSpriteCount(16)
                 .build();
         } catch (IOException e) {
