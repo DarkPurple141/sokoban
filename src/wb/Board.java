@@ -56,21 +56,6 @@ class Board implements Iterable<Tile> {
 	public boolean doMove(int direction){
 		return players.get(0).doMove(direction);//Can only use player 0 for now
 	}
-	public Tile getPosition(Coord pos) {
-
-		if(pos == null)
-			return null;
-		int x = pos.getX();
-		if (x < 0 || x > position.length){
-			return null;
-		}
-		int y = pos.getY();
-		if (y < 0 || y > positions.length){
-			return null;
-		}
-		return positions[x][y];
-
-	}
 
 	public Tile[][] getTiles(){
 		return positions;
@@ -230,6 +215,7 @@ class Board implements Iterable<Tile> {
 //		}
 //
 //	}
+	/*
 	public void saveGame(String filename){
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
 		try{
@@ -258,4 +244,5 @@ class Board implements Iterable<Tile> {
 
 		}
 	}
+	*/
 }
