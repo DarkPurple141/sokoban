@@ -115,7 +115,7 @@ public class Controller extends JFrame implements ActionListener {
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
 	public void processEvent(KeyEvent e) {
-		if (!this.running) {
+		if (!this.running || this.paused) {
 			return;
 		}
         int curr = e.getKeyCode();

@@ -17,7 +17,6 @@ public class WBListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
         this.update(e);
     }
 
