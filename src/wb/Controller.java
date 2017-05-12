@@ -50,7 +50,8 @@ public class Controller extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addKeyListener(new WBListener(this));
 		setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
-		
+		this.setVisible(true);
+
 	}
 
 
