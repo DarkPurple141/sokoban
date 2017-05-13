@@ -48,44 +48,29 @@ public abstract class GamePiece {
 	//Public methods below this line are only used by subclasses//
 
 	public Point nearbyPoint(int direction) {
-		int newx = thisCoord.x;
-		int newy = thisCoord.y;
-		switch (direction) {
-			case 0://Up
-				newy--;
-				break;
-			case 1://Right
-				newx++;
-				break;
-			case 2://Down
-				newy++;
-				break;
-			case 3://Left
-				newx--;
-				break;
-		}
-		return new Point(newx, newy);
+		return useDirection(thisCoord, direction);
 	}
 
-	public void prepAnimation(int direction)
-	{
-		double animx = animOffset.getX();
-		double animy = animOffset.getY();
-		switch (direction)
-		{
-			case 0://Up
-				animy--;
-				break;
-			case 1://Right
-				animx++;
-				break;
-			case 2://Down
-				animy++;
-				break;
-			case 3://Left
-				animx--;
-		}
-		this.animOffset.setLocation(animx, animy);
+	public void prepAnimation(int direction) {
+		this.animOffset = useDirection(animOffset, direction);
+		System.out.println("x: "+animOffset.getX());
+		System.out.println("y: "+animOffset.getY());
+	}
+
+	private Point useDirection(Point start, int direction) {
+		Point p = new Point();
+		double startx = start.getX();
+		double starty = start.getY();
+		if(direction == 0)
+			starty--;
+		else if(direction == 1)
+			startx++;
+		else if(direction == 2)
+			starty++;
+		else if(direction == 3)
+			startx--;
+		p.setLocation(startx, starty);
+		return p;
 	}
 
 	private double clipDouble(double origin, double step) {

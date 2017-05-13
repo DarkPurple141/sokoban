@@ -1,12 +1,13 @@
 package wb;
 import javax.swing.JPanel;
 import java.awt.*;
-import java.util.Iterator;
+import java.util.*;
 import javax.swing.BorderFactory;
 import javax.imageio.ImageIO;
 import java.io.*;
 
 public class GameView extends JPanel {
+	static final double scalePieces = 0.8;
 
     private Board b;
     private SpriteSheet crates;
@@ -50,68 +51,64 @@ public class GameView extends JPanel {
         }
     }
 
-    private void paintBackground(Graphics g) {
-        int panel_width = this.getWidth();
-        int panel_height = this.getHeight();
+	@Override
+	public void paint(Graphics g) {
 
-        int board_rows = b.getHeight();
-        int board_cols = b.getWidth();
+		int panel_width = this.getWidth();
+		int panel_height = this.getHeight();
 
-		Iterator<Tile> i = b.iterator();
-		while(i.hasNext()) {
-			Tile t = i.next();
-			Point pos = t.getCoord();
+		int board_cols = b.getWidth();
+		int board_rows = b.getHeight();
 
-			//Render bottom layer here
-			if(t.canBeFilled()) {
-				if(b.getFinishTiles().contains(t)) {
-					//Finish tile
-					g.setColor(Color.YELLOW);
-				} else {
-					//Normal FloorTile
-					g.setColor(Color.LIGHT_GRAY);
-				}
-			} else {
-				//Wall
-				g.setColor(Color.RED);
-			}
-            g.fillRect(pos.x*panel_width/board_cols, pos.y*panel_height/board_rows,
-            panel_width/board_cols,panel_height/board_rows);
-        }
-    }
-
-    @Override
-    public void paint(Graphics g) {
-
-        int panel_width = this.getWidth();
-        int panel_height = this.getHeight();
-
-        int board_rows = b.getHeight();
-        int board_cols = b.getWidth();
-
-        paintBackground(g);
+		double squareWidth = (double)panel_width/(double)board_cols;
+		double squareHieght = (double)panel_height/(double)board_rows;
 
 		Iterator<Tile> i = b.iterator();
 		while(i.hasNext()) {
 			Tile t = i.next();
-			Point pos = t.getCoord();
-			GamePiece contents = t.getContents();
+			paintTile(g, t, squareWidth, squareHieght);
+		}
+		java.util.List<GamePiece> pieces = new ArrayList<>();
+		pieces.addAll(b.getCrates());
+		pieces.addAll(b.getPlayers());
+		for(GamePiece p : pieces) {
+			paintPiece(g, p, squareWidth, squareHieght);
+		}
+	}
 
-			//render top layer here
-			if(contents != null) {
-				if(contents.getType() == 0) {
-					//Player
-					g.setColor(Color.WHITE);
-				} else {
-					//Crate
-					g.setColor(Color.BLUE);
-				}
-                g.fillRect(pos.x*panel_width/board_cols, pos.y*panel_height/board_rows,
-                panel_width/board_cols,panel_height/board_rows);
-			}
+	private void paintTile(Graphics g, Tile t, double squareWidth, double squareHeight)
+	{
+		Point pos = t.getCoord();
 
+		if (!t.canBeFilled()) {
+			g.setColor(Color.black);
+		} else if (b.getFinishTiles().contains(t)) {
+			g.setColor(Color.yellow);
+		} else {
+			g.setColor(Color.lightGray);
 		}
 
-    }
+		int boxWidth = (int)(squareWidth * 1);
+		int boxHeight = (int)(squareHeight * 1);
+		int startx = (int)(squareWidth * pos.getX() + (squareWidth-boxWidth)/2.0);
+		int starty = (int)(squareHeight * pos.getY() + (squareHeight-boxHeight)/2.0);
+		g.fillRect(startx, starty, boxWidth, boxHeight);
+	}
 
+	private void paintPiece(Graphics g, GamePiece p, double squareWidth, double squareHeight) {
+		Point pos = p.getCoord();
+		pos.setLocation(pos.getX() + p.getAnimOffset().getX(), pos.getY() + p.getAnimOffset().getY());
+
+		if(p.getType() == 0) {
+			g.setColor(Color.white);
+		} else if(p.getType() == 1) {
+			g.setColor(Color.orange);
+		}
+
+		int boxWidth = (int)(squareWidth * scalePieces);
+		int boxHeight = (int)(squareHeight * scalePieces);
+		int startx = (int)(squareWidth * pos.getX() + (squareWidth-boxWidth)/2.0);
+		int starty = (int)(squareHeight * pos.getY() + (squareHeight-boxHeight)/2.0);
+		g.fillRect(startx, starty, boxWidth, boxHeight);
+	}
 }
