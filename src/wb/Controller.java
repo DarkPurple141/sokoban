@@ -81,8 +81,7 @@ public class Controller extends JFrame implements ActionListener {
 				// do stuff
 				updateGameState();
 				drawGame();
-			}
-			try {
+			}try {
         		Thread.sleep(delay); // 10fps
     		} catch (InterruptedException e) {
     		}

@@ -61,18 +61,18 @@ public class GameView extends JPanel {
 		int board_rows = b.getHeight();
 
 		double squareWidth = (double)panel_width/(double)board_cols;
-		double squareHieght = (double)panel_height/(double)board_rows;
+		double squareHeight = (double)panel_height/(double)board_rows;
 
 		Iterator<Tile> i = b.iterator();
 		while(i.hasNext()) {
 			Tile t = i.next();
-			paintTile(g, t, squareWidth, squareHieght);
+			paintTile(g, t, squareWidth, squareHeight);
 		}
 		java.util.List<GamePiece> pieces = new ArrayList<>();
 		pieces.addAll(b.getCrates());
 		pieces.addAll(b.getPlayers());
 		for(GamePiece p : pieces) {
-			paintPiece(g, p, squareWidth, squareHieght);
+			paintPiece(g, p, squareWidth, squareHeight);
 		}
 	}
 

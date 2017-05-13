@@ -103,7 +103,6 @@ public class SpriteSheetBuilder {
         List<BufferedImage> sprites = new ArrayList<>(count);
 
         for (int index = 0; index < count; index++) {
-            System.err.println(x + " " + y);
             sprites.add(sheet.getSubimage(x, y, width, height));
             x += width + this.widthOffset;
             if (x >= width * cols) {
