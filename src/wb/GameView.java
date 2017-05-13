@@ -68,10 +68,7 @@ public class GameView extends JPanel {
 	}
 
 	private void paintAnimatables(Graphics g, double squareWidth, double squareHeight) {
-		for(GamePiece p : b.getPlayers()) {
-			paintPiece(g, p, squareWidth, squareHeight);
-		}
-		for(GamePiece p : b.getCrates()) {
+		for(GamePiece p : b.getPieces()) {
 			paintPiece(g, p, squareWidth, squareHeight);
 		}
 	}
@@ -83,7 +80,6 @@ public class GameView extends JPanel {
 			paintTile(g, t, squareWidth, squareHeight);
 		}
 	}
-
 
 	private void paintTile(Graphics g, Tile t, double squareWidth, double squareHeight)
 	{

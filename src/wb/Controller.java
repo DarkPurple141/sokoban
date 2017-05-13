@@ -61,8 +61,6 @@ public class Controller extends JFrame implements ActionListener {
 	}
 
 
-	/// this is pseudo java
-
 	public void runGameLoop() {
 		Thread loop = new Thread() {
 	    	public void run() {
@@ -93,11 +91,7 @@ public class Controller extends JFrame implements ActionListener {
 		// update animatables
 		// move by standard length
 		double standard = 0.33;
-		for(GamePiece curr : b.getPlayers()) {
-			curr.animFrame(standard);
-		}
-
-		for(GamePiece curr : b.getCrates()) {
+		for(GamePiece curr : b.getPieces()) {
 			curr.animFrame(standard);
 		}
 	}

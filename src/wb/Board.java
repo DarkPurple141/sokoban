@@ -25,6 +25,7 @@ class Board implements Iterable<Tile> {
 	private Tile[][] positions;
 	private List<Player> players;
 	private List<Crate> crates;
+	private List<GamePiece> pieces;
 	private List<FloorTile> finishTiles;
 
 	public Board(String filePath) {
@@ -34,6 +35,8 @@ class Board implements Iterable<Tile> {
 		crates = new ArrayList<>();
 
 		XML2Level(filePath);
+		pieces = new ArrayList<>(players);
+		pieces.addAll(crates);
 	}
 	// TODO pretty sure this is a cause for concern unless
 	// u guys have functions that are handling null returns properly.
@@ -66,6 +69,10 @@ class Board implements Iterable<Tile> {
 
 	public Tile[][] getTiles(){
 		return positions;
+	}
+
+	public List<GamePiece> getPieces() {
+		return pieces;
 	}
 
 	public List<Player> getPlayers() {
