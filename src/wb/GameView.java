@@ -62,19 +62,28 @@ public class GameView extends JPanel {
 
 		double squareWidth = (double)panel_width/(double)board_cols;
 		double squareHeight = (double)panel_height/(double)board_rows;
+		// paint background tiles.
+		paintBackground(g, squareWidth, squareHeight);
+		paintAnimatables(g, squareWidth, squareHeight);
+	}
 
+	private void paintAnimatables(Graphics g, double squareWidth, double squareHeight) {
+		for(GamePiece p : b.getPlayers()) {
+			paintPiece(g, p, squareWidth, squareHeight);
+		}
+		for(GamePiece p : b.getCrates()) {
+			paintPiece(g, p, squareWidth, squareHeight);
+		}
+	}
+
+	private void paintBackground(Graphics g, double squareWidth, double squareHeight) {
 		Iterator<Tile> i = b.iterator();
 		while(i.hasNext()) {
 			Tile t = i.next();
 			paintTile(g, t, squareWidth, squareHeight);
 		}
-		java.util.List<GamePiece> pieces = new ArrayList<>();
-		pieces.addAll(b.getCrates());
-		pieces.addAll(b.getPlayers());
-		for(GamePiece p : pieces) {
-			paintPiece(g, p, squareWidth, squareHeight);
-		}
 	}
+
 
 	private void paintTile(Graphics g, Tile t, double squareWidth, double squareHeight)
 	{
@@ -82,10 +91,13 @@ public class GameView extends JPanel {
 		pos.setLocation(t.getCoord().getX(), t.getCoord().getY());
 
 		if (!t.canBeFilled()) {
+			// wall
 			g.setColor(Color.black);
 		} else if (b.getFinishTiles().contains(t)) {
+			// goal
 			g.setColor(Color.yellow);
 		} else {
+			// path
 			g.setColor(Color.lightGray);
 		}
 
@@ -101,6 +113,7 @@ public class GameView extends JPanel {
 		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(), p.getCoord().getY() + p.getAnimOffset().getY());
 
 		if(p.getType() == 0) {
+			// normal player
 			g.setColor(Color.white);
 		} else if(p.getType() == 1) {
 			g.setColor(Color.orange);
