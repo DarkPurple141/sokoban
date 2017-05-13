@@ -146,6 +146,8 @@ class Board implements Iterable<Tile> {
 		Player p = players.get(player);
 		Point coord = p.nearbyPoint(p.getDirection());
 		Tile toRemove = getPosition(coord);
+		if(toRemove == null)
+			return;
 		GamePiece contents = toRemove.getContents();
 		if(finishTiles.contains(toRemove))
 			finishTiles.remove(toRemove);
