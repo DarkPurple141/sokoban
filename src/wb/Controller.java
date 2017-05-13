@@ -92,12 +92,13 @@ public class Controller extends JFrame implements ActionListener {
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
+		System.out.println("Updating");
 		double standard = 0.2;
-		for (GamePiece curr : b.getPlayers()) {
+		for(GamePiece curr : b.getPlayers()) {
 			curr.animFrame(standard);
 		}
 
-		for (GamePiece curr : b.getCrates()) {
+		for(GamePiece curr : b.getCrates()) {
 			curr.animFrame(standard);
 		}
 	}

@@ -54,6 +54,7 @@ public class GameView extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 
+    	System.out.println("Painting");
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
 
@@ -78,7 +79,8 @@ public class GameView extends JPanel {
 
 	private void paintTile(Graphics g, Tile t, double squareWidth, double squareHeight)
 	{
-		Point pos = t.getCoord();
+		Point pos = new Point();
+		pos.setLocation(t.getCoord().getX(), t.getCoord().getY());
 
 		if (!t.canBeFilled()) {
 			g.setColor(Color.black);
@@ -96,8 +98,8 @@ public class GameView extends JPanel {
 	}
 
 	private void paintPiece(Graphics g, GamePiece p, double squareWidth, double squareHeight) {
-		Point pos = p.getCoord();
-		pos.setLocation(pos.getX() + p.getAnimOffset().getX(), pos.getY() + p.getAnimOffset().getY());
+		Point pos = new Point();
+		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(), p.getCoord().getY() + p.getAnimOffset().getY());
 
 		if(p.getType() == 0) {
 			g.setColor(Color.white);

@@ -32,7 +32,7 @@ public abstract class GamePiece {
 	public void animFrame(double step) {
 		double movex = clipDouble(animOffset.getX(), step);
 		double movey = clipDouble(animOffset.getY(), step);
-		this.animOffset.setLocation(movex, movey);
+		animOffset.setLocation(movex, movey);
 	}
 
 	public abstract int getType();
@@ -48,19 +48,8 @@ public abstract class GamePiece {
 	//Public methods below this line are only used by subclasses//
 
 	public Point nearbyPoint(int direction) {
-		return useDirection(thisCoord, direction);
-	}
-
-	public void prepAnimation(int direction) {
-		this.animOffset = useDirection(animOffset, direction);
-		System.out.println("x: "+animOffset.getX());
-		System.out.println("y: "+animOffset.getY());
-	}
-
-	private Point useDirection(Point start, int direction) {
-		Point p = new Point();
-		double startx = start.getX();
-		double starty = start.getY();
+		int startx = thisCoord.x;
+		int starty = thisCoord.y;
 		if(direction == 0)
 			starty--;
 		else if(direction == 1)
@@ -69,8 +58,23 @@ public abstract class GamePiece {
 			starty++;
 		else if(direction == 3)
 			startx--;
-		p.setLocation(startx, starty);
-		return p;
+		Point f = new Point();
+		f.setLocation(startx, starty);
+		return f;
+	}
+
+	public void prepAnimation(int direction) {
+		double startx = animOffset.getX();
+		double starty = animOffset.getY();
+		if(direction == 0)
+			starty++;
+		else if(direction == 1)
+			startx--;
+		else if(direction == 2)
+			starty--;
+		else if(direction == 3)
+			startx++;
+		animOffset.setLocation(startx, starty);
 	}
 
 	private double clipDouble(double origin, double step) {
