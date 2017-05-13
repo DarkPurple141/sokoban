@@ -92,23 +92,36 @@ public class GameView extends JPanel {
 	{
 		Point pos = new Point();
 		pos.setLocation(t.getCoord().getX(), t.getCoord().getY());
-
-		if (!t.canBeFilled()) {
-			// wall
-			g.setColor(Color.black);
-		} else if (b.getFinishTiles().contains(t)) {
-			// goal
-			g.setColor(Color.yellow);
-		} else {
-			// path
-			g.setColor(Color.lightGray);
-		}
-
 		int boxWidth = (int)(squareWidth * 1);
 		int boxHeight = (int)(squareHeight * 1);
 		int startx = (int)(squareWidth * pos.getX() + (squareWidth-boxWidth)/2.0);
 		int starty = (int)(squareHeight * pos.getY() + (squareHeight-boxHeight)/2.0);
-		g.fillRect(startx, starty, boxWidth, boxHeight);
+
+		if (!t.canBeFilled()) {
+			// wall
+			//g.setColor(Color.black);
+			//g.drawImage(crates.getSprite(0),startx,starty,null);
+			Image scaled = crates.getSprite(0).getScaledInstance(boxWidth, boxHeight, Image.SCALE_SMOOTH);
+			g.drawImage(scaled,startx,starty,null);
+			return;
+
+		} else if (b.getFinishTiles().contains(t)) {
+			// goal
+			//g.drawImage(crates.getSprite(1),startx,starty,null);
+			//return;
+			//g.setColor(Color.yellow);
+			Image scaled = crates.getSprite(1).getScaledInstance(boxWidth, boxHeight, Image.SCALE_SMOOTH);
+			g.drawImage(scaled,startx,starty,null);
+		} else {
+			// path
+			//g.drawImage(tiles.getSprite(0),startx,starty,null);
+			Image scaled = tiles.getSprite(0).getScaledInstance(boxWidth, boxHeight, Image.SCALE_SMOOTH);
+			g.drawImage(scaled,startx,starty,null);
+			return;
+			//g.setColor(Color.lightGray);
+		}
+
+		//g.fillRect(startx, starty, boxWidth, boxHeight);
 	}
 
 	private void paintPiece(Graphics g, GamePiece p, double squareWidth, double squareHeight) {

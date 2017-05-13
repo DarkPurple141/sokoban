@@ -12,7 +12,7 @@ public class Controller extends JFrame implements ActionListener {
 	private Board b;
 	private boolean running;
 	private boolean paused = false;
-	private int fps = 10;
+	private int fps = 30;
    	private int frameCount = 0;
 	private JButton startButton = new JButton("Start");
    	private JButton restartButton = new JButton("Restart");
@@ -95,7 +95,7 @@ public class Controller extends JFrame implements ActionListener {
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		double standard = 0.33;
+		double standard = 0.2;
 		for(GamePiece curr : b.getCrates()) {
 			curr.animFrame(standard);
 		}
