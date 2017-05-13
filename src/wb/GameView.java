@@ -70,6 +70,14 @@ public class GameView extends JPanel {
 				} else {
 					//Normal FloorTile
 					g.setColor(Color.LIGHT_GRAY);
+                    g.drawImage(tiles.getSprite(0),
+                    pos.x*panel_width/board_cols,
+                    pos.y*panel_height/board_rows,
+                    panel_width/board_cols,panel_height/board_rows,
+                    0,0,90,90,
+                    null);
+                    continue;
+
 				}
 			} else {
 				//Wall
