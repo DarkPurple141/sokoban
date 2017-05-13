@@ -8,7 +8,6 @@ import java.awt.*;
 
 public class Controller extends JFrame implements ActionListener {
 
-
 	private GameView v;
 	private Board b;
 	private boolean running;
@@ -16,13 +15,15 @@ public class Controller extends JFrame implements ActionListener {
 	private int fps = 10;
    	private int frameCount = 0;
 	private JButton startButton = new JButton("Start");
-   	private JButton quitButton = new JButton("Quit");
+   	private JButton restartButton = new JButton("Restart");
    	private JButton pauseButton = new JButton("Pause");
 	private static int SCREEN_WIDTH = 512;
     private static int SCREEN_HEIGHT = 512;
+	private String levelPath;
 
 	public Controller(String path) {
 		super("Warehouse Boss V0.2");
+		this.levelPath = path;
 		makeModel(path);
 		constructorHelper();
 	}
@@ -41,18 +42,22 @@ public class Controller extends JFrame implements ActionListener {
 	    p.setLayout(new GridLayout(1,2));
 	    p.add(startButton);
 	    p.add(pauseButton);
-	    p.add(quitButton);
+	    p.add(restartButton);
 	    cp.add(v, BorderLayout.CENTER);
 	    cp.add(p, BorderLayout.SOUTH);
 		addKeyListener(new WBListener(this));
 		startButton.addActionListener(this);
-      	quitButton.addActionListener(this);
+      	restartButton.addActionListener(this);
       	pauseButton.addActionListener(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(SCREEN_WIDTH-1,SCREEN_HEIGHT+50); // 511 by 511 works.
 		this.setFocusable(true);
 		this.setVisible(true);
+	}
 
+	public void newGame() {
+		makeModel(this.levelPath);
+		v.resetBoard(b);
 	}
 
 
@@ -151,8 +156,12 @@ public class Controller extends JFrame implements ActionListener {
          	} else {
             	pauseButton.setText("Pause");
          	}
-      	} else if (s == quitButton) {
-         	System.exit(0);
+      	} else if (s == restartButton) {
+			this.running = false;
+			startButton.setText("Start");
+         	newGame();
+			updateGameState();
+			drawGame();
       	}
 		this.requestFocusInWindow();
    	}

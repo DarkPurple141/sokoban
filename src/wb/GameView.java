@@ -20,6 +20,10 @@ public class GameView extends JPanel {
         GameViewBuilder();
     }
 
+	public void resetBoard(Board b) {
+		this.b = b;
+	}
+
     private void GameViewBuilder() {
         try {
             crates = new SpriteSheetBuilder()
