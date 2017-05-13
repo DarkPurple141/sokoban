@@ -1,6 +1,7 @@
 package wb;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public abstract class GamePiece {
 
@@ -8,12 +9,12 @@ public abstract class GamePiece {
 
 	private Point thisCoord;
 
-	private Point animOffset;
+	private Point2D animOffset;
 
 	public GamePiece(Board myBoard, Point startCoord) {
 		this.myBoard = myBoard;
 		this.thisCoord = startCoord;
-		this.animOffset = new Point();
+		this.animOffset = new Point2D.Double();
 		this.animOffset.setLocation(0.0, 0.0);
 	}
 
@@ -25,14 +26,14 @@ public abstract class GamePiece {
 		this.thisCoord = coord;
 	}
 
-	public Point getAnimOffset() {
+	public Point2D getAnimOffset() {
 		return animOffset;
 	}
 
 	public void animFrame(double step) {
 		double movex = clipDouble(animOffset.getX(), step);
 		double movey = clipDouble(animOffset.getY(), step);
-		animOffset.setLocation(movex, movey);
+		this.animOffset.setLocation(movex, movey);
 	}
 
 	public abstract int getType();

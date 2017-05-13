@@ -1,8 +1,8 @@
 package wb;
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.*;
-import javax.swing.BorderFactory;
 import javax.imageio.ImageIO;
 import java.io.*;
 
@@ -54,7 +54,6 @@ public class GameView extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 
-    	System.out.println("Painting");
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
 
@@ -98,7 +97,7 @@ public class GameView extends JPanel {
 	}
 
 	private void paintPiece(Graphics g, GamePiece p, double squareWidth, double squareHeight) {
-		Point pos = new Point();
+		Point2D pos = new Point2D.Double();
 		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(), p.getCoord().getY() + p.getAnimOffset().getY());
 
 		if(p.getType() == 0) {
