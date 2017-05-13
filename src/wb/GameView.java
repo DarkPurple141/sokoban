@@ -57,6 +57,9 @@ public class GameView extends JPanel {
         int board_rows = b.getHeight();
         int board_cols = b.getWidth();
 
+        int tile_width = panel_width/board_cols;
+        int tile_height = panel_height/board_rows;
+
 		Iterator<Tile> i = b.iterator();
 		while(i.hasNext()) {
 			Tile t = i.next();
@@ -69,11 +72,12 @@ public class GameView extends JPanel {
 					g.setColor(Color.YELLOW);
 				} else {
 					//Normal FloorTile
+                    System.err.println(pos.x + " " + pos.y);
 					g.setColor(Color.LIGHT_GRAY);
                     g.drawImage(tiles.getSprite(0),
-                    pos.x*panel_width/board_cols,
-                    pos.y*panel_height/board_rows,
-                    panel_width/board_cols,panel_height/board_rows,
+                    pos.x*tile_width,
+                    pos.y*tile_height,
+                    tile_width,tile_height,
                     0,0,90,90,
                     null);
                     continue;
@@ -83,13 +87,14 @@ public class GameView extends JPanel {
 				//Wall
 				g.setColor(Color.RED);
 			}
+            System.err.println("HERE");
             g.fillRect(pos.x*panel_width/board_cols, pos.y*panel_height/board_rows,
             panel_width/board_cols,panel_height/board_rows);
         }
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
 
         int panel_width = this.getWidth();
         int panel_height = this.getHeight();
