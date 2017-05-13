@@ -3,8 +3,12 @@ package wb;
 import java.awt.*;
 
 public class Player extends GamePiece {
+
+	private int direction;
+
 	public Player(Board myBoard, Point startCoord) {
 		super(myBoard, startCoord);
+		this.direction = 0;//TODO Make random?
 	}
 
 	public int getType() {
@@ -28,10 +32,15 @@ public class Player extends GamePiece {
 		destination.setContents(this);
 		super.setCoord(destCoord);
 		prepAnimation(direction);
+		this.direction = direction;
 		return true;
 	}
 
 	public boolean bePushed(int direction) {
 		return false;
+	}
+
+	public int getDirection() {
+		return this.direction;
 	}
 }
