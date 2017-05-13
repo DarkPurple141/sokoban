@@ -49,7 +49,7 @@ public class Controller extends JFrame implements ActionListener {
       	quitButton.addActionListener(this);
       	pauseButton.addActionListener(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
+		setSize(SCREEN_WIDTH-1,SCREEN_HEIGHT+50); // 511 by 511 works.
 		this.setFocusable(true);
 		this.setVisible(true);
 
