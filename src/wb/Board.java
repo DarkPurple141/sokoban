@@ -25,7 +25,6 @@ class Board implements Iterable<Tile> {
 	private Tile[][] positions;
 	private List<Player> players;
 	private List<Crate> crates;
-	private List<GamePiece> pieces;
 	private List<FloorTile> finishTiles;
 
 	public Board(String filePath) {
@@ -35,8 +34,6 @@ class Board implements Iterable<Tile> {
 		crates = new ArrayList<>();
 
 		XML2Level(filePath);
-		pieces = new ArrayList<>(players);
-		pieces.addAll(crates);
 	}
 	// TODO pretty sure this is a cause for concern unless
 	// u guys have functions that are handling null returns properly.
@@ -71,10 +68,6 @@ class Board implements Iterable<Tile> {
 		return positions;
 	}
 
-	public List<GamePiece> getPieces() {
-		return pieces;
-	}
-
 	public List<Player> getPlayers() {
 		return players;
 	}
@@ -96,8 +89,73 @@ class Board implements Iterable<Tile> {
 		return flatten.iterator();
 	}
 
-	public boolean isFinishTile(Tile toCheck){
-		return finishTiles.contains(toCheck);
+	public void saveGame(String filename){
+		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
+		try{
+			DocumentBuilder builder = documentBuilderF.newDocumentBuilder();
+			Document saveFile = builder.newDocument();
+			Element board = saveFile.createElement("board");
+			Attr saveWidth = saveFile.createAttribute("width");
+			saveWidth.setValue(Integer.toString(width));
+			board.setAttributeNode(saveWidth);
+			Attr saveHeight = saveFile.createAttribute("height");
+			saveHeight.setValue(Integer.toString(height));
+			board.setAttributeNode(saveHeight);
+			saveFile.appendChild(board);
+			for (Tile[] rowTiles : positions){
+				Element row = saveFile.createElement("col");
+				board.appendChild(row);
+				for (Tile colTile : rowTiles){
+					Element col = saveFile.createElement("row");
+					if (!colTile.canBeFilled()){
+						col.appendChild(saveFile.createTextNode("1"));
+					}else if(finishTiles.contains(colTile)){
+						if (colTile.getContents() == null){
+							col.appendChild(saveFile.createTextNode("4"));
+						}else if(colTile.getContents().getType() == 0){
+							col.appendChild(saveFile.createTextNode("6"));
+						}else{
+							col.appendChild(saveFile.createTextNode("5"));
+						}
+					}else if(colTile.getContents() == null){
+						col.appendChild(saveFile.createTextNode("0"));
+					}else if(colTile.getContents().getType() == 1){
+						col.appendChild(saveFile.createTextNode("3"));
+					}else{
+						col.appendChild(saveFile.createTextNode("2"));
+					}
+					row.appendChild(col);
+				}
+			}
+
+			TransformerFactory transformerF = TransformerFactory.newInstance();
+			Transformer transformer = transformerF.newTransformer();
+
+			DOMSource save = new DOMSource(saveFile);
+			StreamResult result = new StreamResult(new File(filename + ".xml"));
+			//StreamResult result = new StreamResult(System.out);
+			transformer.transform(save, result);
+
+
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void debug(int player, int num) {
+		Player p = players.get(player);
+		Point coord = p.nearbyPoint(p.getDirection());
+		Tile toRemove = getPosition(coord);
+		GamePiece contents = toRemove.getContents();
+		if(finishTiles.contains(toRemove))
+			finishTiles.remove(toRemove);
+		if(contents != null) {
+			if(players.contains(contents))
+				players.remove(contents);
+			if(crates.contains(contents))
+				crates.remove(contents);
+		}
+		positions[coord.x][coord.y] = int2Tile(num, coord.x, coord.y);
 	}
 
 	/**
@@ -192,58 +250,5 @@ class Board implements Iterable<Tile> {
 			return t;
 		}
 		return null;
-	}
-
-	public void saveGame(String filename){
-		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
-		try{
-			DocumentBuilder builder = documentBuilderF.newDocumentBuilder();
-			Document saveFile = builder.newDocument();
-			Element board = saveFile.createElement("board");
-			Attr saveWidth = saveFile.createAttribute("width");
-			saveWidth.setValue(Integer.toString(width));
-			board.setAttributeNode(saveWidth);
-			Attr saveHeight = saveFile.createAttribute("height");
-			saveHeight.setValue(Integer.toString(height));
-			board.setAttributeNode(saveHeight);
-			saveFile.appendChild(board);
-			for (Tile[] rowTiles : positions){
-				Element row = saveFile.createElement("col");
-				board.appendChild(row);
-				for (Tile colTile : rowTiles){
-					Element col = saveFile.createElement("row");
-					if (!colTile.canBeFilled()){
-						col.appendChild(saveFile.createTextNode("1"));
-					}else if(finishTiles.contains(colTile)){
-						if (colTile.getContents() == null){
-							col.appendChild(saveFile.createTextNode("4"));
-						}else if(colTile.getContents().getType() == 0){
-							col.appendChild(saveFile.createTextNode("6"));
-						}else{
-							col.appendChild(saveFile.createTextNode("5"));
-						}
-					}else if(colTile.getContents() == null){
-						col.appendChild(saveFile.createTextNode("0"));
-					}else if(colTile.getContents().getType() == 1){
-						col.appendChild(saveFile.createTextNode("3"));
-					}else{
-						col.appendChild(saveFile.createTextNode("2"));
-					}
-					row.appendChild(col);
-				}
-			}
-
-			TransformerFactory transformerF = TransformerFactory.newInstance();
-			Transformer transformer = transformerF.newTransformer();
-
-			DOMSource save = new DOMSource(saveFile);
-			StreamResult result = new StreamResult(new File(filename + ".xml"));
-			//StreamResult result = new StreamResult(System.out);
-			transformer.transform(save, result);
-
-
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-		}
 	}
 }

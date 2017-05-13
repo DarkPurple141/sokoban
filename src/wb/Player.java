@@ -22,6 +22,8 @@ public class Player extends GamePiece {
 		Tile source = super.getBoard().getPosition(sourceCoord);
 		Tile destination = super.getBoard().getPosition(destCoord);
 
+		this.direction = direction;
+
 		if(destination == null || !destination.canBeFilled())
 			return false;//Encountered wall
 
@@ -32,7 +34,6 @@ public class Player extends GamePiece {
 		destination.setContents(this);
 		super.setCoord(destCoord);
 		prepAnimation(direction);
-		this.direction = direction;
 		return true;
 	}
 

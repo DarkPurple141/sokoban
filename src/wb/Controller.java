@@ -96,7 +96,10 @@ public class Controller extends JFrame implements ActionListener {
 		// update animatables
 		// move by standard length
 		double standard = 0.33;
-		for(GamePiece curr : b.getPieces()) {
+		for(GamePiece curr : b.getCrates()) {
+			curr.animFrame(standard);
+		}
+		for(GamePiece curr : b.getPlayers()) {
 			curr.animFrame(standard);
 		}
 	}
@@ -136,6 +139,12 @@ public class Controller extends JFrame implements ActionListener {
 				System.out.println("LEFT");
 				change = b.doMove(3);
 				break;
+			case KeyEvent.VK_ENTER:
+				System.out.println("SAVE");
+				b.saveGame("saved/save");
+		}
+		if('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
+			b.debug(0, e.getKeyChar() - '0');
 		}
 	}
 

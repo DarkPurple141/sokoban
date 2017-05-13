@@ -46,8 +46,6 @@ public abstract class GamePiece {
 		return myBoard;
 	}
 
-	//Public methods below this line are only used by subclasses//
-
 	public Point nearbyPoint(int direction) {
 		int startx = thisCoord.x;
 		int starty = thisCoord.y;
@@ -63,6 +61,8 @@ public abstract class GamePiece {
 		f.setLocation(startx, starty);
 		return f;
 	}
+
+	//Public methods below this line are only used by subclasses//
 
 	public void prepAnimation(int direction) {
 		double startx = animOffset.getX();
