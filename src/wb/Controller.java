@@ -20,6 +20,7 @@ public class Controller extends JFrame implements ActionListener {
 	private static int SCREEN_WIDTH = 512;
     private static int SCREEN_HEIGHT = 512;
 	private String levelPath;
+	private boolean animating;
 
 	public Controller(String path) {
 		super("Warehouse Boss V0.2");
@@ -82,8 +83,9 @@ public class Controller extends JFrame implements ActionListener {
 
 			if (!paused) {
 				// do stuff
-				updateGameState();
+				
 				drawGame();
+				updateGameState();
 			}try {
         		Thread.sleep(delay); // 10fps
     		} catch (InterruptedException e) {
@@ -96,11 +98,17 @@ public class Controller extends JFrame implements ActionListener {
 		// update animatables
 		// move by standard length
 		double standard = 0.2;
+		animating = false;
 		for(GamePiece curr : b.getCrates()) {
-			curr.animFrame(standard);
+			if (curr.animFrame(standard) && !animating){
+				animating = true;
+			}
+			
 		}
 		for(GamePiece curr : b.getPlayers()) {
-			curr.animFrame(standard);
+			if (curr.animFrame(standard) && !animating){
+				animating = true;
+			}
 		}
 	}
 
@@ -117,6 +125,11 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	public void processEvent(KeyEvent e) {
 		if (!this.running || this.paused) {
+			return;
+		}
+
+		if (this.animating){
+			System.out.println("animating so ignor");
 			return;
 		}
         int curr = e.getKeyCode();
@@ -147,6 +160,9 @@ public class Controller extends JFrame implements ActionListener {
 			b.debug(0, e.getKeyChar() - '0');
 		}
 
+		if (change){
+			animating = true;
+		}
 		if(change && b.isFinished()){
 			System.out.println("Congrats");
 		}

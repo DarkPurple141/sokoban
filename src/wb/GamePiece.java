@@ -30,10 +30,11 @@ public abstract class GamePiece {
 		return animOffset;
 	}
 
-	public void animFrame(double step) {
+	public boolean animFrame(double step) {
 		double movex = clipDouble(animOffset.getX(), step);
 		double movey = clipDouble(animOffset.getY(), step);
 		this.animOffset.setLocation(movex, movey);
+		return (movex != 0 || movey != 0);
 	}
 
 	public abstract int getType();
