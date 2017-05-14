@@ -146,6 +146,10 @@ public class Controller extends JFrame implements ActionListener {
 		if('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
 			b.debug(0, e.getKeyChar() - '0');
 		}
+
+		if(change && b.isFinished()){
+			System.out.println("Congrats");
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {

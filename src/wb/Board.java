@@ -253,4 +253,13 @@ class Board implements Iterable<Tile> {
 		}
 		return null;
 	}
+
+	public boolean isFinished(){
+		for (Tile t : finishTiles){
+			if (t.getContents() == null || t.getContents().getType() == 0){
+				return false;
+			}
+		}
+		return true;
+	}
 }
