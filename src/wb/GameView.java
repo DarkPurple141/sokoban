@@ -128,17 +128,19 @@ public class GameView extends JPanel {
 		Point2D pos = new Point2D.Double();
 		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(), p.getCoord().getY() + p.getAnimOffset().getY());
 
-		if(p.getType() == 0) {
-			// normal player
-			g.setColor(Color.white);
-		} else if(p.getType() == 1) {
-			g.setColor(Color.orange);
-		}
-
 		int boxWidth = (int)(squareWidth * scalePieces);
 		int boxHeight = (int)(squareHeight * scalePieces);
 		int startx = (int)(squareWidth * pos.getX() + (squareWidth-boxWidth)/2.0);
 		int starty = (int)(squareHeight * pos.getY() + (squareHeight-boxHeight)/2.0);
+		if(p.getType() == 0) {
+			// normal player
+			g.setColor(Color.white);
+			g.drawImage(player.getSprite(0),startx,starty,null);
+			return;
+		} else if(p.getType() == 1) {
+			g.setColor(Color.orange);
+		}
+
 		g.fillRect(startx, starty, boxWidth, boxHeight);
 	}
 }
