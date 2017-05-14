@@ -126,7 +126,8 @@ public class GameView extends JPanel {
 
 	private void paintPiece(Graphics g, GamePiece p, double squareWidth, double squareHeight) {
 		Point2D pos = new Point2D.Double();
-		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(), p.getCoord().getY() + p.getAnimOffset().getY());
+		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(),
+			p.getCoord().getY() + p.getAnimOffset().getY());
 
 		int boxWidth = (int)(squareWidth * scalePieces);
 		int boxHeight = (int)(squareHeight * scalePieces);
@@ -135,7 +136,7 @@ public class GameView extends JPanel {
 		if(p.getType() == 0) {
 			// normal player
 			g.setColor(Color.white);
-			g.drawImage(player.getSprite(0),startx,starty,null);
+			g.drawImage(player.animate(p),startx,starty,null);
 			return;
 		} else if(p.getType() == 1) {
 			g.setColor(Color.orange);
