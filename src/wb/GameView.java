@@ -4,12 +4,14 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.*;
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import java.io.*;
 
 public class GameView extends JPanel {
 	static final double scalePieces = 0.8;
 
     private Board b;
+	private JLabel gameState;
     private SpriteSheet crates;
     private SpriteSheet tiles;
     private SpriteSheet player;
@@ -53,10 +55,12 @@ public class GameView extends JPanel {
             System.out.println(e.getMessage());
             System.exit(1);
         }
+		gameState = new JLabel();
+		this.add(gameState);
     }
 
 	@Override
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
 
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
@@ -69,6 +73,16 @@ public class GameView extends JPanel {
 		// paint background tiles.
 		paintBackground(g, squareWidth, squareHeight);
 		paintAnimatables(g, squareWidth, squareHeight);
+	}
+
+	public void showLabel(String text) {
+		gameState.setFont(new Font("Arial", Font.PLAIN, 50));
+		gameState.setText(text);
+		gameState.setVisible(true);
+	}
+
+	public void hideLabel() {
+		gameState.setVisible(false);
 	}
 
 	private void paintAnimatables(Graphics g, double squareWidth, double squareHeight) {

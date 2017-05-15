@@ -13,6 +13,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -254,12 +255,20 @@ class Board implements Iterable<Tile> {
 		return null;
 	}
 
-	public boolean isFinished(){
+	public boolean isFinished() {
 		for (Tile t : finishTiles){
 			if (t.getContents() == null || t.getContents().getType() == 0){
 				return false;
 			}
 		}
+
+		for (GamePiece p : players) {
+			Point2D curr = p.getAnimOffset();
+			if (curr.getX() != 0.0 && curr.getY() != 0.0) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 }

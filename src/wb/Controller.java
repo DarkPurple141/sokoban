@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import java.awt.*;
 
 public class Controller extends JFrame implements ActionListener {
@@ -36,6 +37,7 @@ public class Controller extends JFrame implements ActionListener {
 
 	private void constructorHelper() {
 		v = new GameView(b);
+		v.setLayout(new GridBagLayout());
 		Container cp = getContentPane();
 	    cp.setLayout(new BorderLayout());
 	    JPanel p = new JPanel();
@@ -58,6 +60,7 @@ public class Controller extends JFrame implements ActionListener {
 	public void newGame() {
 		makeModel(this.levelPath);
 		v.resetBoard(b);
+		v.hideLabel();
 	}
 
 
@@ -84,6 +87,11 @@ public class Controller extends JFrame implements ActionListener {
 				// do stuff
 				updateGameState();
 				drawGame();
+				if(b.isFinished()){
+					v.showLabel("Congrats!");
+					this.running = false;
+					startButton.setText("Start");
+				}
 			}try {
         		Thread.sleep(delay); // 10fps
     		} catch (InterruptedException e) {
@@ -147,9 +155,6 @@ public class Controller extends JFrame implements ActionListener {
 			b.debug(0, e.getKeyChar() - '0');
 		}
 
-		if(change && b.isFinished()){
-			System.out.println("Congrats");
-		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -157,6 +162,7 @@ public class Controller extends JFrame implements ActionListener {
 		if (s == startButton) {
         	running = !running;
 			if (running) {
+				newGame();
             	startButton.setText("Stop");
             	runGameLoop();
 			} else {
@@ -173,8 +179,10 @@ public class Controller extends JFrame implements ActionListener {
 			this.running = false;
 			startButton.setText("Start");
          	newGame();
-			updateGameState();
-			drawGame();
+			this.running = true;
+			//updateGameState();
+			//drawGame();
+			runGameLoop();
       	}
 		this.requestFocusInWindow();
    	}
