@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 public class Controller
 extends JFrame
 implements ActionListener {
+	private static final double MOVE_INCREMENT = 0.1;
+
 	private static final long serialVersionUID = 1L;
 	private static int SCREEN_WIDTH = 512;
 	private static int SCREEN_HEIGHT = 512;
@@ -23,6 +25,7 @@ implements ActionListener {
 	private JButton startButton = null;
 	private JButton restartButton = null;
 	private JButton pauseButton = null;
+	private boolean moving = false;
 
 	public Controller(String path) {
 		super("Warehouse Boss V0.2");
@@ -109,12 +112,11 @@ implements ActionListener {
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		double standard = 0.1;
 		for(GamePiece curr : b.getCrates()) {
-			curr.animFrame(standard);
+			curr.animFrame(MOVE_INCREMENT);
 		}
 		for(GamePiece curr : b.getPlayers()) {
-			curr.animFrame(standard);
+			curr.animFrame(MOVE_INCREMENT);
 		}
 	}
 
@@ -135,9 +137,13 @@ implements ActionListener {
 		}
         int curr = e.getKeyCode();
         // possibly change to vector format
-        if (b.getPlayers().get(0).isMoving()) {
-        	return;
+		moving = false;
+        for(Player p : b.getPlayers()) {
+        	if(p.isMoving())
+        		moving = true;
         }
+        if(moving)
+        	return;
 		switch (curr) {
 			case KeyEvent.VK_UP:
 				System.out.println("UP");
