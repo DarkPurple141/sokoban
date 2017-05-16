@@ -64,11 +64,16 @@ Class(`Crate', `', `
     Method(`bePushed', `direction:int', `boolean')');
 Extends(`Crate', `GamePiece');
 
-Class(`FinishTile', `', `
-    Constructor(`startCoord:Coord'),
-    Method(`hasBox', `', `boolean')');
-Extends(`FinishTile', `ContainerTile');
-AssociatedWith(`FinishTile', `Coord');
+Class(`FloorTile', `
+    Field(`contents', `GamePiece')',
+`
+    Constructor(`startCoord:Point'),
+    Method(`canBeFilled', `', `boolean'),
+    Method(`getContents', `', `boolean'),
+    Method(`setContents', `content:GamePiece', `boolean')');
+Extends(`FloorTile', `Tile');
+Aggregates(`FloorTile', `GamePiece');
+AssociatedWith(`FloorTile', `Point');
 
 Class(`Model', `
     Field(`board', `Board'),
