@@ -57,16 +57,6 @@ Class(`Controller', `
 Aggregates(`Controller', `GameView');
 Aggregates(`Controller', `Board');
 
-Class(`Coord', `
-    Field(`x', `int'),
-    Field(`y', `int')',
-`
-    Constructor(`x:int,y:int'),
-    Method(`getX', `', `int'),
-    Method(`getY', `', `int'),
-    Method(`getNeighbour', `direction:int', `Coord'),
-    Method(`addCoord', `vector:Coord', `Coord')');
-
 Class(`Crate', `
     Field(`thisCoord', `Coord')',
 `
