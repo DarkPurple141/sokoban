@@ -41,7 +41,7 @@ public class SpriteSheet {
         return sprites.get(index);
     }
 
-	public BufferedImage animate(GamePiece p) {
+	public Image animate(GamePiece p) {
 		double currX = p.getAnimOffset().getX();
 		double currY = p.getAnimOffset().getY();
 
@@ -73,8 +73,7 @@ public class SpriteSheet {
 			}
 		}
 
-		return sprites.get(curr);
-
+		return scaled.get(curr);
 
 	}
 }

@@ -15,6 +15,7 @@ public class GameView extends JPanel {
     private SpriteSheet crates;
     private SpriteSheet tiles;
     private SpriteSheet player;
+    private SpriteSheet box;
     private static final long serialVersionUID = 11; // apparently swing needs this
 
     public GameView(Board b) {
@@ -52,6 +53,11 @@ public class GameView extends JPanel {
                 .withSpriteSize(48,48)
                 .withSpriteCount(16)
                 .build();
+            box = new SpriteSheetBuilder()
+            	.withSheet(ImageIO.read(new File("assets/crate.png")))
+            	.withSpriteSize(90,90)
+            	.withSpriteCount(1)
+            	.build();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             System.exit(1);
@@ -129,23 +135,27 @@ public class GameView extends JPanel {
 		Point2D pos = new Point2D.Double();
 		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(),
 			p.getCoord().getY() + p.getAnimOffset().getY());
-		BufferedImage curr = player.animate(p);
-
-		int width = curr.getWidth();
-		int height = curr.getHeight();
+		 Image curr = null;
+		
+		if(p.getType() == 0) {
+			// normal player
+			curr = player.animate(p);
+			
+		} else if(p.getType() == 1) {
+			// crate
+			curr = box.getScaled(0);
+		}
+		
+		if (curr == null)
+			return;
+		int width = curr.getWidth(null);
+		int height = curr.getHeight(null);
 
 		int startx = (int)(squareWidth * pos.getX() + (squareWidth-width)/2.0);
 		int starty = (int)(squareHeight * pos.getY() + (squareHeight-height)/2.0);
 
-		if(p.getType() == 0) {
-			// normal player
-			g.drawImage(curr,startx,starty,null);
-		} else if(p.getType() == 1) {
-			// crate
-			g.setColor(Color.orange);//TODO DRAW CRATE SPRITE
-		}
+		g.drawImage(curr, startx, starty, null);
 
-		g.fillRect(startx, starty, width, height);
 	}
 
 	public void resizeSprites() {
@@ -161,5 +171,7 @@ public class GameView extends JPanel {
 		
 		crates.resize(squareWidth, squareHeight);
 		tiles.resize(squareWidth, squareHeight);
+		box.resize(squareWidth, squareHeight);
+		player.resize(squareWidth, squareHeight);
 	}
 }
