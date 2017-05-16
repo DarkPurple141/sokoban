@@ -2,7 +2,6 @@ package wb;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -159,7 +158,6 @@ public class GameView extends JPanel {
 	}
 
 	public void resizeSprites() {
-		System.out.println("Resize event!");
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
 
