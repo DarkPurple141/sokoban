@@ -9,7 +9,7 @@ public class Player extends GamePiece {
 
 	public Player(Board myBoard, Point startCoord) {
 		super(myBoard, startCoord);
-		this.direction = 0;//TODO Make random?
+		this.direction = 2;
 	}
 
 	public int getType() {
