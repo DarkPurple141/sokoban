@@ -30,28 +30,32 @@ Aggregates(`Board', `Crate');
 Aggregates(`Board', `FloorTile');
 AssociatedWith(`Board', `Coord');
 
-Class(`ContainerTile', `
-    Field(`contents', `Object')',
-`
-    Constructor(`startCoord:Coord'),
-    Method(`canBeFilled', `', `boolean'),
-    Method(`setContents', `content:Object', `void'),
-    Method(`getContents', `', `Object')');
-AssociatedWith(`ContainerTile', `Coord');
-Extends(`ContainerTile', `Tile');
-
 Class(`Controller', `
-    Field(`v', `View'),
-    Field(`m', `Model'),
-    Field(`l', `WBListener')',
+    Field(`levelPath', `String'),
+    Field(`v', `GameView'),
+    Field(`b', `Board'),
+    Field(`running', `boolean'),
+    Field(`paused', `boolean'),
+    Field(`fps', `int'),
+    Field(`frameCount', `int'),
+    Field(`startButton', `JButton'),
+    Field(`restartButton', `JButton'),
+    Field(`pauseButton', `JButton')',
 `
     Constructor(`path:String'),
-    Method(`makeModel', `filePath:String', `void'),
-    Method(`run', `', `'),
-    Method(`processEvent', `e:KeyEvent', `void')');
-Aggregates(`Controller', `View');
-Aggregates(`Controller', `Model');
-Aggregates(`Controller', `WBListener');
+    Constructor(`'),
+    PrivMethod(`constructorHelper', `', `void'),
+    Method(`newGame', `', `void'),
+    PrivMethod(`makeModel', `filePath:String', `void'),
+    Method(`runGameLoop', `', `void'),
+    PrivMethod(`gameLoop', `', `void'),
+    PrivMethod(`updateGameState', `', `void'),
+    PrivMethod(`drawGame', `', `void'),
+    Method(`processEvent', `e:KeyEvent', `void'),
+    Method(`actionPerformed', `e:ActionEvent', `void'),
+    Method(`resizeView', `', `void')')
+Aggregates(`Controller', `GameView');
+Aggregates(`Controller', `Board');
 
 Class(`Coord', `
     Field(`x', `int'),
@@ -141,3 +145,23 @@ Class(`WBListener', `
 Aggregates(`WBListener', `Controller')
 
 UMLEnd
+/*
+
+              F - G - H                  feature
+             /         \
+    A - B - C - D - E - I                master
+            ^           ^
+            branch      merge
+
+    [^feature]$ git checkout master
+    [^master]$ git merge feature
+
+              ...     F' - G' - H'       feature
+             /       /
+    A - B - C - D - E                    master
+            ^       ^
+     'branch'       rebase
+
+    [^feature]$ git rebase master
+
+*/

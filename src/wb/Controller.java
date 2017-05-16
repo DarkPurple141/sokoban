@@ -1,12 +1,14 @@
 package wb;
 
+import java.awt.*;
 import java.awt.event.*;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.*;
 
-public class Controller extends JFrame implements ActionListener {
+public class Controller
+extends JFrame
+implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static int SCREEN_WIDTH = 512;
 	private static int SCREEN_HEIGHT = 512;
