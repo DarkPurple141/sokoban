@@ -9,11 +9,14 @@ public abstract class GamePiece {
 
 	private Point thisCoord;
 
+	private Point prevCoord;
+
 	private Point2D animOffset;
 
 	public GamePiece(Board myBoard, Point startCoord) {
 		this.myBoard = myBoard;
 		this.thisCoord = startCoord;
+		this.prevCoord = null;
 		this.animOffset = new Point2D.Double();
 		this.animOffset.setLocation(0.0, 0.0);
 	}
