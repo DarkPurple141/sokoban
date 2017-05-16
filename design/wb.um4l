@@ -2,15 +2,32 @@ UMLBegin
 dnl Keep the class names in alphabetical order, please.
 
 Class(`Board', `
-    Field(`position', `Tile[][]'),
-    Field(`finishTiles', `List_Tile_')',
+    Field(`width', `int'),
+    Field(`height', `int'),
+    Field(`positions', `Tile[][]'),
+    Field(`players', `List_Player_'),
+    Field(`crates', `List_Crate_'),
+    Field(`finishTiles', `List_FloorTile_')',
 `
-    Constructor(`tileArray:int[][],p:Player'),
-    Method(`getFinishTiles', `', `List_Tile_'),
-    Method(`getPosition', `pos:Coord', `Tile'),
-    Method(`getTiles', `', `Tile[][]')');
+    Constructor(`filePath:String'),
+    Method(`getPosition', `pos:Point', `Tile'),
+    Method(`getHeight', `', `int'),
+    Method(`getWidth', `', `int'),
+    Method(`doMove', `direction:int'),
+    Method(`getTiles', `', `Tile[][]'),
+    Method(`getPlayers', `', `List_Player_'),
+    Method(`getCrates', `', `List_Crate_'),
+    Method(`getFinishTiles', `', `List_FloorTiles_'),
+    Method(`iterator', `', `Iterator_Tile_'),
+    Method(`saveGame', `filename:String', `void'),
+    Method(`debug', `player:int,num:int', `void'),
+    PrivMethod(`xmlToLevel', `filePath:String', `void'),
+    PrivMethod(`intToTile', `code:int,x:int,y:int', `Tile'),
+    Method(`isFinished', `', `boolean')');
 Aggregates(`Board', `Tile');
-AssociatedWith(`Board', `Player');
+Aggregates(`Board', `Player');
+Aggregates(`Board', `Crate');
+Aggregates(`Board', `FloorTile');
 AssociatedWith(`Board', `Coord');
 
 Class(`ContainerTile', `

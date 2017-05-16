@@ -114,25 +114,15 @@ public class GameView extends JPanel {
 
 		if (!t.canBeFilled()) {
 			// wall
-			//g.setColor(Color.black);
-			g.drawImage(crates.getScaled(0),startx,starty,null);
-			//return;
+			g.drawImage(crates.getScaled(0), startx, starty,null);
 
 		} else if (b.getFinishTiles().contains(t)) {
 			// goal
-			//g.drawImage(crates.getSprite(1),startx,starty,null);
-			//return;
-			//g.setColor(Color.yellow);
-			g.drawImage(crates.getScaled(1),startx,starty,null);
+			g.drawImage(crates.getScaled(1), startx, starty,null);
 		} else {
-			// path
-			//g.drawImage(tiles.getSprite(0),startx,starty,null);
-			//Image scaled = tiles.getSprite(0).getScaledInstance(boxWidth, boxHeight, Image.SCALE_SMOOTH);
-			g.drawImage(tiles.getScaled(0),startx,starty,null);
-			//g.setColor(Color.lightGray);
+			// empty tile
+			g.drawImage(tiles.getScaled(0), startx, starty,null);
 		}
-
-		//g.fillRect(startx, starty, boxWidth, boxHeight);
 	}
 
 	private void paintPiece(Graphics g, GamePiece p, double squareWidth, double squareHeight) {
@@ -149,11 +139,10 @@ public class GameView extends JPanel {
 
 		if(p.getType() == 0) {
 			// normal player
-			g.setColor(Color.white);
 			g.drawImage(curr,startx,starty,null);
-			return;
 		} else if(p.getType() == 1) {
-			g.setColor(Color.orange);
+			// crate
+			g.setColor(Color.orange);//TODO DRAW CRATE SPRITE
 		}
 
 		g.fillRect(startx, starty, width, height);
@@ -172,6 +161,5 @@ public class GameView extends JPanel {
 		
 		crates.resize(squareWidth, squareHeight);
 		tiles.resize(squareWidth, squareHeight);
-		
 	}
 }
