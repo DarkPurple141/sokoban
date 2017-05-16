@@ -138,7 +138,7 @@ public class GameView extends JPanel {
 		
 		if(p.getType() == 0) {
 			// normal player
-			curr = player.animate(p);
+			curr = player.animate((Player)p);
 			
 		} else if(p.getType() == 1) {
 			// crate

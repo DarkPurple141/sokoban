@@ -15,6 +15,7 @@ public class SpriteSheet {
 	private final List<BufferedImage> sprites;
 	private List<Image> scaled;
 	private int curr;
+	enum directions {UP, DOWN, LEFT, RIGHT};
 
     public SpriteSheet(List<BufferedImage> sprites) {
         this.sprites = new ArrayList<>(sprites);
@@ -41,38 +42,39 @@ public class SpriteSheet {
         return sprites.get(index);
     }
 
-	public Image animate(GamePiece p) {
-		double currX = p.getAnimOffset().getX();
-		double currY = p.getAnimOffset().getY();
+	public Image animate(Player p) {
+		int direction = p.getDirection();
 
-		if (currY == 0.0 && currX == 0.0) {
-			curr = 0;
-		} else if (currX == 0.0) {
-			if (currY > 0.0) {
-				if ((curr + 2) % 4 != 0) {
-					curr = 2;
-				}
-				curr = (curr + 4) % 16;
-			} else {
-				if (curr % 4 != 0) {
-					curr = 1;
-				}
-				curr = (curr + 4) % 16;
-			}
-		} else if (currY == 0.0) {
-			if (currX > 0.0) {
-				if ((curr + 1) % 4 != 0) {
-					curr = 1;
-				}
-				curr = (curr + 4) % 16;
-			} else {
-				if ((curr + 3) % 4 != 0) {
-					curr = 3;
-				}
-				curr = (curr + 4) % 16;
+		if (!p.isMoving()) {
+			curr = (direction + 2) % 4;
+		} else {
+			switch(direction) {
+				case 0:
+					if ((curr + 2) % 4 != 0) {
+						curr = 2;
+					}
+					curr = (curr + 4) % 16;
+					break;
+				case 1:
+					if ((curr + 1) % 4 != 0) {
+						curr = 3;
+					}
+					curr = (curr + 4) % 16;
+					break;
+				case 2:
+					if (curr % 4 != 0) {
+						curr = 0;
+					}
+					curr = (curr + 4) % 16;
+					break;
+				case 3:
+					if ((curr + 3) % 4 != 0) {
+						curr = 1;
+					}
+					curr = (curr + 4) % 16;
+					break;
 			}
 		}
-
 
 		return scaled.get(curr);
 
