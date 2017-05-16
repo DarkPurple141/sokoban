@@ -1,6 +1,6 @@
 package wb;
 
-import java.awt.*;
+import java.awt.Point;
 
 public class Crate extends GamePiece {
 	public Crate(Board myBoard, Point startCoord) {
