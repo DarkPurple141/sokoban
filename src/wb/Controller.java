@@ -155,9 +155,14 @@ implements ActionListener {
 			case KeyEvent.VK_ENTER:
 				System.out.println("SAVE");
 				b.saveGame("saved/save");
+
 		}
 		if('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
 			b.debug(0, e.getKeyChar() - '0');
+		}
+
+		if('u' == e.getKeyChar()){
+			b.undo();
 		}
 
 	}

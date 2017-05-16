@@ -30,6 +30,7 @@ public class Crate extends GamePiece {
 		if(blocking != null)
 			return false;//Encountered another object
 		source.setContents(null);
+		super.getBoard().addPiecesUndo();
 		destination.setContents(this);
 		super.setCoord(destCoord);
 		prepAnimation(direction);
