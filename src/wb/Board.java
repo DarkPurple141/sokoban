@@ -22,6 +22,7 @@ import java.util.List;
 class Board implements Iterable<Tile> {
 	private int width;
 	private int height;
+	private int undoLength = 5;
 	private Tile[][] positions;
 	private List<Player> players;
 	private List<Crate> crates;
@@ -78,6 +79,33 @@ class Board implements Iterable<Tile> {
 
 	public List<FloorTile> getFinishTiles() {
 		return finishTiles;
+	}
+
+	public int getUndoLength() {
+		return undoLength;
+	}
+
+	public void undo() {
+		for (Player p : players){
+			getPosition(p.getCoord()).setContents(null);
+			p.undo();
+			getPosition(p.getCoord()).setContents(p);
+		}
+		for (Crate c : crates){
+			getPosition(c.getCoord()).setContents(null);
+			c.undo();
+			getPosition(c.getCoord()).setContents(c);
+		}
+	}
+
+	public void addPiecesUndo(){
+		for (Player p : players){
+			p.storePrevCoord();
+		}
+
+		for (Crate c : crates){
+			c.storePrevCoord();
+		}
 	}
 
 	@Override

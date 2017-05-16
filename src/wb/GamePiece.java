@@ -2,6 +2,7 @@ package wb;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayDeque;
 
 public abstract class GamePiece {
 
@@ -9,14 +10,14 @@ public abstract class GamePiece {
 
 	private Point thisCoord;
 
-	private Point prevCoord;
+	private ArrayDeque<Point> prevCoords;
 
 	private Point2D animOffset;
 
 	public GamePiece(Board myBoard, Point startCoord) {
 		this.myBoard = myBoard;
 		this.thisCoord = startCoord;
-		this.prevCoord = null;
+		this.prevCoords = new ArrayDeque<Point>();
 		this.animOffset = new Point2D.Double();
 		this.animOffset.setLocation(0.0, 0.0);
 	}
@@ -92,5 +93,19 @@ public abstract class GamePiece {
 				origin = 0;
 		}
 		return origin;
+	}
+
+	public void storePrevCoord() {
+		if (prevCoords.size() >= myBoard.getUndoLength()) {
+			prevCoords.pollLast();
+		}
+		prevCoords.push(thisCoord);
+	}
+
+	public void undo() {
+		if (prevCoords.isEmpty()){
+			return;
+		}
+		thisCoord = prevCoords.pop();
 	}
 }
