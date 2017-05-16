@@ -14,13 +14,12 @@ public class SpriteSheet {
 
 	private final List<BufferedImage> sprites;
 	private List<Image> scaled;
-	private int curr;
-	int animationState = 0;
+	private int animationState;
 
     public SpriteSheet(List<BufferedImage> sprites) {
         this.sprites = new ArrayList<>(sprites);
         this.scaled = new ArrayList<Image>();
-		this.curr = 0;
+		this.animationState = 0;
     }
 
     public int count() {
