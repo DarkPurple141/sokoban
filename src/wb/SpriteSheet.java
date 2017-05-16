@@ -73,6 +73,7 @@ public class SpriteSheet {
 			}
 		}
 
+
 		return scaled.get(curr);
 
 	}

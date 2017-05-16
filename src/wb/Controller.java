@@ -109,7 +109,7 @@ implements ActionListener {
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		double standard = 0.2;
+		double standard = 0.1;
 		for(GamePiece curr : b.getCrates()) {
 			curr.animFrame(standard);
 		}
@@ -135,6 +135,9 @@ implements ActionListener {
 		}
         int curr = e.getKeyCode();
         // possibly change to vector format
+        if (b.getPlayers().get(0).isMoving()) {
+        	return;
+        }
 		switch (curr) {
 			case KeyEvent.VK_UP:
 				System.out.println("UP");

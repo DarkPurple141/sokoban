@@ -1,6 +1,7 @@
 package wb;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class Player extends GamePiece {
 
@@ -34,6 +35,14 @@ public class Player extends GamePiece {
 		destination.setContents(this);
 		super.setCoord(destCoord);
 		prepAnimation(direction);
+		return true;
+	}
+	
+	public boolean isMoving () {
+		Point2D curr = super.getAnimOffset();
+		if (curr.getX() == 0 && curr.getY() == 0) {
+			return false;
+		}
 		return true;
 	}
 
