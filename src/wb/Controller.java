@@ -4,11 +4,11 @@ import java.awt.event.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import java.awt.*;
 
 public class Controller extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	private GameView v;
 	private Board b;
 	private boolean running;
@@ -47,6 +47,7 @@ public class Controller extends JFrame implements ActionListener {
 	    p.add(restartButton);
 	    cp.add(v, BorderLayout.CENTER);
 	    cp.add(p, BorderLayout.SOUTH);
+	    addComponentListener(new ResizeListener(this));
 		addKeyListener(new WBListener(this));
 		startButton.addActionListener(this);
       	restartButton.addActionListener(this);
@@ -128,24 +129,23 @@ public class Controller extends JFrame implements ActionListener {
 			return;
 		}
         int curr = e.getKeyCode();
-		boolean change = false;
         // possibly change to vector format
 		switch (curr) {
 			case KeyEvent.VK_UP:
 				System.out.println("UP");
-				change = b.doMove(0);
+				b.doMove(0);
 				break;
 			case KeyEvent.VK_RIGHT:
 				System.out.println("RIGHT");
-				change = b.doMove(1);
+				b.doMove(1);
 				break;
 			case KeyEvent.VK_DOWN:
 				System.out.println("DOWN");
-				change = b.doMove(2);
+				b.doMove(2);
 				break;
 			case KeyEvent.VK_LEFT:
 				System.out.println("LEFT");
-				change = b.doMove(3);
+				b.doMove(3);
 				break;
 			case KeyEvent.VK_ENTER:
 				System.out.println("SAVE");
@@ -180,10 +180,12 @@ public class Controller extends JFrame implements ActionListener {
 			startButton.setText("Start");
          	newGame();
 			this.running = true;
-			//updateGameState();
-			//drawGame();
 			runGameLoop();
       	}
 		this.requestFocusInWindow();
    	}
+
+	public void resizeView() {
+		v.resizeSprites();		
+	}
 }

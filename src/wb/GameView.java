@@ -15,6 +15,7 @@ public class GameView extends JPanel {
     private SpriteSheet crates;
     private SpriteSheet tiles;
     private SpriteSheet player;
+    private static final long serialVersionUID = 11; // apparently swing needs this
 
     public GameView(Board b) {
         super();
@@ -114,24 +115,20 @@ public class GameView extends JPanel {
 		if (!t.canBeFilled()) {
 			// wall
 			//g.setColor(Color.black);
-			//g.drawImage(crates.getSprite(0),startx,starty,null);
-			Image scaled = crates.getSprite(0).getScaledInstance(boxWidth, boxHeight, Image.SCALE_SMOOTH);
-			g.drawImage(scaled,startx,starty,null);
-			return;
+			g.drawImage(crates.getScaled(0),startx,starty,null);
+			//return;
 
 		} else if (b.getFinishTiles().contains(t)) {
 			// goal
 			//g.drawImage(crates.getSprite(1),startx,starty,null);
 			//return;
 			//g.setColor(Color.yellow);
-			Image scaled = crates.getSprite(1).getScaledInstance(boxWidth, boxHeight, Image.SCALE_SMOOTH);
-			g.drawImage(scaled,startx,starty,null);
+			g.drawImage(crates.getScaled(1),startx,starty,null);
 		} else {
 			// path
 			//g.drawImage(tiles.getSprite(0),startx,starty,null);
-			Image scaled = tiles.getSprite(0).getScaledInstance(boxWidth, boxHeight, Image.SCALE_SMOOTH);
-			g.drawImage(scaled,startx,starty,null);
-			return;
+			//Image scaled = tiles.getSprite(0).getScaledInstance(boxWidth, boxHeight, Image.SCALE_SMOOTH);
+			g.drawImage(tiles.getScaled(0),startx,starty,null);
 			//g.setColor(Color.lightGray);
 		}
 
@@ -157,5 +154,21 @@ public class GameView extends JPanel {
 		}
 
 		g.fillRect(startx, starty, boxWidth, boxHeight);
+	}
+
+	public void resizeSprites() {
+		System.out.println("Resize event!");
+		int panel_width = this.getWidth();
+		int panel_height = this.getHeight();
+
+		int board_cols = b.getWidth();
+		int board_rows = b.getHeight();
+		
+		int squareWidth = (int)((double)panel_width/(double)board_cols);
+		int squareHeight = (int)((double)panel_height/(double)board_rows);
+		
+		crates.resize(squareWidth, squareHeight);
+		tiles.resize(squareWidth, squareHeight);
+		
 	}
 }

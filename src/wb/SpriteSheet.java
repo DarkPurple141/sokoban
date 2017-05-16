@@ -3,7 +3,7 @@ package wb;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.ArrayList;
-import java.awt.geom.Point2D;
+import java.awt.Image;
 
 /**
  * SpriteSheet is BufferedImage used to store game assets
@@ -13,16 +13,29 @@ import java.awt.geom.Point2D;
 public class SpriteSheet {
 
 	private final List<BufferedImage> sprites;
+	private List<Image> scaled;
 	private int curr;
 
     public SpriteSheet(List<BufferedImage> sprites) {
         this.sprites = new ArrayList<>(sprites);
+        this.scaled = new ArrayList<Image>();
 		this.curr = 0;
     }
 
     public int count() {
         return sprites.size();
     }
+    
+    public void resize(int width, int height) {
+    	scaled.clear();
+    	for (BufferedImage curr: sprites) {
+    		scaled.add(curr.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+    	}	
+	}
+	
+	public Image getScaled(int index) {
+		return scaled.get(index);
+	}
 
     public BufferedImage getSprite(int index) {
         return sprites.get(index);
