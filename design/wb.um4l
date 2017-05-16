@@ -57,17 +57,12 @@ Class(`Controller', `
 Aggregates(`Controller', `GameView');
 Aggregates(`Controller', `Board');
 
-Class(`Crate', `
-    Field(`thisCoord', `Coord')',
-`
-    Constructor(`startCoord:Coord'),
-    Method(`getCoord', `', `Coord'),
-    Method(`canMove', `direction:int,gameBoard:Board', `boolean'),
-    Method(`doMove', `direction:int,gameBoard:Board', `boolean'),
-    Method(`setCoord', `updated:Coord', `void')');
-Aggregates(`Crate', `Coord');
-AssociatedWith(`Crate', `Board');
-DependsOn(`Crate', `Tile');
+Class(`Crate', `', `
+    Constructor(`myBoard:Board,startCoord:Point'),
+    Method(`getType', `', `int'),
+    Method(`doMove', `direction:int', `boolean'),
+    Method(`bePushed', `direction:int', `boolean')');
+Extends(`Crate', `GamePiece');
 
 Class(`FinishTile', `', `
     Constructor(`startCoord:Coord'),
