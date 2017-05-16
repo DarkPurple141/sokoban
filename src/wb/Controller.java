@@ -7,17 +7,17 @@ import javax.swing.JButton;
 import java.awt.*;
 
 public class Controller extends JFrame implements ActionListener {
-
 	private static final long serialVersionUID = 1L;
+	private static int SCREEN_WIDTH = 512;
+	private static int SCREEN_HEIGHT = 512;
+
+	private String levelPath;
 	private GameView v;
 	private Board b;
 	private boolean running;
 	private boolean paused = false;
 	private int fps = 30;
    	private int frameCount = 0;
-	private static int SCREEN_WIDTH = 512;
-    private static int SCREEN_HEIGHT = 512;
-	private String levelPath;
 	private JButton startButton = null;
 	private JButton restartButton = null;
 	private JButton pauseButton = null;
