@@ -15,12 +15,12 @@ public class Controller extends JFrame implements ActionListener {
 	private boolean paused = false;
 	private int fps = 30;
    	private int frameCount = 0;
-	private JButton startButton = new JButton("Start");
-   	private JButton restartButton = new JButton("Restart");
-   	private JButton pauseButton = new JButton("Pause");
 	private static int SCREEN_WIDTH = 512;
     private static int SCREEN_HEIGHT = 512;
 	private String levelPath;
+	private JButton startButton = null;
+	private JButton restartButton = null;
+	private JButton pauseButton = null;
 
 	public Controller(String path) {
 		super("Warehouse Boss V0.2");
@@ -42,6 +42,9 @@ public class Controller extends JFrame implements ActionListener {
 	    cp.setLayout(new BorderLayout());
 	    JPanel p = new JPanel();
 	    p.setLayout(new GridLayout(1,2));
+		startButton = new JButton("Start");
+		restartButton = new JButton("Restart");
+		pauseButton = new JButton("Pause");
 	    p.add(startButton);
 	    p.add(pauseButton);
 	    p.add(restartButton);
