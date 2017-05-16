@@ -263,7 +263,7 @@ class Board implements Iterable<Tile> {
 
 		for (GamePiece p : players) {
 			Point2D curr = p.getAnimOffset();
-			if (curr.getX() != 0.0 && curr.getY() != 0.0) {
+			if (curr.getX() != 0 || curr.getY() != 0) {
 				return false;
 			}
 		}
