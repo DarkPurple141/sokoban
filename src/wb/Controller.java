@@ -177,7 +177,6 @@ public class Controller extends JFrame implements ActionListener {
          	}
       	} else if (s == restartButton) {
 			this.running = false;
-			startButton.setText("Start");
          	newGame();
 			this.running = true;
 			runGameLoop();

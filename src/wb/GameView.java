@@ -2,13 +2,13 @@ package wb;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import java.io.*;
 
 public class GameView extends JPanel {
-	static final double scalePieces = 0.8;
 
     private Board b;
 	private JLabel gameState;
@@ -139,21 +139,24 @@ public class GameView extends JPanel {
 		Point2D pos = new Point2D.Double();
 		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(),
 			p.getCoord().getY() + p.getAnimOffset().getY());
+		BufferedImage curr = player.animate(p);
 
-		int boxWidth = (int)(squareWidth * scalePieces);
-		int boxHeight = (int)(squareHeight * scalePieces);
-		int startx = (int)(squareWidth * pos.getX() + (squareWidth-boxWidth)/2.0);
-		int starty = (int)(squareHeight * pos.getY() + (squareHeight-boxHeight)/2.0);
+		int width = curr.getWidth();
+		int height = curr.getHeight();
+
+		int startx = (int)(squareWidth * pos.getX() + (squareWidth-width)/2.0);
+		int starty = (int)(squareHeight * pos.getY() + (squareHeight-height)/2.0);
+
 		if(p.getType() == 0) {
 			// normal player
 			g.setColor(Color.white);
-			g.drawImage(player.animate(p),startx,starty,null);
+			g.drawImage(curr,startx,starty,null);
 			return;
 		} else if(p.getType() == 1) {
 			g.setColor(Color.orange);
 		}
 
-		g.fillRect(startx, starty, boxWidth, boxHeight);
+		g.fillRect(startx, starty, width, height);
 	}
 
 	public void resizeSprites() {
