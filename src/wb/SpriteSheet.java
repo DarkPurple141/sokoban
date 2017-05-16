@@ -47,12 +47,10 @@ public class SpriteSheet {
 		boolean moving = p.isMoving();
 
 		int x = (direction + 2) % 4;
-		int y = moving ? 0 : animationState;
+		int y = moving ? animationState : 0;
 
-		if(moving)
-			animationState = (animationState + 1) % 3;//Up to 3 moving animation sprites
-		else
-			animationState = 0;
+		animationState++;
+		animationState %= 3;//Maximum of 3 moving animation frames
 
 		return scaled.get(4 * y + x);
 
