@@ -15,7 +15,7 @@ public class SpriteSheet {
 	private final List<BufferedImage> sprites;
 	private List<Image> scaled;
 	private int curr;
-	enum directions {UP, DOWN, LEFT, RIGHT};
+	int animationState = 0;
 
     public SpriteSheet(List<BufferedImage> sprites) {
         this.sprites = new ArrayList<>(sprites);
@@ -44,39 +44,17 @@ public class SpriteSheet {
 
 	public Image animate(Player p) {
 		int direction = p.getDirection();
+		boolean moving = p.isMoving();
 
-		if (!p.isMoving()) {
-			curr = (direction + 2) % 4;
-		} else {
-			switch(direction) {
-				case 0:
-					if ((curr + 2) % 4 != 0) {
-						curr = 2;
-					}
-					curr = (curr + 4) % 16;
-					break;
-				case 1:
-					if ((curr + 1) % 4 != 0) {
-						curr = 3;
-					}
-					curr = (curr + 4) % 16;
-					break;
-				case 2:
-					if (curr % 4 != 0) {
-						curr = 0;
-					}
-					curr = (curr + 4) % 16;
-					break;
-				case 3:
-					if ((curr + 3) % 4 != 0) {
-						curr = 1;
-					}
-					curr = (curr + 4) % 16;
-					break;
-			}
-		}
+		int x = (direction + 2) % 4;
+		int y = moving ? 0 : animationState;
 
-		return scaled.get(curr);
+		if(moving)
+			animationState = (animationState + 1) % 3;//Up to 3 moving animation sprites
+		else
+			animationState = 0;
+
+		return scaled.get(4 * y + x);
 
 	}
 }
