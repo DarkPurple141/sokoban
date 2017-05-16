@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 
 class Board implements Iterable<Tile> {
-	int width;
-	int height;
+	private int width;
+	private int height;
 	private Tile[][] positions;
 	private List<Player> players;
 	private List<Crate> crates;
@@ -33,7 +33,7 @@ class Board implements Iterable<Tile> {
 		finishTiles = new ArrayList<>();
 		crates = new ArrayList<>();
 
-		XML2Level(filePath);
+		this.xmlToLevel(filePath);
 	}
 	// TODO pretty sure this is a cause for concern unless
 	// u guys have functions that are handling null returns properly.
@@ -157,7 +157,7 @@ class Board implements Iterable<Tile> {
 			if(crates.contains(contents))
 				crates.remove(contents);
 		}
-		positions[coord.x][coord.y] = int2Tile(num, coord.x, coord.y);
+		positions[coord.x][coord.y] = intToTile(num, coord.x, coord.y);
 	}
 
 	/**
@@ -179,7 +179,7 @@ class Board implements Iterable<Tile> {
 	 * See "level1.xml" for XML formatting
 	 *
 	 */
-	private void XML2Level(String filePath) {
+	private void xmlToLevel(String filePath) {
 
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
 		try {
@@ -196,7 +196,7 @@ class Board implements Iterable<Tile> {
 				Element col = (Element)cols.item(x);
 				NodeList rows = col.getElementsByTagName("row");
 				for(int y = 0; y < rows.getLength(); y++){
-					positions[x][y] = int2Tile(Integer.parseInt(rows.item(y).getTextContent()), x, y);
+					positions[x][y] = intToTile(Integer.parseInt(rows.item(y).getTextContent()), x, y);
 				}
 
 			}
@@ -206,7 +206,7 @@ class Board implements Iterable<Tile> {
 		}
 	}
 
-	private Tile int2Tile(int code, int x, int y) {
+	private Tile intToTile(int code, int x, int y) {
 		Point pos = new Point();
 		pos.x = x;
 		pos.y = y;
