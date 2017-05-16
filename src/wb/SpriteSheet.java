@@ -51,7 +51,6 @@ public class SpriteSheet {
 
 		animationState = (animationState + 1) % 3;//Maximum of 3 moving animation frames
 
-		System.out.println(y);
 		return scaled.get(4 * y + x);
 
 	}
