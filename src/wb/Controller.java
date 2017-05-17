@@ -89,10 +89,8 @@ implements ActionListener {
 
 	private void gameLoop() {
 		int delay = 1000/fps;
-		running = true;
 
 		while (running) {
-
 			if (!paused) {
 				// do stuff
 				updateGameState();
@@ -133,7 +131,7 @@ implements ActionListener {
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
 	public void processEvent(KeyEvent e) {
-		if (!this.running || this.paused) {
+		if (!running || this.paused) {
 			return;
 		}
         int curr = e.getKeyCode();
@@ -196,9 +194,11 @@ implements ActionListener {
             	pauseButton.setText("Pause");
          	}
       	} else if (s == restartButton) {
-			running = !running;
+			running = true;
+			startButton.setText("Stop");
+			paused = false;
+			pauseButton.setText("Pause");
          	newGame();
-			runGameLoop();
       	}
 		this.requestFocusInWindow();
    	}
