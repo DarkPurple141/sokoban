@@ -89,6 +89,7 @@ implements ActionListener {
 
 	private void gameLoop() {
 		int delay = 1000/fps;
+		running = true;
 
 		while (running) {
 
@@ -195,15 +196,14 @@ implements ActionListener {
             	pauseButton.setText("Pause");
          	}
       	} else if (s == restartButton) {
-			this.running = false;
+			running = !running;
          	newGame();
-			this.running = true;
 			runGameLoop();
       	}
 		this.requestFocusInWindow();
    	}
 
 	public void resizeView() {
-		v.resizeSprites();		
+		v.resizeSprites();
 	}
 }
