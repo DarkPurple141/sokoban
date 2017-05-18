@@ -3,6 +3,7 @@ package wb;
 import java.util.Iterator;
 import java.awt.Point;	
 public class SokobanGenerator{
+
 	private Board sandboxBoard;
 	// PLAN - Generate a level with all walls and player in centre
 	// This is base state
@@ -37,6 +38,13 @@ public class SokobanGenerator{
 
 	private Board makeSeed(int width, int height) {
 		return null;//TODO: IMPLEMENT
+	}
+
+	private Board finishSeed(Board seed, int remainingActions) {
+		if(remainingActions <= 0)
+			return  seed;
+		//TODO Randomise an action and apply to seed
+		return finishSeed(seed, remainingActions-1);
 	}
 
 	private fillEnds(Board seed) {
