@@ -76,9 +76,9 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		//return fillEnds(seed);
-		System.out.println(seed);
-		return seed;
+		return fillEnds(seed);
+		//System.out.println(seed);
+		//return seed;
 	}
 
 	private Board clearSpace(Board seed, int spaces, List<Point> empty, List<Point> visableWalls) {
@@ -117,6 +117,7 @@ public class SokobanGenerator{
 	}
 
 	private Board fillEnds(Board seed) {
-		return null;//TODO: IMPLEMENT
+		MctsTree decisions = new MctsTree(seed);
+		return decisions.scrambleBoard();//TODO: IMPLEMENT
 	}
 }
