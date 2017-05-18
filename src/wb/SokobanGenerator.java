@@ -71,9 +71,9 @@ public class SokobanGenerator{
 		}
 		seed = finishSeed(seed, seedActions, new ArrayList<>(), visableWalls);
 		//Fill in the ends
-		//return fillEnds(seed);
-		System.out.println(seed);
-		return seed;
+		return fillEnds(seed);
+		//System.out.println(seed);
+		//return seed;
 	}
 
 	private Board finishSeed(Board seed, int remainingActions, List<Point> empty, List<Point> visableWalls) {
@@ -109,6 +109,7 @@ public class SokobanGenerator{
 	}
 
 	private Board fillEnds(Board seed) {
-		return null;//TODO: IMPLEMENT
+		MctsTree decisions = new MctsTree(seed);
+		return decisions.scrambleBoard();//TODO: IMPLEMENT
 	}
 }
