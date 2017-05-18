@@ -84,7 +84,8 @@ public class SokobanGenerator{
 			action = 0;
 		if(action == 0) {
 			//Expand empty space
-			Point chosenWall = visableWalls.get(rand.nextInt()%visableWalls.size());
+			Point chosenWall = visableWalls.get(Math.abs(rand.nextInt()%visableWalls.size()));
+			visableWalls.remove(chosenWall);
 			seed.setPosition(chosenWall, new FloorTile(chosenWall));
 			empty.add(chosenWall);
 			for(int i = 0; i < 4; i++) {
@@ -99,9 +100,9 @@ public class SokobanGenerator{
 			}
 		} else {
 			//Add a box
-			Point chosenSpace = empty.get(rand.nextInt()%empty.size());
-			seed.getPosition(chosenSpace).setContents(new Crate(seed, chosenSpace));
+			Point chosenSpace = empty.get(Math.abs(rand.nextInt()%empty.size()));
 			empty.remove(chosenSpace);
+			seed.getPosition(chosenSpace).setContents(new Crate(seed, chosenSpace));
 		}
 
 		return finishSeed(seed, remainingActions-1, empty, visableWalls);
