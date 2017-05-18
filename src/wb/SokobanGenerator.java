@@ -35,4 +35,11 @@ public class SokobanGenerator{
 
 	}
 
+	private Board makeSeed(int width, int height) {
+		return null;//TODO: IMPLEMENT
+	}
+
+	private fillEnds(Board seed) {
+		return null;//TODO: IMPLEMENT
+	}
 }
