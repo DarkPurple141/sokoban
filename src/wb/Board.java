@@ -159,4 +159,32 @@ class Board {
 
 		return true;
 	}
+
+	public String toString(){
+		String board = "";
+		for (int i = 0; i < height; i++){
+			for (int j = 0; j < width; j++){
+				if (!positions[j][i].canBeFilled()){
+					board += "| W |";
+				}else if(finishTiles.contains(positions[j][i])){
+					if (positions[j][i].getContents() == null){
+						board += "| G |";
+					}else if (positions[j][i].getContents().getType() == 0){
+						board += "|PG |";
+					}else{
+						board += "|CG |";
+					}
+				}else if(positions[j][i].getContents() == null){
+					board += "|   |";
+				}else if(positions[j][i].getContents().getType() == 0){
+					board += "| P |";
+				}else{
+					board += "| C |";
+				}
+			}
+			board += "\n";
+		}
+		return board;
+	}
+
 }

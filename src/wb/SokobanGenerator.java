@@ -48,7 +48,8 @@ public class SokobanGenerator{
 		int seedActions = (width * height)/2;//This can be changed later
 		seed = finishSeed(seed, seedActions);
 		//Fill in the ends
-		return fillEnds(seed);
+		//return fillEnds(seed);
+		System.out.println(seed);
 		return seed;
 	}
 
