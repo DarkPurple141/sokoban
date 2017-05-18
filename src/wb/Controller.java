@@ -73,10 +73,10 @@ implements ActionListener {
 		makeModel(this.levelPath);
 		v.resetBoard(b);
 		v.hideLabel();
-		running = true;
-		startButton.setText("Stop");
+		//running = true;
 		paused = false;
 		pauseButton.setText("Pause");
+		drawGame();
 	}
 
 
@@ -184,6 +184,7 @@ implements ActionListener {
 		if (s == startButton) {
         	running = !running;
 			if (running) {
+				startButton.setText("Stop");
 				newGame();
             	runGameLoop();
 			} else {
@@ -199,7 +200,7 @@ implements ActionListener {
       	} else if (s == restartButton) {
 			running = false;
          	newGame();
-			runGameLoop();
+			startButton.setText("Start");
       	}
 		this.requestFocusInWindow();
    	}
