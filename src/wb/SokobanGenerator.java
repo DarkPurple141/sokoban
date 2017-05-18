@@ -21,24 +21,7 @@ public class SokobanGenerator{
 	// 5. Evaluate the Level
 
 	public SokobanGenerator(int width, int height){
-		sandboxBoard = new Board(width, height);
-		resetBoard();
-	}
-
-	public void resetBoard(){
-		Iterator<Tile> boardIterator = sandboxBoard.iterator();
-		Player player = sandboxBoard.getPlayers().get(0);
-		while (boardIterator.hasNext()){
-			Tile currentTile = boardIterator.next();
-			Point currentCoord = currentTile.getCoord();
-			if (currentCoord.x == sandboxBoard.getWidth()/2 && currentCoord.y == sandboxBoard.getHeight()/2){
-				currentTile.setContents(player);
-				player.setCoord(currentCoord);
-			}else{
-				currentTile.setContents(null);
-			}
-		}
-
+		sandboxBoard = makeSeed(width, height);
 	}
 
 	private Board makeSeed(int width, int height) {
@@ -54,15 +37,19 @@ public class SokobanGenerator{
 		}
 		//Add make a tile with a player in it
 		Point playerPos = new Point();
-		playerPos.setLocation(rand.nextInt()%width, rand.nextInt()%height);
+		int x = rand.nextInt(Integer.MAX_VALUE)%width;
+		int y = rand.nextInt(Integer.MAX_VALUE)%height;
+		playerPos.setLocation(x, y);
 		Tile playerTile = new FloorTile(playerPos);
 		playerTile.setContents(new Player(seed, playerPos));
+		System.out.println(playerPos);
 		seed.setPosition(playerPos, playerTile);
 		//Finish making the seed
 		int seedActions = (width * height)/2;//This can be changed later
 		seed = finishSeed(seed, seedActions);
 		//Fill in the ends
 		return fillEnds(seed);
+		return seed;
 	}
 
 	private Board finishSeed(Board seed, int remainingActions) {
