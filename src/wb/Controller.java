@@ -2,6 +2,8 @@ package wb;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -78,7 +80,7 @@ implements ActionListener {
 
 
 	private void makeModel(String filePath) {
-		b = new Board(filePath);
+		b = FileIO.XML2Board(filePath);
 	}
 
 
@@ -115,11 +117,8 @@ implements ActionListener {
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		for(GamePiece curr : b.getCrates()) {
-			curr.animFrame(MOVE_INCREMENT);
-		}
-		for(GamePiece curr : b.getPlayers()) {
-			curr.animFrame(MOVE_INCREMENT);
+		for(Iterator<GamePiece> p = b.gamePieceIterator(); p.hasNext();) {
+			p.next().animFrame(MOVE_INCREMENT);
 		}
 	}
 
@@ -141,7 +140,7 @@ implements ActionListener {
         int curr = e.getKeyCode();
         // possibly change to vector format
 		moving = false;
-        for(Player p : b.getPlayers()) {
+		for(Player p : b.getPlayers()) {
         	if(p.isMoving())
         		moving = true;
         }
@@ -166,7 +165,7 @@ implements ActionListener {
 				break;
 			case KeyEvent.VK_ENTER:
 				System.out.println("SAVE");
-				b.saveGame("saved/save");
+				FileIO.saveGame(b, "saved/save");
 
 		}
 		if('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
