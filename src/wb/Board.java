@@ -38,6 +38,11 @@ class Board implements Iterable<Tile> {
 	}
 	// TODO pretty sure this is a cause for concern unless
 	// u guys have functions that are handling null returns properly.
+	public Board(int width, int height){
+		this.width = width;
+		this.height = height;
+		positions = new Tile[width][height];
+	}
 
 	public Tile getPosition(Point pos) {
 		if(pos == null)
