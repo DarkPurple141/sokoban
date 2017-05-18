@@ -66,9 +66,9 @@ public class SokobanGenerator{
 			if(neighbour != null)
 				visableWalls.add(neighbour);
 		}
-
+		//determine number of each thing that we want
 		int spaces = 2*(width * height)/3;//TODO add random element
-		int crates = (width * height)/15 + 1;//TODO add random element
+		int crates = (width * height)/10 + 1;//TODO add random element
 		//Adding spaces
 		seed = clearSpace(seed, spaces, visableWalls);
 		//Building list of places where crates can be placed
