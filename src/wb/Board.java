@@ -25,7 +25,6 @@ class Board {
 		players = new ArrayList<>();
 		finishTiles = new ArrayList<>();
 		crates = new ArrayList<>();
-		pieces = new ArrayList<GamePiece>();
 	}
 
 	public Tile getPosition(Point pos) {
@@ -82,11 +81,14 @@ class Board {
 	}
 
 	public void addPieces() {
+		// this should only be called if an update is made in the num of pieces.
+		pieces = new ArrayList<GamePiece>();
 		pieces.addAll(crates);
 		pieces.addAll(players)
 	}
 
 	public List<GamePiece> gamePieceIterator() {
+		// simple reference to all pieces
 		return pieces;
 	}
 
