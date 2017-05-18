@@ -6,7 +6,8 @@ package wb;
  */
 public class WarehouseBoss {
 	public static void main (String[] args) {
-		Controller c = new Controller("saved/save.xml");
+		//Controller c = new Controller("saved/save.xml");
 		//c.runGameLoop();
+		SokobanGenerator g = new SokobanGenerator();
 	}
 }
