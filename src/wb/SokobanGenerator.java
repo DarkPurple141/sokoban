@@ -58,6 +58,11 @@ public class SokobanGenerator{
 		Tile playerTile = new FloorTile(playerPos);
 		playerTile.setContents(new Player(seed, playerPos));
 		seed.setPosition(playerPos, playerTile);
+		//Finish making the seed
+		int seedActions = (width * height)/2;//This can be changed later
+		seed = finishSeed(seed, seedActions);
+		//Fill in the ends
+		return fillEnds(seed);
 	}
 
 	private Board finishSeed(Board seed, int remainingActions) {
