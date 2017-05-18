@@ -52,9 +52,9 @@ public class SokobanGenerator{
 		}
 		//Add make a tile with a player in it
 		Point playerPos = new Point();
-		int x = rand.nextInt(Integer.MAX_VALUE)%width;
-		int y = rand.nextInt(Integer.MAX_VALUE)%height;
-		playerPos.setLocation(x, y);
+		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
+		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
+		playerPos.setLocation(playerx, playery);
 		Tile playerTile = new FloorTile(playerPos);
 		playerTile.setContents(new Player(seed, playerPos));
 		System.out.println(playerPos);
@@ -67,41 +67,63 @@ public class SokobanGenerator{
 				visableWalls.add(neighbour);
 		}
 
-		List<Point> empty = new ArrayList<>();
-
-		int spaces = (width * height)/2;//TODO add random element
-		int crates = (width * height)/10 + 1;//TODO add random element
+		int spaces = 2*(width * height)/3;//TODO add random element
+		int crates = (width * height)/15 + 1;//TODO add random element
 		//Adding spaces
-		seed = clearSpace(seed, spaces, empty, visableWalls);
+		seed = clearSpace(seed, spaces, visableWalls);
+		//Building list of places where crates can be placed
+		List<Point> empty = new ArrayList<>();
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				Point pos = new Point();
+				pos.setLocation(x, y);
+				if(!seed.getPosition(pos).canBeFilled())
+					continue;
+				int surroundingWalls = 0;
+				for(int i = 0; i < 4; i++) {
+					Point neighbour = seed.nearbyPoint(pos, i);
+					if(neighbour == null)
+						surroundingWalls++;
+					else if(!seed.getPosition(neighbour).canBeFilled())
+						surroundingWalls++;
+				}
+				if(surroundingWalls >= 2)
+					continue;
+				if(seed.getPosition(pos).getContents() != null)
+					continue;
+				empty.add(pos);
+			}
+		}
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		return fillEnds(seed);
-		//System.out.println(seed);
-		//return seed;
+		//return fillEnds(seed);
+		System.out.println(seed);
+		return seed;
 	}
 
-	private Board clearSpace(Board seed, int spaces, List<Point> empty, List<Point> visableWalls) {
+	private Board clearSpace(Board seed, int spaces, List<Point> visableWalls) {
 		if(spaces <= 0)
 			return  seed;
+		if(visableWalls.size() == 0)
+			return seed;
 		//Expand empty space
-		Point chosenWall = visableWalls.get(Math.abs(rand.nextInt()%visableWalls.size()));
+		Point chosenWall = visableWalls.get(Math.abs(rand.nextInt()%(visableWalls.size()-1)));
 		visableWalls.remove(chosenWall);
-		empty.add(chosenWall);
 
 		seed.setPosition(chosenWall, new FloorTile(chosenWall));
 		for(int i = 0; i < 4; i++) {
 			Point neighbour = seed.nearbyPoint(chosenWall, i);
 			if(neighbour == null)
 				continue;
-			if(empty.contains(neighbour) || visableWalls.contains(neighbour))
+			if(seed.getPosition(neighbour).canBeFilled())
 				continue;
-			if(seed.getPosition(neighbour).getContents() != null)
+			if(visableWalls.contains(neighbour))
 				continue;
 			visableWalls.add(neighbour);
 		}
 
-		return clearSpace(seed, spaces-1, empty, visableWalls);
+		return clearSpace(seed, spaces-1, visableWalls);
 	}
 
 	private Board addCrates(Board seed, int crates, List<Point> empty) {
