@@ -92,19 +92,14 @@ public class GameView extends JPanel {
 	}
 
 	private void paintAnimatables(Graphics g, double squareWidth, double squareHeight) {
-		for(GamePiece p : b.getCrates()) {
-			paintPiece(g, p, squareWidth, squareHeight);
-		}
-		for(GamePiece p : b.getPlayers()) {
-			paintPiece(g, p, squareWidth, squareHeight);
+		for(Iterator<GamePiece> p = b.gamePieceIterator(); p.hasNext();) {
+			paintPiece(g, p.next(), squareWidth, squareHeight);
 		}
 	}
 
 	private void paintBackground(Graphics g, double squareWidth, double squareHeight) {
-		Iterator<Tile> i = b.iterator();
-		while(i.hasNext()) {
-			Tile t = i.next();
-			paintTile(g, t, squareWidth, squareHeight);
+		for(Iterator<Tile> t = b.tileIterator(); t.hasNext();) {
+			paintTile(g, t.next(), squareWidth, squareHeight);
 		}
 	}
 
