@@ -62,19 +62,46 @@ public class SokobanGenerator{
 
 		List<Point> visableWalls = new ArrayList<>();
 		for(int i = 0; i < 4; i++) {
-			
+			Point neighbour = seed.nearbyPoint(playerPos, i);
+			if(neighbour != null)
+				visableWalls.add(neighbour);
 		}
-		seed = finishSeed(seed, seedActions, playerPos, new ArrayList<>(), visableWalls);
+		seed = finishSeed(seed, seedActions, new ArrayList<>(), visableWalls);
 		//Fill in the ends
 		//return fillEnds(seed);
 		System.out.println(seed);
 		return seed;
 	}
 
-	private Board finishSeed(Board seed, int remainingActions, Point player, List<Point> empty, List<Point> visableWalls) {
+	private Board finishSeed(Board seed, int remainingActions, List<Point> empty, List<Point> visableWalls) {
 		if(remainingActions <= 0)
 			return  seed;
-		return finishSeed(seed, remainingActions-1, player, empty, visableWalls);
+		int action = rand.nextInt()%2;//TODO Make this weighted
+		if(empty.size() == 0)//If no empty spots, force an expansion
+			action = 0;
+		if(action == 0) {
+			//Expand empty space
+			Point chosenWall = visableWalls.get(rand.nextInt()%visableWalls.size());
+			seed.setPosition(chosenWall, new FloorTile(chosenWall));
+			empty.add(chosenWall);
+			for(int i = 0; i < 4; i++) {
+				Point neighbour = seed.nearbyPoint(chosenWall, i);
+				if(neighbour == null)
+					continue;
+				if(empty.contains(neighbour) || visableWalls.contains(neighbour))
+					continue;
+				if(seed.getPosition(neighbour).getContents() != null)
+					continue;
+				visableWalls.add(neighbour);
+			}
+		} else {
+			//Add a box
+			Point chosenSpace = empty.get(rand.nextInt()%empty.size());
+			seed.getPosition(chosenSpace).setContents(new Crate(seed, chosenSpace));
+			empty.remove(chosenSpace);
+		}
+
+		return finishSeed(seed, remainingActions-1, empty, visableWalls);
 	}
 
 	private Board fillEnds(Board seed) {
