@@ -43,6 +43,7 @@ implements ActionListener {
 	}
 
 	private void constructorHelper() {
+		b.addPieces();
 		v = new GameView(b);
 		v.setLayout(new GridBagLayout());
 		Container cp = getContentPane();
@@ -117,8 +118,8 @@ implements ActionListener {
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		for(Iterator<GamePiece> p = b.gamePieceIterator(); p.hasNext();) {
-			p.next().animFrame(MOVE_INCREMENT);
+		for(GamePiece p : b.gamePieceIterator()) {
+			p.animFrame(MOVE_INCREMENT);
 		}
 	}
 

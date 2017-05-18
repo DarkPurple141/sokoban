@@ -15,6 +15,7 @@ class Board {
 	private List<Player> players;
 	private List<Crate> crates;
 	private List<FloorTile> finishTiles;
+	private List<GamePiece> pieces;
 
 	public Board(int width, int height) {
 		this.width = width;
@@ -24,6 +25,7 @@ class Board {
 		players = new ArrayList<>();
 		finishTiles = new ArrayList<>();
 		crates = new ArrayList<>();
+		pieces = new ArrayList<GamePiece>();
 	}
 
 	public Tile getPosition(Point pos) {
@@ -79,11 +81,13 @@ class Board {
 		return flatten.iterator();
 	}
 
-	public Iterator<GamePiece> gamePieceIterator() {
-		List<GamePiece> l = new ArrayList<>();
-		l.addAll(crates);
-		l.addAll(players);
-		return l.iterator();
+	public void addPieces() {
+		pieces.addAll(crates);
+		pieces.addAll(players)
+	}
+
+	public List<GamePiece> gamePieceIterator() {
+		return pieces;
 	}
 
 	public List<Player> getPlayers() {
@@ -103,25 +107,16 @@ class Board {
 	}
 
 	public void undo() {
-		for (Player p : players){
+		for (GamePiece p : pieces){
 			getPosition(p.getCoord()).setContents(null);
 			p.undo();
 			getPosition(p.getCoord()).setContents(p);
 		}
-		for (Crate c : crates){
-			getPosition(c.getCoord()).setContents(null);
-			c.undo();
-			getPosition(c.getCoord()).setContents(c);
-		}
 	}
 
 	public void addPiecesUndo(){
-		for (Player p : players){
+		for (GamePiece p : pieces){
 			p.storePrevCoord();
-		}
-
-		for (Crate c : crates){
-			c.storePrevCoord();
 		}
 	}
 
