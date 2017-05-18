@@ -21,6 +21,9 @@ public class SokobanGenerator{
 	// After these phases, the level is saved so move actions can be generated as children nodes
 	// 4. Move the player
 	// 5. Evaluate the Level
+	public SokobanGenerator(int width, int height){
+		sandboxBoard = generateLevel(width, height);
+	}
 
 	public void resetBoard() {
 		Iterator<Tile> boardIterator = sandboxBoard.tileIterator();
