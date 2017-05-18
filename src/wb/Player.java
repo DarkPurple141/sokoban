@@ -18,7 +18,7 @@ public class Player extends GamePiece {
 
 	public boolean doMove(int direction) {
 		Point sourceCoord = super.getCoord();
-		Point destCoord = super.nearbyPoint(direction);
+		Point destCoord = super.getBoard().nearbyPoint(super.getCoord(), direction);
 
 		Tile source = super.getBoard().getPosition(sourceCoord);
 		Tile destination = super.getBoard().getPosition(destCoord);

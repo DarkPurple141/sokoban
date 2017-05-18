@@ -125,9 +125,29 @@ class Board {
 		}
 	}
 
+	public Point nearbyPoint(Point start, int direction) {
+		int startx = start.x;
+		int starty = start.y;
+		if(direction == 0)
+			starty--;
+		else if(direction == 1)
+			startx++;
+		else if(direction == 2)
+			starty++;
+		else if(direction == 3)
+			startx--;
+		if(startx < 0 || width <= startx)
+			return null;
+		if(starty < 0 || height <= starty)
+			return null;
+		Point f = new Point();
+		f.setLocation(startx, starty);
+		return f;
+	}
+
 	public void debug(int player, int num) {
 		Player p = players.get(player);
-		Point coord = p.nearbyPoint(p.getDirection());
+		Point coord = nearbyPoint(p.getCoord(), p.getDirection());
 		Tile toRemove = getPosition(coord);
 		if(toRemove == null)
 			return;

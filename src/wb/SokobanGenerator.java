@@ -1,7 +1,9 @@
 package wb;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.Point;
+import java.util.List;
 import java.util.Random;
 
 public class SokobanGenerator{
@@ -20,13 +22,8 @@ public class SokobanGenerator{
 	// 4. Move the player
 	// 5. Evaluate the Level
 
-	public SokobanGenerator(int width, int height){
-		sandboxBoard = new Board(width, height);
-		resetBoard();
-	}
-
 	public void resetBoard(){
-		Iterator<Tile> boardIterator = sandboxBoard.iterator();
+		Iterator<Tile> boardIterator = sandboxBoard.tileIterator();
 		Player player = sandboxBoard.getPlayers().get(0);
 		while (boardIterator.hasNext()){
 			Tile currentTile = boardIterator.next();
@@ -41,7 +38,7 @@ public class SokobanGenerator{
 
 	}
 
-	private Board makeSeed(int width, int height) {
+	private Board generateLevel(int width, int height) {
 		Board seed = new Board(width, height);
 
 		//Make board full of walls
@@ -60,16 +57,20 @@ public class SokobanGenerator{
 		seed.setPosition(playerPos, playerTile);
 		//Finish making the seed
 		int seedActions = (width * height)/2;//This can be changed later
-		seed = finishSeed(seed, seedActions);
+
+		List<Point> visableWalls = new ArrayList<>();
+		for(int i = 0; i < 4; i++) {
+			
+		}
+		seed = finishSeed(seed, seedActions, playerPos, new ArrayList<>(), visableWalls);
 		//Fill in the ends
 		return fillEnds(seed);
 	}
 
-	private Board finishSeed(Board seed, int remainingActions) {
+	private Board finishSeed(Board seed, int remainingActions, Point player, List<Point> empty, List<Point> visableWalls) {
 		if(remainingActions <= 0)
 			return  seed;
-		//TODO Randomise an action and apply to seed
-		return finishSeed(seed, remainingActions-1);
+		return finishSeed(seed, remainingActions-1, player, empty, visableWalls);
 	}
 
 	private Board fillEnds(Board seed) {

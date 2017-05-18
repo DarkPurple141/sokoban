@@ -50,22 +50,6 @@ public abstract class GamePiece {
 		return myBoard;
 	}
 
-	public Point nearbyPoint(int direction) {
-		int startx = thisCoord.x;
-		int starty = thisCoord.y;
-		if(direction == 0)
-			starty--;
-		else if(direction == 1)
-			startx++;
-		else if(direction == 2)
-			starty++;
-		else if(direction == 3)
-			startx--;
-		Point f = new Point();
-		f.setLocation(startx, starty);
-		return f;
-	}
-
 	//Public methods below this line are only used by subclasses//
 
 	public void prepAnimation(int direction) {
