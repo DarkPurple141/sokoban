@@ -23,7 +23,7 @@ implements ActionListener {
 	private boolean running;
 	private boolean paused = false;
 	private int fps = 30;
-   	private int frameCount = 0;
+   	private int gameNum = 1;
 	private JButton startButton = null;
 	private JButton restartButton = null;
 	private JButton pauseButton = null;
@@ -69,6 +69,7 @@ implements ActionListener {
 	}
 
 	public void newGame() {
+		gameNum ++;
 		makeModel(this.levelPath);
 		v.resetBoard(b);
 		v.hideLabel();
@@ -106,11 +107,11 @@ implements ActionListener {
 					this.running = false;
 					startButton.setText("Start");
 				}
-			}try {
+			} try {
         		Thread.sleep(delay); // 10fps
     		} catch (InterruptedException e) {
     		}
-			frameCount++;
+			//System.out.println(gameNum);
 		}
 	}
 
@@ -196,8 +197,9 @@ implements ActionListener {
             	pauseButton.setText("Pause");
          	}
       	} else if (s == restartButton) {
-
+			running = false;
          	newGame();
+			runGameLoop();
       	}
 		this.requestFocusInWindow();
    	}
