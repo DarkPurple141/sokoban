@@ -1,10 +1,15 @@
 package wb;
 
 import java.util.Iterator;
-import java.awt.Point;	
+import java.awt.Point;
+import java.util.Random;
+
 public class SokobanGenerator{
 
 	private Board sandboxBoard;
+
+	private Random rand = new Random();
+
 	// PLAN - Generate a level with all walls and player in centre
 	// This is base state
 	// Children nodes are:
@@ -37,7 +42,22 @@ public class SokobanGenerator{
 	}
 
 	private Board makeSeed(int width, int height) {
-		return null;//TODO: IMPLEMENT
+		Board seed = new Board(width, height);
+
+		//Make board full of walls
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				Point pos = new Point();
+				pos.setLocation(x, y);
+				seed.setPosition(pos, new Wall(pos));
+			}
+		}
+		//Add make a tile with a player in it
+		Point playerPos = new Point();
+		playerPos.setLocation(rand.nextInt()%width, rand.nextInt()%height);
+		Tile playerTile = new FloorTile();
+		playerTile.setContents(new Player(seed, playerPos));
+		seed.setPosition(playerPos, playerTile);
 	}
 
 	private Board finishSeed(Board seed, int remainingActions) {
@@ -47,7 +67,7 @@ public class SokobanGenerator{
 		return finishSeed(seed, remainingActions-1);
 	}
 
-	private fillEnds(Board seed) {
+	private Board fillEnds(Board seed) {
 		return null;//TODO: IMPLEMENT
 	}
 }
