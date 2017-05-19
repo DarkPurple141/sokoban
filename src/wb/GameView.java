@@ -92,8 +92,11 @@ public class GameView extends JPanel {
 	}
 
 	private void paintAnimatables(Graphics g, double squareWidth, double squareHeight) {
-		for(Iterator<GamePiece> p = b.gamePieceIterator(); p.hasNext();) {
-			paintPiece(g, p.next(), squareWidth, squareHeight);
+    	for(GamePiece p : b.getCrates()) {
+			paintPiece(g, p, squareWidth, squareHeight);
+		}
+		for(GamePiece p : b.getPlayers()) {
+			paintPiece(g, p, squareWidth, squareHeight);
 		}
 	}
 

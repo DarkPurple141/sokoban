@@ -84,7 +84,7 @@ class Board {
 		// this should only be called if an update is made in the num of pieces.
 		pieces = new ArrayList<GamePiece>();
 		pieces.addAll(crates);
-		pieces.addAll(players)
+		pieces.addAll(players);
 	}
 
 	public List<GamePiece> gamePieceIterator() {
