@@ -3,7 +3,7 @@ package wb;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class Player extends GamePiece {
+public class Player extends GamePiece{
 
 	private int direction;
 
@@ -53,4 +53,6 @@ public class Player extends GamePiece {
 	public int getDirection() {
 		return this.direction;
 	}
+
+	
 }

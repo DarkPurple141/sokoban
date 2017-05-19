@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
 
-public abstract class GamePiece {
+public abstract class GamePiece{
 
 	private Board myBoard;
 
@@ -92,4 +92,5 @@ public abstract class GamePiece {
 		}
 		thisCoord = prevCoords.pop();
 	}
+
 }

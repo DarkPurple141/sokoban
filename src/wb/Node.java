@@ -63,5 +63,23 @@ public class Node{
 		return movedDirection;
 	}
 
+	public void visited(){
+		visited++;
+	}
+
+	public int timesVisited(){
+		return visited;
+	}
+
+	public void updateValue(float add){
+		totalScore += add;
+	}
+
+	public float getScore(){
+		return totalScore;
+	}
+
+
+
 
 }

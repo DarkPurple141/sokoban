@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-class Board {
+class Board implements Cloneable{
 	private int width;
 	private int height;
 	private int undoLength = 5;
@@ -206,5 +206,32 @@ class Board {
 		}
 		return board;
 	}
+
+	public Board clone(){
+		Board clone = new Board(width, height);
+
+		Iterator<Tile> ti = tileIterator();
+		while(ti.hasNext()){
+			Tile basedOff = ti.next();
+			Tile toAdd = null;
+			if (basedOff.canBeFilled()){
+				toAdd = new FloorTile(basedOff.getCoord());
+			}else{
+				toAdd = new Wall(basedOff.getCoord());
+			}
+			
+			Point addAt = toAdd.getCoord();
+			if (basedOff.getContents() != null){
+				if (basedOff.getContents().getType() == 1){
+					toAdd.setContents(new Crate(clone, addAt));
+				}else{
+					toAdd.setContents(new Player(clone, addAt));
+				}
+			}
+			clone.setPosition(addAt, toAdd);
+		}
+		return clone;
+	}
+
 
 }
