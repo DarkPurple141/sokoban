@@ -23,6 +23,7 @@ class Board {
 		this.positions = new Tile[width][height];
 		//Initialise all local variables
 		players = new ArrayList<>();
+		pieces = new ArrayList<>();
 		finishTiles = new ArrayList<>();
 		crates = new ArrayList<>();
 	}
@@ -44,11 +45,13 @@ class Board {
 	public void setPosition(Point pos, Tile t) {
 		this.positions[pos.x][pos.y] = t;
 		GamePiece p = t.getContents();
+
 		if(p != null) {
 			if (p.getType() == 0)
 				players.add((Player) p);
-			else if (p.getType() == 1)
+			else if (p.getType() == 1){
 				crates.add((Crate) p);
+			}
 		}
 	}
 

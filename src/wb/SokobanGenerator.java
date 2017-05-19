@@ -67,7 +67,7 @@ public class SokobanGenerator{
 				visableWalls.add(neighbour);
 		}
 		//determine number of each thing that we want
-		int spaces = 2*(width * height)/3;//TODO add random element
+		int spaces = 2*(width * height)/3 - 2;//TODO add random element
 		int crates = (width * height)/10 + 1;//TODO add random element
 		//Adding spaces
 		seed = clearSpace(seed, spaces, visableWalls);
@@ -97,9 +97,9 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		//return fillEnds(seed);
-		System.out.println(seed);
-		return seed;
+		return fillEnds(seed);
+		//System.out.println(seed);
+		//return seed;
 	}
 
 	private Board clearSpace(Board seed, int spaces, List<Point> visableWalls) {
@@ -133,13 +133,14 @@ public class SokobanGenerator{
 			return seed;
 		Point chosenSpace = empty.get(Math.abs(rand.nextInt()%empty.size()));
 		empty.remove(chosenSpace);
-
-		seed.getPosition(chosenSpace).setContents(new Crate(seed, chosenSpace));
+		Crate placing = new Crate(seed, chosenSpace);
+		seed.getPosition(chosenSpace).setContents(placing);
+		seed.getCrates().add(placing);
 		return addCrates(seed, crates-1, empty);
 	}
 
 	private Board fillEnds(Board seed) {
 		MctsTree decisions = new MctsTree(seed);
-		return decisions.scrambleBoard();//TODO: IMPLEMENT
+		return decisions.scrambleRecurse();//TODO: IMPLEMENT
 	}
 }

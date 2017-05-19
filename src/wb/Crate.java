@@ -2,9 +2,11 @@ package wb;
 
 import java.awt.Point;
 
-public class Crate extends GamePiece {
+public class Crate extends GamePiece implements Cloneable {
+	private int id;
 	public Crate(Board myBoard, Point startCoord) {
 		super(myBoard, startCoord);
+		id = myBoard.getCrates().size();
 	}
 
 	public int getType() {
@@ -35,5 +37,15 @@ public class Crate extends GamePiece {
 		super.setCoord(destCoord);
 		prepAnimation(direction);
 		return true;
+	}
+
+	public void setID(int newID){
+		id = newID;
+	}
+
+	public Crate clone(){
+		Crate clone = new Crate(super.getBoard(), super.getCoord());
+		clone.setID(id);
+		return clone;
 	}
 }

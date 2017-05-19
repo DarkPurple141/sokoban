@@ -10,10 +10,14 @@ public class Node{
 	//private Direction movedDirection;
 	private int movedDirection;
 	private Point actedOn;
+	private int visited;
+	private float totalScore;
 
 	public Node(Node parent){
 		children = new ArrayList<Node>();
 		this.parent = parent;
+		visited = 0;
+		totalScore = 0;
 	}
 
 	public void setMoveAction(int direction){
