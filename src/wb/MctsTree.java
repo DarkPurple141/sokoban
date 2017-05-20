@@ -122,7 +122,7 @@ public class MctsTree{
 		// Need to roll out here
 
 		int numIterations = 0;
-		while(numIterations < 5){
+		while(numIterations < 10){
 			Player player = sandbox.getPlayers().get(0);
 			System.out.println("###################");
 			System.out.println("######   " + numIterations + "   ######");
@@ -142,6 +142,7 @@ public class MctsTree{
 	private boolean mctsSearch(Node actionNode, Player player){
 		float maxScore = 0;
 		Node bestNode = null;
+		actionNode.visited();
 		for (Node child : actionNode.getChildren()){
 			if (child.timesVisited() < 1){
 				rollout(child, player);
@@ -151,18 +152,21 @@ public class MctsTree{
 					return true;
 				}
 			}
-			if (maxScore < child.getScore()){
+			if (maxScore < child.getScore() || bestNode == null){
 				maxScore = child.getScore();
 				bestNode = child;
 			}
 
 		}
 		bestNode.addOptions();
-		mctsSearch(bestNode, player);
+		takeAction(bestNode, player);
+		if(mctsSearch(bestNode, player)){
+			actionNode.updateValue(bestNode.getScore());
+		}
 		return true;
 	}
 
-	private boolean takeAction(Node actionNode, Player player){
+	/*private boolean takeAction(Node actionNode, Player player){
 		actionNode.visited();
 		
 		if (actionNode.getAction() == MctsAction.EVALUATE){
@@ -191,16 +195,26 @@ public class MctsTree{
 		System.out.println("Damn by Kendrick l");
 		return false;
 		
+	}*/
+
+	private void takeAction(Node actionNode, Player player){
+		 if (actionNode.getAction() == MctsAction.MOVE){
+		 	player.doMove(actionNode.getMoveDirection());
+		 	return;
+		 }else{
+		 	evaluate();
+		 }
 	}
 
 	private void rollout(Node actionNode, Player player){
 		int nextMove = rand.nextInt(Integer.MAX_VALUE)%10;
-		System.out.println(sandbox);
+		actionNode.visited();
+		//System.out.println(sandbox);
 		if (nextMove == 9){
 
 			float score = evaluate();
 			actionNode.updateValue(score);
-			actionNode.visited();
+			//actionNode.visited();
 			return;
 		}else{
 			nextMove = nextMove%4;
