@@ -122,7 +122,7 @@ public class MctsTree{
 		// Need to roll out here
 
 		int numIterations = 0;
-		while(numIterations < 4){
+		while(numIterations < 5){
 			Player player = sandbox.getPlayers().get(0);
 			System.out.println("###################");
 			System.out.println("######   " + numIterations + "   ######");
@@ -140,6 +140,8 @@ public class MctsTree{
 	}
 
 	private boolean mctsSearch(Node actionNode, Player player){
+		float maxScore = 0;
+		Node bestNode = null;
 		for (Node child : actionNode.getChildren()){
 			if (child.timesVisited() < 1){
 				rollout(child, player);
@@ -148,9 +150,15 @@ public class MctsTree{
 				}else{
 					return true;
 				}
-				
 			}
+			if (maxScore < child.getScore()){
+				maxScore = child.getScore();
+				bestNode = child;
+			}
+
 		}
+		bestNode.addOptions();
+		mctsSearch(bestNode, player);
 		return true;
 	}
 
