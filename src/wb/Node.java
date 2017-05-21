@@ -11,7 +11,7 @@ public class Node{
 	private int movedDirection;
 	private Point actedOn;
 	private int visited;
-	private float totalScore;
+	private double totalScore;
 
 	public Node(Node parent){
 		children = new ArrayList<Node>();
@@ -71,11 +71,11 @@ public class Node{
 		return visited;
 	}
 
-	public void updateValue(float add){
+	public void updateValue(double add){
 		totalScore += add;
 	}
 
-	public float getScore(){
+	public double getScore(){
 		return totalScore;
 	}
 

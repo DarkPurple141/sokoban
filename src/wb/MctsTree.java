@@ -122,7 +122,7 @@ public class MctsTree{
 		// Need to roll out here
 
 		int numIterations = 0;
-		while(numIterations < 10){
+		while(numIterations < 1000){
 			Player player = sandbox.getPlayers().get(0);
 			System.out.println("###################");
 			System.out.println("######   " + numIterations + "   ######");
@@ -140,7 +140,7 @@ public class MctsTree{
 	}
 
 	private boolean mctsSearch(Node actionNode, Player player){
-		float maxScore = 0;
+		double maxScore = 0;
 		Node bestNode = null;
 		actionNode.visited();
 		for (Node child : actionNode.getChildren()){
@@ -152,8 +152,9 @@ public class MctsTree{
 					return true;
 				}
 			}
-			if (maxScore < child.getScore() || bestNode == null){
-				maxScore = child.getScore();
+			double possibleScore = child.getScore()/child.timesVisited() + 2*Math.sqrt(Math.log(actionNode.timesVisited())/child.timesVisited());
+			if (maxScore < possibleScore || bestNode == null){
+				maxScore = possibleScore;
 				bestNode = child;
 			}
 
@@ -198,22 +199,22 @@ public class MctsTree{
 	}*/
 
 	private void takeAction(Node actionNode, Player player){
-		 if (actionNode.getAction() == MctsAction.MOVE){
-		 	player.doMove(actionNode.getMoveDirection());
-		 	return;
-		 }else{
-		 	evaluate();
-		 }
+		if (actionNode.getAction() == MctsAction.MOVE){
+			player.doMove(actionNode.getMoveDirection());
+		}else{
+			evaluate();
+		}
 	}
 
 	private void rollout(Node actionNode, Player player){
-		int nextMove = rand.nextInt(Integer.MAX_VALUE)%10;
+		int nextMove = rand.nextInt(Integer.MAX_VALUE)%20;
 		actionNode.visited();
 		//System.out.println(sandbox);
-		if (nextMove == 9){
+		if (nextMove == 19){
 
-			float score = evaluate();
+			double score = evaluate();
 			actionNode.updateValue(score);
+			System.out.println(score);
 			//actionNode.visited();
 			return;
 		}else{
@@ -231,7 +232,7 @@ public class MctsTree{
 		}
 	}
 
-	private float evaluate(){
+	private double evaluate(){
 
 		cratesToWall();
 		int congestion = getCongestionMetric();
@@ -239,7 +240,7 @@ public class MctsTree{
 		wallsToCrate();
 		System.out.println(sandbox);
 		System.out.println(congestion);
-		return congestion+terrain; 
+		return Math.sqrt(congestion*terrain)/10; 
 	}
 
 	private void cratesToWall(){
