@@ -235,10 +235,11 @@ public class MctsTree{
 
 		cratesToWall();
 		int congestion = getCongestionMetric();
+		int terrain = getTerrainMetric();
 		wallsToCrate();
 		System.out.println(sandbox);
 		System.out.println(congestion);
-		return congestion; 
+		return congestion+terrain; 
 	}
 
 	private void cratesToWall(){
@@ -320,6 +321,27 @@ public class MctsTree{
 			i++;
 		}
 		return numBoxes + numGoals + numWalls;
+	}
+
+	private int getTerrainMetric(){
+		int[] directions = {0,1,2,3};
+		Iterator<Tile> tileIt = sandbox.tileIterator();
+		int terrainScore = 0;
+		while (tileIt.hasNext()){
+			Tile currentTile = tileIt.next();
+			if(currentTile.canBeFilled()){
+				for (int dir : directions){
+					Point nearby = sandbox.nearbyPoint(currentTile.getCoord(), dir);
+					if (nearby != null){
+						Tile neighbour = sandbox.getPosition(nearby);
+						if (!neighbour.canBeFilled()){
+							terrainScore++;
+						}
+					}
+				}
+			}
+		}
+		return terrainScore;
 	}
 
 	private void seedReset(){
