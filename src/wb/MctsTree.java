@@ -50,68 +50,6 @@ public class MctsTree{
 
 	}
 
-	public Board scrambleBoard(){
-		Node currentNode = root;
-		System.out.println(seed);
-		int numPushed = 0;
-		List<Point> walkedWithoutPush = new ArrayList<Point>();
-		Player player = seed.getPlayers().get(0);
-		walkedWithoutPush.add(player.getCoord());
-		while (numPushed < 3){
-			while (currentNode.getAction() != MctsAction.EVALUATE){
-				int childIndex = rand.nextInt(Integer.MAX_VALUE)%currentNode.getChildren().size();
-				int newChildIndex = childIndex;
-				Node actionNode = currentNode.getChildren().get(newChildIndex);
-				boolean tryingToPush = false;
-				if (actionNode.getAction() == MctsAction.MOVE){
-					Point walkedTo = seed.nearbyPoint(player.getCoord(), actionNode.getMoveDirection());
-					if (seed.getPosition(walkedTo) != null && seed.getPosition(walkedTo).getContents() != null){
-						walkedWithoutPush = new ArrayList<Point>();
-						tryingToPush = true;
-					}
-				}
-
-				while(!player.doMove(currentNode.getChildren().get(newChildIndex).getMoveDirection())){
-
-					newChildIndex += 1;
-					newChildIndex = newChildIndex % currentNode.getChildren().size();
-					if (newChildIndex == childIndex){
-						return null;
-					}
-					actionNode = currentNode.getChildren().get(newChildIndex);
-					if (actionNode.getAction() == MctsAction.MOVE){
-						Point walkedTo = seed.nearbyPoint(player.getCoord(), actionNode.getMoveDirection());
-						if (seed.getPosition(walkedTo) != null && seed.getPosition(walkedTo).getContents() != null){
-							walkedWithoutPush = new ArrayList<Point>();
-							tryingToPush = true;
-						}else{
-							tryingToPush = false;
-						
-						}
-					}else{
-						tryingToPush = false;
-						break;
-					}
-
-				}
-				if (tryingToPush){
-					numPushed++;
-					System.out.println(seed);
-				}
-				currentNode = currentNode.getChildren().get(childIndex);
-				currentNode.addOptions();
-			}
-			if (numPushed < 3){
-				int newChildIndex = rand.nextInt(Integer.MAX_VALUE)%currentNode.getChildren().size();
-				currentNode = currentNode.getChildren().get(newChildIndex);
-				currentNode.addOptions();
-			}
-		}
-		System.out.println("##############################");
-		System.out.println(seed);
-		return seed;
-	}
-
 	public Board scrambleRecurse(){
 		System.out.println(seed);
 		// Start of MCTS search (tree is set up)
@@ -127,7 +65,7 @@ public class MctsTree{
 			System.out.println("###################");
 			System.out.println("######   " + numIterations + "   ######");
 			System.out.println("###################");
-			System.out.println(seed);
+			//System.out.println(seed);
 			System.out.println("###################");
 			mctsSearch(root, player);
 			numIterations++;
@@ -167,36 +105,6 @@ public class MctsTree{
 		return true;
 	}
 
-	/*private boolean takeAction(Node actionNode, Player player){
-		actionNode.visited();
-		
-		if (actionNode.getAction() == MctsAction.EVALUATE){
-			evaluate();
-			return true;
-		}
-		System.out.println(actionNode.getMoveDirection());
-		//Point moveTo = seed.nearbyPoint(actionNode.getMoveDirection());
-		if(player.doMove(actionNode.getMoveDirection())){
-			actionNode.addOptions();
-
-			int nextActionIndex = rand.nextInt(Integer.MAX_VALUE)%actionNode.getChildren().size();
-			if (takeAction(actionNode.getChildren().get(nextActionIndex), player)){
-				return true;
-			}
-			int tryAgain = nextActionIndex + 1;
-			tryAgain = tryAgain%actionNode.getChildren().size();
-			while (tryAgain != nextActionIndex){
-				if (takeAction(actionNode.getChildren().get(tryAgain), player)){
-					return true;
-				}
-				tryAgain++;
-				tryAgain = tryAgain%actionNode.getChildren().size();
-			}
-		}
-		System.out.println("Damn by Kendrick l");
-		return false;
-		
-	}*/
 
 	private void takeAction(Node actionNode, Player player){
 		if (actionNode.getAction() == MctsAction.MOVE){
@@ -214,6 +122,15 @@ public class MctsTree{
 
 			double score = evaluate();
 			actionNode.updateValue(score);
+			if (score > 0.8){
+				setGoalPositions();
+				cratesToWall();
+
+				FileIO.saveGame(sandbox, Double.toString(score));
+				//System.out.println(seed);
+				//System.out.println(sandbox);
+				wallsToCrate();
+			}
 			System.out.println(score);
 			//actionNode.visited();
 			return;
@@ -238,7 +155,7 @@ public class MctsTree{
 		int congestion = getCongestionMetric();
 		int terrain = getTerrainMetric();
 		wallsToCrate();
-		System.out.println(sandbox);
+		//System.out.println(sandbox);
 		System.out.println(congestion);
 		return Math.sqrt(congestion*terrain)/10; 
 	}
@@ -314,15 +231,16 @@ public class MctsTree{
 						}
 					}
 				}
-				System.out.println("numBoxes = " + numBoxes);
-				System.out.println("numGoals = " + numGoals);
-				System.out.println("numWalls = " + numWalls);
+				//System.out.println("numBoxes = " + numBoxes);
+				//System.out.println("numGoals = " + numGoals);
+				//System.out.println("numWalls = " + numWalls);
 
 			}
 			i++;
 		}
 		return numBoxes + numGoals + numWalls;
 	}
+
 
 	private int getTerrainMetric(){
 		int[] directions = {0,1,2,3};
@@ -345,12 +263,34 @@ public class MctsTree{
 		return terrainScore;
 	}
 
+
 	private void seedReset(){
 		sandbox = seed.clone();
 	}
 
 
-	
+	private void setGoalPositions(){
+		for (Crate c : sandbox.getCrates()){
+			Tile goal = sandbox.getPosition(c.getCoord());
+			goal.setContents(null);
+			sandbox.addFinishTile((FloorTile)goal);
+		}
 
+		for (Player p : sandbox.getPlayers()){
+			sandbox.getPosition(p.getCoord()).setContents(null);
+			p.setCoord(playerStart);
+			Tile playerTile = sandbox.getPosition(playerStart);
+			playerTile.setContents(p);
+		}
+
+		for (Crate c : originalCrates){
+			System.out.println(c);
+			Tile crateStart = sandbox.getPosition(c.getCoord());
+			crateStart.setContents(c);
+		}
+
+		
+
+	}
 
 }
