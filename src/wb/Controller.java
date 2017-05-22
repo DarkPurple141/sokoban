@@ -2,7 +2,6 @@ package wb;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,64 +18,95 @@ implements ActionListener {
 
 	private String levelPath;
 	private GameView v;
+	private JPanel gameButtons;
+	private JPanel gameWindow;
+	private JPanel panels;
 	private Board b;
+	private Menu m;
 	private boolean running;
 	private boolean paused = false;
+	private boolean gg;
 	private int fps = 30;
-   	private int frameCount = 0;
 	private JButton startButton = null;
 	private JButton restartButton = null;
 	private JButton pauseButton = null;
 	private boolean moving = false;
 
 	public Controller(String path) {
-		super("Warehouse Boss V0.2");
+		super("Warehouse Boss V0.3");
 		this.levelPath = path;
 		makeModel(path);
 		constructorHelper();
 	}
 
 	public Controller() {
-		super("Warehouse Boss V0.2");
+		super("Warehouse Boss V0.3");
 		//TODO Generate level
 		constructorHelper();
 	}
 
 	private void constructorHelper() {
-		b.addPieces();
-		v = new GameView(b);
+		this.setBackground(Color.BLACK);
+		panels = new JPanel();
+		panels.setLayout(new CardLayout());
+		m = new Menu(this);
+		v = new GameView();
+		gameWindow = new JPanel();
+		gameWindow.setLayout(new BorderLayout());
 		v.setLayout(new GridBagLayout());
+	    gameButtons = new JPanel();
+	    gameButtons.setLayout(new GridLayout(1,2));
+	    makeButtons();
+		panels.add(m);
+		gameWindow.add(v, BorderLayout.CENTER);
+	    gameWindow.add(gameButtons, BorderLayout.SOUTH);
+		panels.add(gameWindow);
 		Container cp = getContentPane();
-	    cp.setLayout(new BorderLayout());
-	    JPanel p = new JPanel();
-	    p.setLayout(new GridLayout(1,2));
-		startButton = new JButton("Start");
-		restartButton = new JButton("Restart");
-		pauseButton = new JButton("Pause");
-	    p.add(startButton);
-	    p.add(pauseButton);
-	    p.add(restartButton);
-	    cp.add(v, BorderLayout.CENTER);
-	    cp.add(p, BorderLayout.SOUTH);
+	    cp.setLayout(new BorderLayout());	    
+	    cp.add(panels,BorderLayout.CENTER);
 	    addComponentListener(new ResizeListener(this));
 		addKeyListener(new WBListener(this));
-		startButton.addActionListener(this);
-      	restartButton.addActionListener(this);
-      	pauseButton.addActionListener(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(SCREEN_WIDTH-1,SCREEN_HEIGHT+50); // 511 by 511 works.
 		this.setFocusable(true);
+		this.pack();
 		this.setVisible(true);
+	}
+	
+	// Work in progress
+	private void gameLayout() {
+		switchLayout();
+	    v.resetBoard(b);
+	    v.validate();
+	    this.revalidate();
+	    this.repaint();
+	}
+	
+	private void switchLayout() {
+		CardLayout layout = (CardLayout)(panels.getLayout());
+        layout.next(panels);
+	}
+	
+	private void makeButtons() {
+		startButton = new JButton("Start");
+		restartButton = new JButton("Restart");
+		pauseButton = new JButton("Pause");
+		startButton.addActionListener(this);
+      	restartButton.addActionListener(this);
+      	pauseButton.addActionListener(this);
+      	gameButtons.add(startButton);
+	    gameButtons.add(pauseButton);
+	    gameButtons.add(restartButton);
 	}
 
 	public void newGame() {
+		gg = false;
 		makeModel(this.levelPath);
 		v.resetBoard(b);
 		v.hideLabel();
-		running = true;
-		startButton.setText("Stop");
 		paused = false;
 		pauseButton.setText("Pause");
+		drawGame();
 	}
 
 
@@ -103,16 +133,19 @@ implements ActionListener {
 				updateGameState();
 				drawGame();
 				if(b.isFinished()){
-					v.showLabel("Congrats!");
+					v.showLabel("<html>Congrats!<br><br>Press Enter to Return to Main Menu</html>");
 					this.running = false;
+					gg = true;
 					startButton.setText("Start");
 				}
-			}try {
+			} try {
         		Thread.sleep(delay); // 10fps
     		} catch (InterruptedException e) {
     		}
-			frameCount++;
 		}
+		
+		// probs go to score menu or somethign?!
+		
 	}
 
 	private void updateGameState() {
@@ -135,6 +168,12 @@ implements ActionListener {
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
 	public void processEvent(KeyEvent e) {
+		if (!running && gg) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				switchLayout();
+				gg = false;
+			}
+		}
 		if (!running || this.paused) {
 			return;
 		}
@@ -184,6 +223,7 @@ implements ActionListener {
 		if (s == startButton) {
         	running = !running;
 			if (running) {
+				startButton.setText("Stop");
 				newGame();
             	runGameLoop();
 			} else {
@@ -197,13 +237,17 @@ implements ActionListener {
             	pauseButton.setText("Pause");
          	}
       	} else if (s == restartButton) {
-
+			running = false;
          	newGame();
+			startButton.setText("Start");
+      	} else if (s == m.getPlayNow()) {
+      		this.gameLayout();
       	}
 		this.requestFocusInWindow();
    	}
 
 	public void resizeView() {
+		if (v==null) return;
 		v.resizeSprites();
 	}
 }

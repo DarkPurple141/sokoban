@@ -20,11 +20,19 @@ public class GameView extends JPanel {
     public GameView(Board b) {
         super();
         this.b = b;
+        this.setPreferredSize(new Dimension(711, 711));
+        GameViewBuilder();
+    }
+    
+    public GameView() {
+    	super();
+    	this.setPreferredSize(new Dimension(711, 711));
         GameViewBuilder();
     }
 
 	public void resetBoard(Board b) {
 		this.b = b;
+		resizeSprites();
 	}
 
     private void GameViewBuilder() {
@@ -61,7 +69,10 @@ public class GameView extends JPanel {
             System.out.println(e.getMessage());
             System.exit(1);
         }
+  
 		gameState = new JLabel();
+		gameState.setBackground(Color.lightGray);
+		gameState.setOpaque(true);
 		this.add(gameState);
     }
 
@@ -82,7 +93,7 @@ public class GameView extends JPanel {
 	}
 
 	public void showLabel(String text) {
-		gameState.setFont(new Font("Arial", Font.PLAIN, 50));
+		gameState.setFont(new Font("Arial", Font.PLAIN, 40));
 		gameState.setText(text);
 		gameState.setVisible(true);
 	}
@@ -156,11 +167,13 @@ public class GameView extends JPanel {
 	}
 
 	public void resizeSprites() {
+		if (b == null) return;
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
 
 		int board_cols = b.getWidth();
 		int board_rows = b.getHeight();
+		//System.out.println(panel_width + " " + panel_height);
 		
 		int squareWidth = (int)((double)panel_width/(double)board_cols);
 		int squareHeight = (int)((double)panel_height/(double)board_rows);
