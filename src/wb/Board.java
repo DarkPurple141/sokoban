@@ -52,6 +52,7 @@ class Board implements Cloneable{
 			else if (p.getType() == 1){
 				crates.add((Crate) p);
 			}
+			addPieces();
 		}
 	}
 
