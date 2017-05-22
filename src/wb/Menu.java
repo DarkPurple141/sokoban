@@ -1,5 +1,6 @@
 package wb;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -23,6 +24,7 @@ public class Menu extends JPanel {
 		super();
 		this.setLayout(new GridBagLayout());
 		this.makeButtons(c);
+		this.setBackground(Color.BLACK);
 		this.setFocusable(true);
 		this.setVisible(true);
 	}
@@ -31,7 +33,6 @@ public class Menu extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		
 		PlayNow = makeButton("Play Now",c);
 		Campaign = makeButton("Campaign",c);
 		Settings = makeButton("Settings",c);
@@ -54,6 +55,5 @@ public class Menu extends JPanel {
 	public JButton getPlayNow() {
 		return this.PlayNow;
 	}
-	
 
 }

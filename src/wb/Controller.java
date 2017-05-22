@@ -25,6 +25,7 @@ implements ActionListener {
 	private Menu m;
 	private boolean running;
 	private boolean paused = false;
+	private boolean gg;
 	private int fps = 30;
 	private JButton startButton = null;
 	private JButton restartButton = null;
@@ -45,6 +46,7 @@ implements ActionListener {
 	}
 
 	private void constructorHelper() {
+		this.setBackground(Color.BLACK);
 		panels = new JPanel();
 		panels.setLayout(new CardLayout());
 		m = new Menu(this);
@@ -98,6 +100,7 @@ implements ActionListener {
 	}
 
 	public void newGame() {
+		gg = false;
 		makeModel(this.levelPath);
 		v.resetBoard(b);
 		v.hideLabel();
@@ -130,8 +133,9 @@ implements ActionListener {
 				updateGameState();
 				drawGame();
 				if(b.isFinished()){
-					v.showLabel("Congrats!");
+					v.showLabel("<html>Congrats!<br><br>Press Enter to Return to Main Menu</html>");
 					this.running = false;
+					gg = true;
 					startButton.setText("Start");
 				}
 			} try {
@@ -141,7 +145,6 @@ implements ActionListener {
 		}
 		
 		// probs go to score menu or somethign?!
-		switchLayout();
 		
 	}
 
@@ -165,6 +168,12 @@ implements ActionListener {
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
 	public void processEvent(KeyEvent e) {
+		if (!running && gg) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				switchLayout();
+				gg = false;
+			}
+		}
 		if (!running || this.paused) {
 			return;
 		}
