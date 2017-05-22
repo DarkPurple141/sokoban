@@ -20,11 +20,19 @@ public class GameView extends JPanel {
     public GameView(Board b) {
         super();
         this.b = b;
+        this.setPreferredSize(new Dimension(511, 511));
+        GameViewBuilder();
+    }
+    
+    public GameView() {
+    	super();
+    	this.setPreferredSize(new Dimension(511, 511));
         GameViewBuilder();
     }
 
 	public void resetBoard(Board b) {
 		this.b = b;
+		resizeSprites();
 	}
 
     private void GameViewBuilder() {
@@ -153,6 +161,7 @@ public class GameView extends JPanel {
 	}
 
 	public void resizeSprites() {
+		if (b == null) return;
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
 
