@@ -73,11 +73,16 @@ implements ActionListener {
 	
 	// Work in progress
 	private void gameLayout() {
-		CardLayout layout = (CardLayout)(panels.getLayout());
-        layout.next(panels);
+		switchLayout();
 	    v.resetBoard(b);
+	    v.validate();
 	    this.revalidate();
 	    this.repaint();
+	}
+	
+	private void switchLayout() {
+		CardLayout layout = (CardLayout)(panels.getLayout());
+        layout.next(panels);
 	}
 	
 	private void makeButtons() {
@@ -133,8 +138,11 @@ implements ActionListener {
         		Thread.sleep(delay); // 10fps
     		} catch (InterruptedException e) {
     		}
-			//System.out.println(gameNum);
 		}
+		
+		// probs go to score menu or somethign?!
+		switchLayout();
+		
 	}
 
 	private void updateGameState() {
