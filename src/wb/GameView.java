@@ -11,10 +11,10 @@ public class GameView extends JPanel {
 
     private Board b;
 	private JLabel gameState;
-    private SpriteSheet crates;
+    //private SpriteSheet crates;
     private SpriteSheet tiles;
     private SpriteSheet player;
-    private SpriteSheet box;
+    //private SpriteSheet box;
     private static final long serialVersionUID = 11; // apparently swing needs this
 
     public GameView(Board b) {
@@ -37,6 +37,7 @@ public class GameView extends JPanel {
 
     private void GameViewBuilder() {
         try {
+        	/*
             crates = new SpriteSheetBuilder()
                 .withSheet(ImageIO.read(new File("assets/crates_walls.png")))
                 .withRows(1)
@@ -45,11 +46,11 @@ public class GameView extends JPanel {
                 .withSpriteSize(90,90)
                 .withSpriteCount(5)
                 .build();
+            */
             tiles = new SpriteSheetBuilder()
-                .withSheet(ImageIO.read(new File("assets/tiles.png")))
-                .withRows(1)
-                .withColumns(5)
-                .withxOffset(20)
+                .withSheet(ImageIO.read(new File("assets/spriteSheet.png")))
+                .withRows(3)
+                .withColumns(2)
                 .withSpriteSize(90,90)
                 .withSpriteCount(5)
                 .build();
@@ -60,11 +61,13 @@ public class GameView extends JPanel {
                 .withSpriteSize(48,48)
                 .withSpriteCount(16)
                 .build();
+            /*
             box = new SpriteSheetBuilder()
             	.withSheet(ImageIO.read(new File("assets/crate.png")))
             	.withSpriteSize(90,90)
             	.withSpriteCount(1)
             	.build();
+            */
         } catch (IOException e) {
             System.out.println(e.getMessage());
             System.exit(1);
@@ -125,11 +128,11 @@ public class GameView extends JPanel {
 
 		if (!t.canBeFilled()) {
 			// wall
-			g.drawImage(crates.getScaled(0), startx, starty,null);
+			g.drawImage(tiles.getScaled(2), startx, starty,null);
 
 		} else if (b.getFinishTiles().contains(t)) {
 			// goal
-			g.drawImage(crates.getScaled(1), startx, starty,null);
+			g.drawImage(tiles.getScaled(4), startx, starty,null);
 		} else {
 			// empty tile
 			g.drawImage(tiles.getScaled(0), startx, starty,null);
@@ -148,7 +151,7 @@ public class GameView extends JPanel {
 			
 		} else if(p.getType() == 1) {
 			// crate
-			curr = box.getScaled(0);
+			curr = tiles.getScaled(1);
 		}
 		
 		if (curr == null)
@@ -175,9 +178,9 @@ public class GameView extends JPanel {
 		int squareWidth = (int)((double)panel_width/(double)board_cols);
 		int squareHeight = (int)((double)panel_height/(double)board_rows);
 		
-		crates.resize(squareWidth, squareHeight);
+		//crates.resize(squareWidth, squareHeight);
 		tiles.resize(squareWidth, squareHeight);
-		box.resize(squareWidth, squareHeight);
+		//box.resize(squareWidth, squareHeight);
 		player.resize(squareWidth, squareHeight);
 	}
 }
