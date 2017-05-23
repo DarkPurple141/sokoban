@@ -7,6 +7,8 @@ import java.util.Random;
 
 public class SokobanGenerator{
 
+	private static int id = 0;
+
 	private static Random rand = new Random();
 
 	// PLAN - Generate a level with all walls and player in centre
@@ -34,7 +36,7 @@ public class SokobanGenerator{
 //		}
 //	}
 
-	public static String generateLevel(int width, int height) {
+	public static void generateLevel(int width, int height) {
 		Board seed = new Board(width, height);
 
 		//Make board full of walls
@@ -94,8 +96,8 @@ public class SokobanGenerator{
 		//Fill in the ends
 		seed = fillEnds(seed);
 		//System.out.println(seed);
-		FileIO.saveGame(seed, "levels/Chosen");
-		return "levels/Chosen.xml";
+		FileIO.saveGame(seed, "levels/"+Integer.toString(id));
+		id++;
 	}
 
 	private static Board clearSpace(Board seed, int spaces, List<Point> visableWalls) {

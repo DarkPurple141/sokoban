@@ -3,9 +3,11 @@ package wb;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
+import java.util.concurrent.locks.Lock;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,7 +16,7 @@ import javax.swing.JPanel;
 public class Controller
 extends JFrame
 implements ActionListener {
-	private static final double MOVE_INCREMENT = 0.2;
+	private static double MOVE_INCREMENT = 0.2;
 
 	private static final long serialVersionUID = 1L;
 	private static int SCREEN_WIDTH = 512;
@@ -41,21 +43,23 @@ implements ActionListener {
 	private int gameNum;
 	private int campaignNum = 0;
 
-	public Controller(String path) {
-		super("Warehouse Boss V0.3");
-		this.currLevelPath = path;
-		makeModel(path);
-		constructorHelper();
-	}
+//	public Controller(String path) {
+//		super("Warehouse Boss V0.3");
+//		this.currLevelPath = path;
+//		makeModel(path);
+//		constructorHelper();
+//	}
 
 	public Controller() {
 		super("Warehouse Boss V0.3");
-		String generatePath = SokobanGenerator.generateLevel(10, 10);
-		this.currLevelPath = generatePath;
+		threadGen();
+		threadGen();
 		constructorHelper();
 	}
 
 	private void constructorHelper() {
+		gameNum = 0;
+		campaignNum = 0;
 		this.state = Mode.NORMAL;
 		this.populateSavedGames("saved");
 		this.populateCampaignGames("campaign");
@@ -88,7 +92,7 @@ implements ActionListener {
 	
 	// Work in progress
 	private void gameLayout() {
-		newGame(this.currLevelPath);
+		newGame();
 		switchLayout();
 	    v.validate();
 	    this.revalidate();
@@ -112,9 +116,14 @@ implements ActionListener {
 	    gameButtons.add(restartButton);
 	}
 
-	public void newGame(String path) {
+	public void newGame() {
 		gg = false;
-		makeModel(path);
+		try {
+			makeModel();
+		} catch (Exception e) {
+			System.out.println("Could not make new game");
+			return;
+		}
 		v.resetBoard(b);
 		v.hideLabel();
 		paused = false;
@@ -122,13 +131,15 @@ implements ActionListener {
 		drawGame();
 	}
 
-	private void makeModel(String filePath) {
+	private void makeModel() throws FileNotFoundException
+	{
+		String filePath = null;
 		if (state == Mode.NORMAL) {
-			filePath = "levels/" + (new Integer(gameNum)).toString();
+			filePath = "levels/" + Integer.toString(gameNum);
 		} else if (state == Mode.CAMPAIGN) {
-			filePath = "campaigns/" + (new Integer(campaignNum)).toString();
+			filePath = "campaigns/" + Integer.toString(campaignNum);
 		} else if (state == Mode.LOAD) {
-			// nothing
+			filePath = this.currLevelPath;
 		}
 		b = FileIO.XML2Board(filePath);
 	}
@@ -142,6 +153,15 @@ implements ActionListener {
       	loop.start();
 	}
 
+	private void threadGen() {
+		Thread loop = new Thread() {
+			public void run() {
+				SokobanGenerator.generateLevel(10, 10);
+			}
+		};
+		loop.start();
+	}
+
 	private void gameLoop() {
 		int delay = 1000/fps;
 
@@ -150,9 +170,26 @@ implements ActionListener {
 				// do stuff
 				updateGameState();
 				drawGame();
-				if(b.isFinished()){
-					v.showLabel("<html>Congrats!<br><br>"
-							+ "Press Enter to Return to Main Menu</html>");
+				if(b.isFinished()) {
+					if(state == Mode.CAMPAIGN) {
+						campaignNum++;
+						try {
+							makeModel();
+						} catch(Exception e) {
+							v.showLabel("<html>Congrats!<br><br>"
+									+ "Press Enter to Return to Main Menu</html>");
+						}
+
+					} else if(state == Mode.NORMAL) {
+						gameNum++;
+						threadGen();
+						try {
+							makeModel();
+						} catch (Exception e) {
+							System.out.println("Normal exception");
+						}
+
+					}
 					this.running = false;
 					gg = true;
 					startButton.setText("Start");
@@ -267,7 +304,7 @@ implements ActionListener {
         	running = !running;
 			if (running) {
 				startButton.setText("Stop");
-				newGame(this.currLevelPath);
+				newGame();
             	runGameLoop();
 			} else {
             	startButton.setText("Start");
@@ -281,7 +318,7 @@ implements ActionListener {
          	}
       	} else if (s == restartButton) {
 			running = false;
-         	newGame(this.currLevelPath);
+         	newGame();
 			startButton.setText("Start");
       	} else if (s == m.getPlayNow()) {
       		state = Mode.NORMAL;
@@ -293,10 +330,8 @@ implements ActionListener {
       	} else if (s == m.getCampaign()) {
       		// pre-defined missions that get harder
       		state = Mode.CAMPAIGN;
-      		for (String a : campaignPath) {
-      			System.out.println(a);
-      		}
-      	
+			campaignNum = 0;
+			//Make it start a campaign
       	} else if (s==m.getLoadGame()) {
       		state = Mode.LOAD;
       		String curr = (String)JOptionPane.showInputDialog(

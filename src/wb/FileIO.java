@@ -65,7 +65,6 @@ public class FileIO
 			}
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
-
 		}
 		return b;
 	}
@@ -150,7 +149,7 @@ public class FileIO
 			Transformer transformer = transformerF.newTransformer();
 
 			DOMSource save = new DOMSource(saveFile);
-			StreamResult result = new StreamResult(new File(filename + ".xml"));
+			StreamResult result = new StreamResult(new File(filename));
 			//StreamResult result = new StreamResult(System.out);
 			transformer.transform(save, result);
 
