@@ -113,10 +113,18 @@ class Board implements Cloneable{
 	}
 
 	public void undo() {
-		for (GamePiece p : pieces){
+
+		// Needs to undo players first
+		for (Player p : players){
 			getPosition(p.getCoord()).setContents(null);
 			p.undo();
 			getPosition(p.getCoord()).setContents(p);
+		}
+
+		for (Crate c : crates){
+			getPosition(c.getCoord()).setContents(null);
+			c.undo();
+			getPosition(c.getCoord()).setContents(c);
 		}
 	}
 
