@@ -1,5 +1,6 @@
 package wb;
-import java.awt.*;
+
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,199 +18,233 @@ import java.util.List;
  */
 class Board
 implements Cloneable {
+	private static final int undoLength = 5;
+
 	private int width;
 	private int height;
-	private int undoLength = 5;
 	private Tile[][] positions;
-
 	private List<Player> players;
 	private List<Crate> crates;
 	private List<FloorTile> finishTiles;
 	private List<GamePiece> pieces;
 
 	public Board(int width, int height) {
+		// Initialise all local variables
 		this.width = width;
 		this.height = height;
 		this.positions = new Tile[width][height];
-		//Initialise all local variables
-		players = new ArrayList<>();
-		pieces = new ArrayList<>();
-		finishTiles = new ArrayList<>();
-		crates = new ArrayList<>();
+		this.players = new ArrayList<Player>();
+		this.crates = new ArrayList<Crate>();
+		this.finishTiles = new ArrayList<FloorTile>();
+		this.pieces = new ArrayList<GamePiece>();
 	}
 
 	public Tile getPosition(Point pos) {
-		if(pos == null)
+		if (pos == null) {
 			return null;
+		}
+
 		int x = pos.x;
 		int y = pos.y;
-		if (x < 0 || x >= width){
+
+		if ((x < 0 || x >= width) || (y < 0 || y >= height)) {
 			return null;
 		}
-		if (y < 0 || y >= height){
-			return null;
-		}
-		return positions[x][y];
+
+		return this.positions[x][y];
 	}
 
 	public void setPosition(Point pos, Tile t) {
 		this.positions[pos.x][pos.y] = t;
 		GamePiece p = t.getContents();
 
-		if(p != null) {
-			if (p.getType() == 0)
-				players.add((Player) p);
-			else if (p.getType() == 1){
-				crates.add((Crate) p);
-			}
-			addPieces();
+		/* XXX(jashankj): what's going on here? */
+		if (p == null) {
+			return;
 		}
+
+		/* XXX(jashankj): ????? */
+		if (p.getType() == 0) {
+			this.players.add((Player) p);
+		} else if (p.getType() == 1) {
+			this.crates.add((Crate) p);
+		}
+
+		this.addPieces();
 	}
 
 	public void addFinishTile(FloorTile t) {
-		finishTiles.add(t);
+		this.finishTiles.add(t);
 	}
 
 	public int getHeight() {
-		return height;
+		return this.height;
 	}
 
 	public int getWidth() {
-		return width;
+		return this.width;
 	}
 
-	public boolean doMove(int direction){
-		return players.get(0).doMove(direction);//Can only use player 0 for now
+	public boolean doMove(int direction) {
+		// XXX can only use player 0 for now
+		return this.players.get(0).doMove(direction);
 	}
 
 	public Tile[][] getTiles() {
-		return positions;
+		return this.positions;
 	}
 
 	public Iterator<Tile> tileIterator() {
-		List<Tile> flatten = new ArrayList<>();
-		for(Tile[] array : positions) {
+		List<Tile> flatten = new ArrayList<Tile>();
+		for (Tile[] array : this.positions) {
 			flatten.addAll(Arrays.asList(array));
 		}
 		return flatten.iterator();
 	}
 
-	public void addPieces() {
-		// this should only be called if an update is made in the num of pieces.
-		pieces = new ArrayList<GamePiece>();
-		pieces.addAll(crates);
-		pieces.addAll(players);
+	private void addPieces() {
+		// this should only be called if an update is made in the num
+		// of pieces.
+		this.pieces = new ArrayList<GamePiece>();
+		this.pieces.addAll(this.crates);
+		this.pieces.addAll(this.players);
 	}
 
 	public List<GamePiece> gamePieceIterator() {
 		// simple reference to all pieces
-		return pieces;
+		return this.pieces;
 	}
 
 	public List<Player> getPlayers() {
-		return players;
+		return this.players;
 	}
 
 	public List<Crate> getCrates() {
-		return crates;
+		return this.crates;
 	}
 
 	public List<FloorTile> getFinishTiles() {
-		return finishTiles;
+		return this.finishTiles;
 	}
 
 	public int getUndoLength() {
-		return undoLength;
+		return this.undoLength;
 	}
 
 	public void undo() {
-		for (GamePiece p : pieces){
-			getPosition(p.getCoord()).setContents(null);
+		for (GamePiece p : this.pieces) {
+			this.getPosition(p.getCoord()).setContents(null);
 			p.undo();
-			getPosition(p.getCoord()).setContents(p);
+			this.getPosition(p.getCoord()).setContents(p);
 		}
 	}
 
-	public void addPiecesUndo(){
-		for (GamePiece p : pieces){
+	public void addPiecesUndo() {
+		for (GamePiece p : this.pieces) {
 			p.storePrevCoord();
 		}
 	}
 
-	public Point nearbyPoint(Point start, int direction) {
+	// Point in direction
+	public Point nearbyPoint(Point start, Direction d) {
 		int startx = start.x;
 		int starty = start.y;
-		if(direction == 0)
+
+		switch (d) {
+		case UP:
 			starty--;
-		else if(direction == 1)
-			startx++;
-		else if(direction == 2)
+			break;
+
+		case DOWN:
 			starty++;
-		else if(direction == 3)
+			break;
+
+		case LEFT:
 			startx--;
-		if(startx < 0 || width <= startx)
+			break;
+
+		case RIGHT:
+			startx++;
+			break;
+		}
+
+		if (! (0 < startx && startx <= this.width)) {
 			return null;
-		if(starty < 0 || height <= starty)
+		}
+		if (! (0 < starty && starty <= this.height)) {
 			return null;
+		}
+
 		Point f = new Point();
 		f.setLocation(startx, starty);
 		return f;
 	}
 
+	/* XXX(jashankj): kill? */
 	public void debug(int player, int num) {
-		Player p = players.get(player);
-		Point coord = nearbyPoint(p.getCoord(), p.getDirection());
+		Player p = this.players.get(player);
+		// p.getDirection()
+		Point coord = this.nearbyPoint(p.getCoord(), Direction.UP);
 		Tile toRemove = getPosition(coord);
-		if(toRemove == null)
+		if (toRemove == null) {
 			return;
-		GamePiece contents = toRemove.getContents();
-		if(finishTiles.contains(toRemove))
-			finishTiles.remove(toRemove);
-		if(contents != null) {
-			if(players.contains(contents))
-				players.remove(contents);
-			if(crates.contains(contents))
-				crates.remove(contents);
 		}
-		setPosition(coord, FileIO.int2Tile(this, num, coord));
+
+		GamePiece contents = toRemove.getContents();
+		if (this.finishTiles.contains(toRemove)) {
+			this.finishTiles.remove(toRemove);
+		}
+
+		if (contents != null) {
+			if (this.players.contains(contents)) {
+				this.players.remove(contents);
+			}
+			if (this.crates.contains(contents)) {
+				this.crates.remove(contents);
+			}
+		}
+
+		this.setPosition(coord, FileIO.int2Tile(this, num, coord));
 	}
 
 	public boolean isFinished() {
-		for (Tile t : finishTiles){
-			if (t.getContents() == null || t.getContents().getType() == 0){
+		for (Tile t : this.finishTiles)
+			if (t.getContents() == null ||
+				t.getContents().getType() == 0)
 				return false;
-			}
-		}
 
-		for (GamePiece p : players) {
+		for (GamePiece p : this.players) {
 			Point2D curr = p.getAnimOffset();
-			if (curr.getX() != 0 || curr.getY() != 0) {
+			if (curr.getX() != 0 || curr.getY() != 0)
 				return false;
-			}
 		}
 
 		return true;
 	}
 
-	public String toString(){
+	@Override
+	public String toString() {
 		String board = "";
-		for (int i = 0; i < height; i++){
-			for (int j = 0; j < width; j++){
-				if (!positions[j][i].canBeFilled()){
+		/* XXX(jashankj): this should be an iterative StringBuilder thing */
+		for (int i = 0; i < this.height; i++) {
+			for (int j = 0; j < this.width; j++) {
+				Tile t = this.positions[j][i];
+
+				if (! t.canBeFilled()) {
 					board += "| W |";
-				}else if(finishTiles.contains(positions[j][i])){
-					if (positions[j][i].getContents() == null){
+				} else if (this.finishTiles.contains(t)) {
+					if (t.getContents() == null) {
 						board += "| G |";
-					}else if (positions[j][i].getContents().getType() == 0){
+					} else if (t.getContents().getType() == 0) {
 						board += "|PG |";
-					}else{
+					} else {
 						board += "|CG |";
 					}
-				}else if(positions[j][i].getContents() == null){
-					board += "|   |";
-				}else if(positions[j][i].getContents().getType() == 0){
+				} else if (t.getContents() == null) {
+					board += "|	  |";
+				} else if (t.getContents().getType() == 0) {
 					board += "| P |";
-				}else{
+				} else {
 					board += "| C |";
 				}
 			}
@@ -218,31 +253,32 @@ implements Cloneable {
 		return board;
 	}
 
-	public Board clone(){
-		Board clone = new Board(width, height);
+	@Override
+	public Board clone() {
+		Board clone = new Board(this.width, this.height);
 
-		Iterator<Tile> ti = tileIterator();
-		while(ti.hasNext()){
+		Iterator<Tile> ti = this.tileIterator();
+		while (ti.hasNext()) {
 			Tile basedOff = ti.next();
 			Tile toAdd = null;
-			if (basedOff.canBeFilled()){
+
+			if (basedOff.canBeFilled()) {
 				toAdd = new FloorTile(basedOff.getCoord());
-			}else{
+			} else {
 				toAdd = new Wall(basedOff.getCoord());
 			}
-			
+
 			Point addAt = toAdd.getCoord();
-			if (basedOff.getContents() != null){
-				if (basedOff.getContents().getType() == 1){
+			if (basedOff.getContents() != null) {
+				if (basedOff.getContents().getType() == 1) {
 					toAdd.setContents(new Crate(clone, addAt));
-				}else{
+				} else {
 					toAdd.setContents(new Player(clone, addAt));
 				}
 			}
+
 			clone.setPosition(addAt, toAdd);
 		}
 		return clone;
 	}
-
-
 }
