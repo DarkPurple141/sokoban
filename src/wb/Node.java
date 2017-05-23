@@ -4,6 +4,13 @@ import java.util.List;
 import java.util.ArrayList;
 import java.awt	.Point;
 public class Node{
+/**
+ * @brief ?
+ *
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+public class Node {
 	private List<Node> children;
 	private Node parent;
 	private MctsAction action;

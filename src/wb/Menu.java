@@ -11,14 +11,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 /**
+ * @brief ???
+ *
  * Menu Class is a sub-class of the javax.Swing.JPanel Class with some
  * specific functionality built in to suit the wb gameMenu.
- * 
- * @author Alexander Hinds
  *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @date May 2017
  */
-public class Menu extends JPanel {
-	
+public class Menu
+extends JPanel {
+
 	private static final long serialVersionUID = 4427029878332103500L;
 	private JButton PlayNow;
 	private JButton LoadGame;

@@ -14,8 +14,15 @@ import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.io.File;
 
-public class FileIO
-{
+/**
+ * @brief Serialisation and deserialisation.
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+public class FileIO {
 	/**
 	 * Used when constructing a Model from an xml file
 	 * There is potential to use the same XML format for saved games as well

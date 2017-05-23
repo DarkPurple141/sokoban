@@ -4,8 +4,14 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
 
-public abstract class GamePiece{
-
+/**
+ * @brief An abstract representation of a game piece.
+ *
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+public abstract class GamePiece {
 	private Board myBoard;
 
 	private Point thisCoord;

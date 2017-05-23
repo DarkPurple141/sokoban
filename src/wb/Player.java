@@ -3,7 +3,16 @@ package wb;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class Player extends GamePiece{
+/**
+ * @brief the players!
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+public class Player
+extends GamePiece {
 
 	private int direction;
 

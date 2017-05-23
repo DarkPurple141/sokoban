@@ -6,6 +6,13 @@ import java.awt	.Point;
 import java.util.Random;
 import java.lang.Math;
 import java.util.Iterator;
+
+/**
+ * @brief ???
+ *
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
 public class MctsTree{
 	private Board seed;
 	private Board sandbox;

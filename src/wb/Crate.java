@@ -2,7 +2,16 @@ package wb;
 
 import java.awt.Point;
 
-public class Crate extends GamePiece{
+/**
+ * @brief A particular piece on the board.
+ *
+ * @author Jashank Jeremy {@literal <z5017851@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+class Crate
+extends GamePiece {
 	private int id;
 	public Crate(Board myBoard, Point startCoord) {
 		super(myBoard, startCoord);

@@ -6,7 +6,17 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-class Board implements Cloneable{
+/**
+ * @brief Game board.
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Jashank Jeremy {@literal <z5017851@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+class Board
+implements Cloneable {
 	private int width;
 	private int height;
 	private int undoLength = 5;

@@ -2,6 +2,13 @@ package wb;
 
 import java.awt.*;
 
+/**
+ * @brief A floor tile.
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @date May 2017
+ */
 public class FloorTile extends Tile {
 	private GamePiece contents;
 

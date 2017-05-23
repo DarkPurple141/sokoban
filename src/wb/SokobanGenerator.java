@@ -6,7 +6,14 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Random;
 
-public class SokobanGenerator{
+/**
+ * @brief Generate a Sokoban board.
+ *
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+public class SokobanGenerator {
 	private Board sandboxBoard;
 
 	private Random rand = new Random();

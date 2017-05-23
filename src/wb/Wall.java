@@ -2,7 +2,14 @@ package wb;
 
 import java.awt.*;
 
-public class Wall extends Tile {
+/**
+ * @brief Well, well, well, three holes in the ground.
+ *
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+public class Wall
+extends Tile {
 	public Wall(Point startCoord) {
 		super(startCoord);
 	}

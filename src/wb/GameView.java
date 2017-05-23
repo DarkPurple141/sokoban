@@ -7,7 +7,16 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import java.io.*;
 
-public class GameView extends JPanel {
+/**
+ * @brief The on-screen representation of a game.
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+public class GameView
+extends JPanel {
 
     private Board b;
 	private JLabel gameState;
