@@ -1,17 +1,22 @@
 package wb;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
-import java.util.concurrent.locks.Lock;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 public class Controller
 extends JFrame
@@ -42,13 +47,6 @@ implements ActionListener {
 	private boolean moving = false;
 	private int gameNum;
 	private int campaignNum = 0;
-
-//	public Controller(String path) {
-//		super("Warehouse Boss V0.3");
-//		this.currLevelPath = path;
-//		makeModel(path);
-//		constructorHelper();
-//	}
 
 	public Controller() {
 		super("Warehouse Boss V0.3");
@@ -380,12 +378,12 @@ implements ActionListener {
   			return;
   		
   		if (speed == null) {} 
-  		//else if (curr.equals("Slow"))
-  			//this.MOVE_INCREMENT = 0.1;
-  		//else if (curr.equals("Medium"))
-  			//this.MOVE_INCREMENT = 0.15;
-  		//else if (curr.equals("Fast"))
-  			//this.MOVE_INCREMENT = 0.2;
+  		else if (curr.equals("Slow"))
+  			Controller.MOVE_INCREMENT = 0.1;
+  		else if (curr.equals("Medium"))
+  			Controller.MOVE_INCREMENT = 0.15;
+  		else if (curr.equals("Fast"))
+  			Controller.MOVE_INCREMENT = 0.2;
 	}
 
 	public void resizeView() {
