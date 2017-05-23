@@ -1,6 +1,6 @@
 package wb;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * @brief A floor tile.
@@ -17,17 +17,17 @@ public class FloorTile extends Tile {
 		this.contents = null;
 	}
 
-	public boolean canBeFilled(){
+	public boolean canBeFilled() {
 		return true;
 	}
 
-	public GamePiece getContents(){
-		return contents;
+	public GamePiece getContents() {
+		return this.contents;
 	}
 
 	// TODO ? should this be void
 	public boolean setContents(GamePiece content) {
-		contents = content;
+		this.contents = content;
 		return true;
 	}
 }
