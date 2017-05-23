@@ -135,7 +135,7 @@ implements ActionListener {
 		if (state == Mode.NORMAL) {
 			filePath = "levels/" + Integer.toString(gameNum);
 		} else if (state == Mode.CAMPAIGN) {
-			filePath = "campaigns/" + Integer.toString(campaignNum);
+			filePath = "campaign/" + Integer.toString(campaignNum);
 		} else if (state == Mode.LOAD) {
 			filePath = this.currLevelPath;
 		}

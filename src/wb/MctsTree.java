@@ -164,8 +164,10 @@ public class MctsTree{
 		while (newCrates.hasNext()){
 			Crate c = newCrates.next();
 			if (c.getCoord().equals(originalCrates.get(i).getCoord())){
+				Tile oldtile = sandbox.getPosition(c.getCoord());
 				sandbox.setPosition(c.getCoord(), new Wall(c.getCoord()));
 				newCrates.remove();
+				sandbox.getFinishTiles().remove(oldtile);
 			}
 			i++;
 		}
