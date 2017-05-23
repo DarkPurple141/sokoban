@@ -49,7 +49,7 @@ implements ActionListener {
 	private boolean moving = false;
 
 	public Controller(String path) {
-		super("Warehouse Boss V0.3");
+		super("Warehouse Boss 0.99.0");
 		this.currLevelPath = path;
 		this.levelPath = path;
 		makeModel(path);
@@ -57,7 +57,7 @@ implements ActionListener {
 	}
 
 	public Controller() {
-		super("Warehouse Boss V0.3");
+		super("Warehouse Boss 0.99.0");
 		constructorHelper();
 	}
 
