@@ -9,6 +9,8 @@ import java.util.Iterator;
 public class MctsTree{
 	private Board seed;
 	private Board sandbox;
+	private double bestScore;
+	private Board currentBest;
 	private Node root;
 	private List<Point> walkedWithoutPush;
 	private List<Crate> originalCrates;
@@ -23,7 +25,7 @@ public class MctsTree{
 //		System.out.println(sandbox);
 		root = new Node(null);
 		root.addOptions();
-		walkedWithoutPush = new ArrayList<Point>();
+		//walkedWithoutPush = new ArrayList<Point>();
 		originalCrates = new ArrayList<Crate>();
 		for (Crate c : seed.getCrates()){
 			int index = 0;
@@ -57,23 +59,16 @@ public class MctsTree{
 		//Point currentPoint = player.getCoord();
 		//walkedWithoutPush.add(currentPoint);
 		// Need to roll out here
-
 		int numIterations = 0;
 		while(numIterations < 1000){
 			Player player = sandbox.getPlayers().get(0);
-//			System.out.println("###################");
-//			System.out.println("######   " + numIterations + "   ######");
-//			System.out.println("###################");
-//			//System.out.println(seed);
-//			System.out.println("###################");
 			mctsSearch(root, player);
 			numIterations++;
-			seedReset();
-			
+			seedReset();	
 		}
+
+		return currentBest;
 		//takeAction(root.getChildren().get(1), player);
-		
-		return seed;
 	}
 
 	private boolean mctsSearch(Node actionNode, Player player){
@@ -121,14 +116,17 @@ public class MctsTree{
 
 			double score = evaluate();
 			actionNode.updateValue(score);
-			if (score > 0.8){
+			if (score > bestScore){
 				setGoalPositions();
 				cratesToWall();
 
 				//FileIO.saveGame(sandbox, Double.toString(score));
+				currentBest = sandbox.clone();
+
 				//System.out.println(seed);
 				//System.out.println(sandbox);
 				wallsToCrate();
+				bestScore = score;
 			}
 			//System.out.println(score);
 			//actionNode.visited();
@@ -161,13 +159,17 @@ public class MctsTree{
 
 	private void cratesToWall(){
 		int i = 0;
-		List<Crate> newCrates = sandbox.getCrates();
-		for (Crate c : newCrates){
+		//List<Crate> newCrates = sandbox.getCrates();
+		Iterator<Crate> newCrates = sandbox.getCrates().iterator();
+		while (newCrates.hasNext()){
+			Crate c = newCrates.next();
 			if (c.getCoord().equals(originalCrates.get(i).getCoord())){
-				sandbox.setPosition(c.getCoord(), new Wall(c.getCoord()));	
+				sandbox.setPosition(c.getCoord(), new Wall(c.getCoord()));
+				newCrates.remove();
 			}
 			i++;
 		}
+		
 	}
 
 	private void wallsToCrate(){

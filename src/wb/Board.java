@@ -209,8 +209,8 @@ class Board implements Cloneable{
 	}
 
 	public Board clone(){
-		Board clone = new Board(width, height);
 
+		Board clone = new Board(width, height);
 		Iterator<Tile> ti = tileIterator();
 		while(ti.hasNext()){
 			Tile basedOff = ti.next();
@@ -231,6 +231,14 @@ class Board implements Cloneable{
 			}
 			clone.setPosition(addAt, toAdd);
 		}
+
+		System.out.println(clone);
+		for (FloorTile f : finishTiles){
+			System.out.println(f.getCoord());
+			System.out.println(clone.getPosition(f.getCoord()));
+			clone.addFinishTile((FloorTile)clone.getPosition(f.getCoord()));
+		}
+
 		return clone;
 	}
 
