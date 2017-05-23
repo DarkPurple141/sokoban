@@ -336,13 +336,21 @@ implements ActionListener {
                 null,
                 g_speed,
         		null);
-  		if (curr == null) return;
-  		if (curr.equals("Easy"))
+  		if (curr == null) {	}
+  		else if (curr.equals("Easy"))
   			return;
   		else if (curr.equals("Medium"))
   			return;
   		else if (curr.equals("Hard"))
   			return;
+  		
+  		if (speed == null) {} 
+  		else if (curr.equals("Slow"))
+  			this.MOVE_INCREMENT = 0.1;
+  		else if (curr.equals("Medium"))
+  			this.MOVE_INCREMENT = 0.15;
+  		else if (curr.equals("Fast"))
+  			this.MOVE_INCREMENT = 0.2;
 	}
 
 	public void resizeView() {
