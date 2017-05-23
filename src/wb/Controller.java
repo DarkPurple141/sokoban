@@ -179,11 +179,7 @@ implements ActionListener {
 					} else if(state == Mode.NORMAL) {
 						gameNum++;
 						threadGen();
-						try {
-							makeModel();
-						} catch (Exception e) {
-							System.out.println("Normal exception");
-						}
+						makeModel();
 
 					}
 					this.running = false;
@@ -328,6 +324,7 @@ implements ActionListener {
       		// pre-defined missions that get harder
       		state = Mode.CAMPAIGN;
 			campaignNum = 0;
+			makeModel();
 			//Make it start a campaign
       	} else if (s==m.getLoadGame()) {
       		state = Mode.LOAD;
@@ -343,6 +340,7 @@ implements ActionListener {
       		//If a string was returned, say so.
       		if ((curr != null) && (curr.length() > 0)) {
       			this.currLevelPath = "saved/" + curr;
+      			makeModel();
       			gameLayout();
       		}
       	}
