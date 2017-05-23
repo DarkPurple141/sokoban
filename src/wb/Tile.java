@@ -18,5 +18,5 @@ public abstract class Tile {
 
 	public abstract GamePiece getContents();
 
-	public abstract boolean setContents(GamePiece newContents);
+	public abstract void setContents(GamePiece newContents);
 }

@@ -3,10 +3,8 @@ package wb;
 import java.awt.Point;
 
 public class Crate extends GamePiece{
-	private int id;
 	public Crate(Board myBoard, Point startCoord) {
 		super(myBoard, startCoord);
-		id = myBoard.getCrates().size();
 	}
 
 	public int getType() {
@@ -38,10 +36,5 @@ public class Crate extends GamePiece{
 		prepAnimation(direction);
 		return true;
 	}
-
-	public void setID(int newID){
-		id = newID;
-	}
-
 	
 }

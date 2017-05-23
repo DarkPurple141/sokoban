@@ -15,7 +15,6 @@ public class Wall extends Tile {
 		return null;
 	}
 
-	public boolean setContents(GamePiece newContents) {
-		return false;
+	public void setContents(GamePiece newContents) {
 	}
 }

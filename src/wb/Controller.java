@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
-import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,12 +20,12 @@ implements ActionListener {
 	private static int SCREEN_WIDTH = 512;
 	private static int SCREEN_HEIGHT = 512;
 
-	private String levelPath;
 	private GameView v;
 	private JPanel gameButtons;
 	private JPanel gameWindow;
 	private JPanel panels;
 	private String[] savedGames;
+	private List<String> campaignPath;
 	private String currLevelPath;
 	private Board originalBoard;
 	private Board b;
@@ -59,6 +59,7 @@ implements ActionListener {
 
 	private void constructorHelper() {
 		this.populateSavedGames("saved");
+		this.populateCampaignGames("campaign");
 		this.setBackground(Color.BLACK);
 		panels = new JPanel();
 		panels.setLayout(new CardLayout());
@@ -177,6 +178,10 @@ implements ActionListener {
 
 	    savedGames = files.toArray(new String[]{});
 	}
+	
+	private void populateCampaignGames(String path) {
+		campaignPath = new ArrayList<String>();
+	}
 
 	private void updateGameState() {
 		// update animatables
@@ -239,6 +244,7 @@ implements ActionListener {
 			case KeyEvent.VK_ENTER:
 				System.out.println("SAVE");
 				FileIO.saveGame(b, "saved/save");
+				break;
 
 		}
 		if('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
@@ -278,9 +284,14 @@ implements ActionListener {
       	} else if (s == m.getExit()) {
       		System.exit(0);
       	} else if (s == m.getSettings()) {
-      		//
+      		processSettings();
+      			
       	} else if (s == m.getCampaign()) {
       		// pre-defined missions that get harder
+      		for (String a : campaignPath) {
+      			System.out.println(a);
+      		}
+      	
       	} else if (s==m.getLoadGame()) {
       		String curr = (String)JOptionPane.showInputDialog(
       		                    this,
@@ -299,6 +310,34 @@ implements ActionListener {
       	}
 		this.requestFocusInWindow();
    	}
+	
+	private void processSettings() {
+		String[] difficulty = {"Easy", "Medium", "Hard"};
+  		String[] g_speed = {"Slow", "Medium", "Fast"};
+  		String curr = (String)JOptionPane.showInputDialog(
+                    this,
+                    "Select default difficulty:\n",
+                    "Difficulty",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    difficulty,
+            		null);
+  		String speed = (String)JOptionPane.showInputDialog(
+                this,
+                "Select game speed:\n",
+                "Game Speed",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                g_speed,
+        		null);
+  		if (curr == null) return;
+  		if (curr.equals("Easy"))
+  			return;
+  		else if (curr.equals("Medium"))
+  			return;
+  		else if (curr.equals("Hard"))
+  			return;
+	}
 
 	public void resizeView() {
 		if (v==null) return;
