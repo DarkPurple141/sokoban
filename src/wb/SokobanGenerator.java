@@ -94,8 +94,8 @@ public class SokobanGenerator{
 		//Fill in the ends
 		seed = fillEnds(seed);
 		//System.out.println(seed);
-		FileIO.saveGame(seed, "generated/Chosen");
-		return "generated/Chosen.xml";
+		FileIO.saveGame(seed, "levels/Chosen");
+		return "levels/Chosen.xml";
 	}
 
 	private static Board clearSpace(Board seed, int spaces, List<Point> visableWalls) {
