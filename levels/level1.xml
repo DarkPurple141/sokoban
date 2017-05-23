@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 0=free 1=wall 2=player 3=box 4=goal 5=box_on_goal 6=player_on_goal-->
+<board width="3" height="3">  
+	<col>
+		<row>1</row>
+		<row>1</row>
+		<row>1</row>
+	</col>
+	<col>
+		<row>2</row>
+		<row>3</row>
+		<row>4</row>
+	</col>
+	<col>
+		<row>1</row>
+		<row>1</row>
+		<row>1</row>
+	</col>
+</board>
