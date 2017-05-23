@@ -232,10 +232,7 @@ class Board implements Cloneable{
 			clone.setPosition(addAt, toAdd);
 		}
 
-		System.out.println(clone);
 		for (FloorTile f : finishTiles){
-			System.out.println(f.getCoord());
-			System.out.println(clone.getPosition(f.getCoord()));
 			clone.addFinishTile((FloorTile)clone.getPosition(f.getCoord()));
 		}
 
