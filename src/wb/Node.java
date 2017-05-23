@@ -2,14 +2,12 @@ package wb;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.awt	.Point;
+
 public class Node{
 	private List<Node> children;
 	private Node parent;
 	private MctsAction action;
-	//private Direction movedDirection;
 	private int movedDirection;
-	private Point actedOn;
 	private int visited;
 	private double totalScore;
 

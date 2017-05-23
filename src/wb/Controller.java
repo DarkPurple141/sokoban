@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
-import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,12 +20,12 @@ implements ActionListener {
 	private static int SCREEN_WIDTH = 512;
 	private static int SCREEN_HEIGHT = 512;
 
-	private String levelPath;
 	private GameView v;
 	private JPanel gameButtons;
 	private JPanel gameWindow;
 	private JPanel panels;
 	private String[] savedGames;
+	private List<String> campaignPath;
 	private String currLevelPath;
 	private Board b;
 	private Menu m;
@@ -41,7 +41,6 @@ implements ActionListener {
 	public Controller(String path) {
 		super("Warehouse Boss V0.3");
 		this.currLevelPath = path;
-		this.levelPath = path;
 		makeModel(path);
 		constructorHelper();
 	}
@@ -53,6 +52,7 @@ implements ActionListener {
 
 	private void constructorHelper() {
 		this.populateSavedGames("saved");
+		this.populateCampaignGames("campaign");
 		this.setBackground(Color.BLACK);
 		panels = new JPanel();
 		panels.setLayout(new CardLayout());
@@ -171,6 +171,10 @@ implements ActionListener {
 
 	    savedGames = files.toArray(new String[]{});
 	}
+	
+	private void populateCampaignGames(String path) {
+		campaignPath = new ArrayList<String>();
+	}
 
 	private void updateGameState() {
 		// update animatables
@@ -233,6 +237,7 @@ implements ActionListener {
 			case KeyEvent.VK_ENTER:
 				System.out.println("SAVE");
 				FileIO.saveGame(b, "saved/save");
+				break;
 
 		}
 		if('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
@@ -275,6 +280,10 @@ implements ActionListener {
       		//
       	} else if (s == m.getCampaign()) {
       		// pre-defined missions that get harder
+      		for (String a : campaignPath) {
+      			System.out.println(a);
+      		}
+      	
       	} else if (s==m.getLoadGame()) {
       		String curr = (String)JOptionPane.showInputDialog(
       		                    this,

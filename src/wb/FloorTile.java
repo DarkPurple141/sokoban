@@ -1,6 +1,6 @@
 package wb;
 
-import java.awt.*;
+import java.awt.Point;
 
 public class FloorTile extends Tile {
 	private GamePiece contents;
@@ -19,8 +19,7 @@ public class FloorTile extends Tile {
 	}
 
 	// TODO ? should this be void
-	public boolean setContents(GamePiece content) {
+	public void setContents(GamePiece content) {
 		contents = content;
-		return true;
 	}
 }
