@@ -125,7 +125,7 @@ public class MctsTree{
 				setGoalPositions();
 				cratesToWall();
 
-				FileIO.saveGame(sandbox, Double.toString(score));
+				//FileIO.saveGame(sandbox, Double.toString(score));
 				//System.out.println(seed);
 				//System.out.println(sandbox);
 				wallsToCrate();

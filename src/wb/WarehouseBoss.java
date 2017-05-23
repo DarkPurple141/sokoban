@@ -20,7 +20,7 @@ public class WarehouseBoss {
 		} catch (IOException|FontFormatException e) {
 			//Handle exception
 		}
-		
+
 		Controller c = new Controller();
 	}
 }
