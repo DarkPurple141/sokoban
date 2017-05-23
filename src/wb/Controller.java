@@ -345,12 +345,12 @@ implements ActionListener {
   			return;
   		
   		if (speed == null) {} 
-  		else if (curr.equals("Slow"))
-  			this.MOVE_INCREMENT = 0.1;
-  		else if (curr.equals("Medium"))
-  			this.MOVE_INCREMENT = 0.15;
-  		else if (curr.equals("Fast"))
-  			this.MOVE_INCREMENT = 0.2;
+  		//else if (curr.equals("Slow"))
+  			//this.MOVE_INCREMENT = 0.1;
+  		//else if (curr.equals("Medium"))
+  			//this.MOVE_INCREMENT = 0.15;
+  		//else if (curr.equals("Fast"))
+  			//this.MOVE_INCREMENT = 0.2;
 	}
 
 	public void resizeView() {
