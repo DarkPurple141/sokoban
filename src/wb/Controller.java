@@ -116,12 +116,6 @@ implements ActionListener {
 
 	public void newGame() {
 		gg = false;
-		try {
-			makeModel();
-		} catch (Exception e) {
-			System.out.println("Could not make new game");
-			return;
-		}
 		v.resetBoard(b);
 		v.hideLabel();
 		paused = false;
@@ -129,17 +123,21 @@ implements ActionListener {
 		drawGame();
 	}
 
-	private void makeModel() throws FileNotFoundException
-	{
-		String filePath = null;
-		if (state == Mode.NORMAL) {
-			filePath = "levels/" + Integer.toString(gameNum);
-		} else if (state == Mode.CAMPAIGN) {
-			filePath = "campaigns/" + Integer.toString(campaignNum);
-		} else if (state == Mode.LOAD) {
-			filePath = this.currLevelPath;
+	private void makeModel()
+	{	
+		try {
+			String filePath = null;
+			if (state == Mode.NORMAL) {
+				filePath = "levels/" + Integer.toString(gameNum);
+			} else if (state == Mode.CAMPAIGN) {
+				filePath = "campaigns/" + Integer.toString(campaignNum);
+			} else if (state == Mode.LOAD) {
+				filePath = this.currLevelPath;
+			}
+			b = FileIO.XML2Board(filePath);
+		} catch (Exception e) {
+			// nothing
 		}
-		b = FileIO.XML2Board(filePath);
 	}
 
 	public void runGameLoop() {
@@ -320,6 +318,7 @@ implements ActionListener {
 			startButton.setText("Start");
       	} else if (s == m.getPlayNow()) {
       		state = Mode.NORMAL;
+      		makeModel();
       		gameLayout();
       	} else if (s == m.getExit()) {
       		System.exit(0);
