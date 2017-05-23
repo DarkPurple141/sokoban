@@ -277,7 +277,8 @@ implements ActionListener {
       	} else if (s == m.getExit()) {
       		System.exit(0);
       	} else if (s == m.getSettings()) {
-      		//
+      		processSettings();
+      			
       	} else if (s == m.getCampaign()) {
       		// pre-defined missions that get harder
       		for (String a : campaignPath) {
@@ -302,6 +303,34 @@ implements ActionListener {
       	}
 		this.requestFocusInWindow();
    	}
+	
+	private void processSettings() {
+		String[] difficulty = {"Easy", "Medium", "Hard"};
+  		String[] g_speed = {"Slow", "Medium", "Fast"};
+  		String curr = (String)JOptionPane.showInputDialog(
+                    this,
+                    "Select default difficulty:\n",
+                    "Difficulty",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    difficulty,
+            		null);
+  		String speed = (String)JOptionPane.showInputDialog(
+                this,
+                "Select game speed:\n",
+                "Game Speed",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                g_speed,
+        		null);
+  		if (curr == null) return;
+  		if (curr.equals("Easy"))
+  			return;
+  		else if (curr.equals("Medium"))
+  			return;
+  		else if (curr.equals("Hard"))
+  			return;
+	}
 
 	public void resizeView() {
 		if (v==null) return;
