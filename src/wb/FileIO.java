@@ -1,9 +1,7 @@
 package wb;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import java.awt.*;
+import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,8 +9,11 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
-import java.io.File;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * @brief Serialisation and deserialisation.
@@ -27,17 +28,17 @@ public class FileIO {
 	 * Used when constructing a Model from an xml file
 	 * There is potential to use the same XML format for saved games as well
 	 * Just need to include 2 more possible states:
-	 * 		1. Finish Tile w Player
-	 * 		2. Finsh Tile w Box
+	 *		1. Finish Tile w Player
+	 *		2. Finsh Tile w Box
 	 *
 	 * @return The 2D array of the board with columns as the secondary layer
 	 * Format:
-	 * 		[row][col,col,col...]
-	 * 		[row][col,col,col...]
-	 * 		.
-	 * 		.
-	 * 		.
-	 * 		[row][col,col,col...]
+	 *		[row][col,col,col...]
+	 *		[row][col,col,col...]
+	 *		.
+	 *		.
+	 *		.
+	 *		[row][col,col,col...]
 	 * @param filePath : The path to the XML file being used to create the model (relative from base dirctory (cs2911-proj1))
 	 * See "level1.xml" for XML formatting
 	 *
@@ -63,7 +64,7 @@ public class FileIO {
 			for(int x = 0; x < cols.getLength(); x++) {
 				Element col = (Element)cols.item(x);
 				NodeList rows = col.getElementsByTagName("row");
-				for(int y = 0; y < rows.getLength(); y++){
+				for(int y = 0; y < rows.getLength(); y++) {
 					Point pos = new Point();
 					pos.setLocation(x, y);
 					int code = Integer.parseInt(rows.item(y).getTextContent());
@@ -107,9 +108,9 @@ public class FileIO {
 		return t;
 	}
 
-	public static void saveGame(Board b, String filename){
+	public static void saveGame(Board b, String filename) {
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
-		try{
+		try {
 			DocumentBuilder builder = documentBuilderF.newDocumentBuilder();
 			Document saveFile = builder.newDocument();
 			Element board = saveFile.createElement("board");
@@ -120,26 +121,31 @@ public class FileIO {
 			saveHeight.setValue(Integer.toString(b.getHeight()));
 			board.setAttributeNode(saveHeight);
 			saveFile.appendChild(board);
-			for (Tile[] rowTiles : b.getTiles()){
+
+			for (Tile[] rowTiles : b.getTiles()) {
 				Element row = saveFile.createElement("col");
 				board.appendChild(row);
-				for (Tile colTile : rowTiles){
+				for (Tile colTile : rowTiles) {
 					Element col = saveFile.createElement("row");
-					if (!colTile.canBeFilled()){
+					if (!colTile.canBeFilled()) {
 						col.appendChild(saveFile.createTextNode("1"));
-					}else if(b.getFinishTiles().contains(colTile)){
-						if (colTile.getContents() == null){
+
+					} else if (b.getFinishTiles().contains(colTile)) {
+						if (colTile.getContents() == null) {
 							col.appendChild(saveFile.createTextNode("4"));
-						}else if(colTile.getContents().getType() == 0){
+						} else if (colTile.getContents().getType() == 0) {
 							col.appendChild(saveFile.createTextNode("6"));
-						}else{
+						} else {
 							col.appendChild(saveFile.createTextNode("5"));
 						}
-					}else if(colTile.getContents() == null){
+
+					} else if (colTile.getContents() == null) {
 						col.appendChild(saveFile.createTextNode("0"));
-					}else if(colTile.getContents().getType() == 1){
+
+					} else if (colTile.getContents().getType() == 1) {
 						col.appendChild(saveFile.createTextNode("3"));
-					}else{
+
+					} else {
 						col.appendChild(saveFile.createTextNode("2"));
 					}
 					row.appendChild(col);
@@ -155,7 +161,7 @@ public class FileIO {
 			transformer.transform(save, result);
 
 
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
