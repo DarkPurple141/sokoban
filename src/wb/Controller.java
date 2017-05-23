@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 public class Controller
 extends JFrame
 implements ActionListener {
-	private static final double MOVE_INCREMENT = 0.1;
+	private static final double MOVE_INCREMENT = 0.2;
 
 	private static final long serialVersionUID = 1L;
 	private static int SCREEN_WIDTH = 512;
@@ -27,6 +27,7 @@ implements ActionListener {
 	private JPanel panels;
 	private String[] savedGames;
 	private String currLevelPath;
+	private Board originalBoard;
 	private Board b;
 	private Menu m;
 	private boolean running;
@@ -41,14 +42,19 @@ implements ActionListener {
 	public Controller(String path) {
 		super("Warehouse Boss V0.3");
 		this.currLevelPath = path;
-		this.levelPath = path;
 		makeModel(path);
 		constructorHelper();
 	}
 
 	public Controller() {
 		super("Warehouse Boss V0.3");
+		String generatePath = SokobanGenerator.generateLevel(10, 10);
+		this.currLevelPath = generatePath;
 		constructorHelper();
+	}
+
+	public Controller(Board b) {
+
 	}
 
 	private void constructorHelper() {

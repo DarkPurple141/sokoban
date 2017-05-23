@@ -15,13 +15,12 @@ public class MctsTree{
 	private Tile[][] seedTiles;
 	private Point playerStart;
 
-
 	private Random rand = new Random();
 
 	public MctsTree(Board seed){
 		this.seed = seed;
 		sandbox = seed.clone();
-		System.out.println(sandbox);
+//		System.out.println(sandbox);
 		root = new Node(null);
 		root.addOptions();
 		walkedWithoutPush = new ArrayList<Point>();
@@ -43,15 +42,15 @@ public class MctsTree{
 			originalCrates.add(index,new Crate(seed, c.getCoord()));
 		}
 
-		for (Crate c : originalCrates){
-			System.out.println(c.getCoord());
-		}
+//		for (Crate c : originalCrates){
+//			System.out.println(c.getCoord());
+//		}
 		playerStart = seed.getPlayers().get(0).getCoord();
 
 	}
 
 	public Board scrambleRecurse(){
-		System.out.println(seed);
+		//System.out.println(seed);
 		// Start of MCTS search (tree is set up)
 		//int optionIndex = rand.nextInt(Integer.MAX_VALUE)%root.getChildren().size();
 		
@@ -62,11 +61,11 @@ public class MctsTree{
 		int numIterations = 0;
 		while(numIterations < 1000){
 			Player player = sandbox.getPlayers().get(0);
-			System.out.println("###################");
-			System.out.println("######   " + numIterations + "   ######");
-			System.out.println("###################");
-			//System.out.println(seed);
-			System.out.println("###################");
+//			System.out.println("###################");
+//			System.out.println("######   " + numIterations + "   ######");
+//			System.out.println("###################");
+//			//System.out.println(seed);
+//			System.out.println("###################");
 			mctsSearch(root, player);
 			numIterations++;
 			seedReset();
@@ -131,7 +130,7 @@ public class MctsTree{
 				//System.out.println(sandbox);
 				wallsToCrate();
 			}
-			System.out.println(score);
+			//System.out.println(score);
 			//actionNode.visited();
 			return;
 		}else{
@@ -156,7 +155,7 @@ public class MctsTree{
 		int terrain = getTerrainMetric();
 		wallsToCrate();
 		//System.out.println(sandbox);
-		System.out.println(congestion);
+		//System.out.println(congestion);
 		return Math.sqrt(congestion*terrain)/10; 
 	}
 
@@ -284,7 +283,7 @@ public class MctsTree{
 		}
 
 		for (Crate c : originalCrates){
-			System.out.println(c);
+			//System.out.println(c);
 			Tile crateStart = sandbox.getPosition(c.getCoord());
 			crateStart.setContents(c);
 		}

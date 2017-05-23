@@ -21,8 +21,6 @@ public class WarehouseBoss {
 			//Handle exception
 		}
 
-		Controller c = new Controller("saved/save.xml");
-		c.runGameLoop();
-		//SokobanGenerator g = new SokobanGenerator(5,5);
+		Controller c = new Controller();
 	}
 }

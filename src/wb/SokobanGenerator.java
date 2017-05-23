@@ -1,15 +1,13 @@
 package wb;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.awt.Point;
 import java.util.List;
 import java.util.Random;
 
 public class SokobanGenerator{
-	private Board sandboxBoard;
 
-	private Random rand = new Random();
+	private static Random rand = new Random();
 
 	// PLAN - Generate a level with all walls and player in centre
 	// This is base state
@@ -20,26 +18,23 @@ public class SokobanGenerator{
 	// After these phases, the level is saved so move actions can be generated as children nodes
 	// 4. Move the player
 	// 5. Evaluate the Level
-	public SokobanGenerator(int width, int height){
-		sandboxBoard = generateLevel(width, height);
-	}
 
-	public void resetBoard() {
-		Iterator<Tile> boardIterator = sandboxBoard.tileIterator();
-		Player player = sandboxBoard.getPlayers().get(0);
-		while (boardIterator.hasNext()) {
-			Tile currentTile = boardIterator.next();
-			Point currentCoord = currentTile.getCoord();
-			if (currentCoord.x == sandboxBoard.getWidth() / 2 && currentCoord.y == sandboxBoard.getHeight() / 2) {
-				currentTile.setContents(player);
-				player.setCoord(currentCoord);
-			} else {
-				currentTile.setContents(null);
-			}
-		}
-	}
+//	public static void resetBoard() {
+//		Iterator<Tile> boardIterator = sandboxBoard.tileIterator();
+//		Player player = sandboxBoard.getPlayers().get(0);
+//		while (boardIterator.hasNext()) {
+//			Tile currentTile = boardIterator.next();
+//			Point currentCoord = currentTile.getCoord();
+//			if (currentCoord.x == sandboxBoard.getWidth() / 2 && currentCoord.y == sandboxBoard.getHeight() / 2) {
+//				currentTile.setContents(player);
+//				player.setCoord(currentCoord);
+//			} else {
+//				currentTile.setContents(null);
+//			}
+//		}
+//	}
 
-	private Board generateLevel(int width, int height) {
+	public static String generateLevel(int width, int height) {
 		Board seed = new Board(width, height);
 
 		//Make board full of walls
@@ -67,8 +62,8 @@ public class SokobanGenerator{
 				visableWalls.add(neighbour);
 		}
 		//determine number of each thing that we want
-		int spaces = 2*(width * height)/3 - 2;//TODO add random element
-		int crates = (width * height)/10 + 1;//TODO add random element
+		int spaces = 1*(width * height)/2 - 2;//TODO add random element
+		int crates = (width * height)/12 + 1;//TODO add random element
 		//Adding spaces
 		seed = clearSpace(seed, spaces, visableWalls);
 		//Building list of places where crates can be placed
@@ -97,12 +92,13 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		return fillEnds(seed);
+		seed = fillEnds(seed);
 		//System.out.println(seed);
-		//return seed;
+		FileIO.saveGame(seed, "Chosen");
+		return "Chosen.xml";
 	}
 
-	private Board clearSpace(Board seed, int spaces, List<Point> visableWalls) {
+	private static Board clearSpace(Board seed, int spaces, List<Point> visableWalls) {
 		if(spaces <= 0)
 			return  seed;
 		if(visableWalls.size() == 0)
@@ -126,7 +122,7 @@ public class SokobanGenerator{
 		return clearSpace(seed, spaces-1, visableWalls);
 	}
 
-	private Board addCrates(Board seed, int crates, List<Point> empty) {
+	private static Board addCrates(Board seed, int crates, List<Point> empty) {
 		if(crates <= 0)
 			return seed;
 		if(empty.size() == 0)
@@ -139,7 +135,7 @@ public class SokobanGenerator{
 		return addCrates(seed, crates-1, empty);
 	}
 
-	private Board fillEnds(Board seed) {
+	private static Board fillEnds(Board seed) {
 		MctsTree decisions = new MctsTree(seed);
 		return decisions.scrambleRecurse();//TODO: IMPLEMENT
 	}
