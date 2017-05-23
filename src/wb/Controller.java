@@ -27,7 +27,7 @@ implements ActionListener {
 	private String[] savedGames;
 	private List<String> campaignPath;
 	private String currLevelPath;
-	private Board originalBoard;
+	private Mode state;
 	private Board b;
 	private Menu m;
 	private boolean running;
@@ -38,6 +38,8 @@ implements ActionListener {
 	private JButton restartButton = null;
 	private JButton pauseButton = null;
 	private boolean moving = false;
+	private int gameNum;
+	private int campaignNum = 0;
 
 	public Controller(String path) {
 		super("Warehouse Boss V0.3");
@@ -53,11 +55,8 @@ implements ActionListener {
 		constructorHelper();
 	}
 
-	public Controller(Board b) {
-
-	}
-
 	private void constructorHelper() {
+		this.state = Mode.NORMAL;
 		this.populateSavedGames("saved");
 		this.populateCampaignGames("campaign");
 		this.setBackground(Color.BLACK);
@@ -123,11 +122,16 @@ implements ActionListener {
 		drawGame();
 	}
 
-
 	private void makeModel(String filePath) {
+		if (state == Mode.NORMAL) {
+			filePath = "levels/" + (new Integer(gameNum)).toString();
+		} else if (state == Mode.CAMPAIGN) {
+			filePath = "campaigns/" + (new Integer(campaignNum)).toString();
+		} else if (state == Mode.LOAD) {
+			// nothing
+		}
 		b = FileIO.XML2Board(filePath);
 	}
-
 
 	public void runGameLoop() {
 		Thread loop = new Thread() {
@@ -280,19 +284,21 @@ implements ActionListener {
          	newGame(this.currLevelPath);
 			startButton.setText("Start");
       	} else if (s == m.getPlayNow()) {
+      		state = Mode.NORMAL;
       		gameLayout();
       	} else if (s == m.getExit()) {
       		System.exit(0);
       	} else if (s == m.getSettings()) {
-      		processSettings();
-      			
+      		processSettings();			
       	} else if (s == m.getCampaign()) {
       		// pre-defined missions that get harder
+      		state = Mode.CAMPAIGN;
       		for (String a : campaignPath) {
       			System.out.println(a);
       		}
       	
       	} else if (s==m.getLoadGame()) {
+      		state = Mode.LOAD;
       		String curr = (String)JOptionPane.showInputDialog(
       		                    this,
       		                    "Which game did you want to load?\n",
