@@ -3,7 +3,7 @@ package wb;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class Player extends GamePiece {
+public class Player extends GamePiece{
 
 	private int direction;
 
@@ -18,7 +18,7 @@ public class Player extends GamePiece {
 
 	public boolean doMove(int direction) {
 		Point sourceCoord = super.getCoord();
-		Point destCoord = super.nearbyPoint(direction);
+		Point destCoord = super.getBoard().nearbyPoint(super.getCoord(), direction);
 
 		Tile source = super.getBoard().getPosition(sourceCoord);
 		Tile destination = super.getBoard().getPosition(destCoord);
@@ -53,4 +53,6 @@ public class Player extends GamePiece {
 	public int getDirection() {
 		return this.direction;
 	}
+
+	
 }

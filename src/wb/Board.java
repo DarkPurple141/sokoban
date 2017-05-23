@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-class Board {
+class Board implements Cloneable{
 	private int width;
 	private int height;
 	private int undoLength = 5;
@@ -15,6 +15,7 @@ class Board {
 	private List<Player> players;
 	private List<Crate> crates;
 	private List<FloorTile> finishTiles;
+	private List<GamePiece> pieces;
 
 	public Board(int width, int height) {
 		this.width = width;
@@ -22,11 +23,10 @@ class Board {
 		this.positions = new Tile[width][height];
 		//Initialise all local variables
 		players = new ArrayList<>();
+		pieces = new ArrayList<>();
 		finishTiles = new ArrayList<>();
 		crates = new ArrayList<>();
 	}
-	// TODO pretty sure this is a cause for concern unless
-	// u guys have functions that are handling null returns properly.
 
 	public Tile getPosition(Point pos) {
 		if(pos == null)
@@ -45,11 +45,14 @@ class Board {
 	public void setPosition(Point pos, Tile t) {
 		this.positions[pos.x][pos.y] = t;
 		GamePiece p = t.getContents();
+
 		if(p != null) {
 			if (p.getType() == 0)
 				players.add((Player) p);
-			else if (p.getType() == 1)
+			else if (p.getType() == 1){
 				crates.add((Crate) p);
+			}
+			addPieces();
 		}
 	}
 
@@ -81,11 +84,16 @@ class Board {
 		return flatten.iterator();
 	}
 
-	public Iterator<GamePiece> gamePieceIterator() {
-		List<GamePiece> l = new ArrayList<>();
-		l.addAll(crates);
-		l.addAll(players);
-		return l.iterator();
+	public void addPieces() {
+		// this should only be called if an update is made in the num of pieces.
+		pieces = new ArrayList<GamePiece>();
+		pieces.addAll(crates);
+		pieces.addAll(players);
+	}
+
+	public List<GamePiece> gamePieceIterator() {
+		// simple reference to all pieces
+		return pieces;
 	}
 
 	public List<Player> getPlayers() {
@@ -105,31 +113,42 @@ class Board {
 	}
 
 	public void undo() {
-		for (Player p : players){
+		for (GamePiece p : pieces){
 			getPosition(p.getCoord()).setContents(null);
 			p.undo();
 			getPosition(p.getCoord()).setContents(p);
 		}
-		for (Crate c : crates){
-			getPosition(c.getCoord()).setContents(null);
-			c.undo();
-			getPosition(c.getCoord()).setContents(c);
-		}
 	}
 
 	public void addPiecesUndo(){
-		for (Player p : players){
+		for (GamePiece p : pieces){
 			p.storePrevCoord();
 		}
+	}
 
-		for (Crate c : crates){
-			c.storePrevCoord();
-		}
+	public Point nearbyPoint(Point start, int direction) {
+		int startx = start.x;
+		int starty = start.y;
+		if(direction == 0)
+			starty--;
+		else if(direction == 1)
+			startx++;
+		else if(direction == 2)
+			starty++;
+		else if(direction == 3)
+			startx--;
+		if(startx < 0 || width <= startx)
+			return null;
+		if(starty < 0 || height <= starty)
+			return null;
+		Point f = new Point();
+		f.setLocation(startx, starty);
+		return f;
 	}
 
 	public void debug(int player, int num) {
 		Player p = players.get(player);
-		Point coord = p.nearbyPoint(p.getDirection());
+		Point coord = nearbyPoint(p.getCoord(), p.getDirection());
 		Tile toRemove = getPosition(coord);
 		if(toRemove == null)
 			return;
@@ -161,4 +180,59 @@ class Board {
 
 		return true;
 	}
+
+	public String toString(){
+		String board = "";
+		for (int i = 0; i < height; i++){
+			for (int j = 0; j < width; j++){
+				if (!positions[j][i].canBeFilled()){
+					board += "| W |";
+				}else if(finishTiles.contains(positions[j][i])){
+					if (positions[j][i].getContents() == null){
+						board += "| G |";
+					}else if (positions[j][i].getContents().getType() == 0){
+						board += "|PG |";
+					}else{
+						board += "|CG |";
+					}
+				}else if(positions[j][i].getContents() == null){
+					board += "|   |";
+				}else if(positions[j][i].getContents().getType() == 0){
+					board += "| P |";
+				}else{
+					board += "| C |";
+				}
+			}
+			board += "\n";
+		}
+		return board;
+	}
+
+	public Board clone(){
+		Board clone = new Board(width, height);
+
+		Iterator<Tile> ti = tileIterator();
+		while(ti.hasNext()){
+			Tile basedOff = ti.next();
+			Tile toAdd = null;
+			if (basedOff.canBeFilled()){
+				toAdd = new FloorTile(basedOff.getCoord());
+			}else{
+				toAdd = new Wall(basedOff.getCoord());
+			}
+			
+			Point addAt = toAdd.getCoord();
+			if (basedOff.getContents() != null){
+				if (basedOff.getContents().getType() == 1){
+					toAdd.setContents(new Crate(clone, addAt));
+				}else{
+					toAdd.setContents(new Player(clone, addAt));
+				}
+			}
+			clone.setPosition(addAt, toAdd);
+		}
+		return clone;
+	}
+
+
 }

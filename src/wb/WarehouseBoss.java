@@ -22,6 +22,7 @@ public class WarehouseBoss {
 		}
 
 		Controller c = new Controller("saved/save.xml");
-		//c.runGameLoop();
+		c.runGameLoop();
+		//SokobanGenerator g = new SokobanGenerator(5,5);
 	}
 }
