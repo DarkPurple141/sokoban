@@ -6,3 +6,9 @@ package wb;
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  * @date May 2017
  */
+public enum Direction {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+}
