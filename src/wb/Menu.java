@@ -1,59 +1,101 @@
 package wb;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
+/**
+ * Menu Class is a sub-class of the javax.Swing.JPanel Class with some
+ * specific functionality built in to suit the wb gameMenu.
+ * 
+ * @author Alexander Hinds
+ *
+ */
 public class Menu extends JPanel {
 	
+	private static final long serialVersionUID = 4427029878332103500L;
 	private JButton PlayNow;
+	private JButton LoadGame;
 	private JButton Campaign;
 	private JButton Settings;
 	private JButton Exit;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4427029878332103500L;
+	
 	
 	public Menu(Controller c) {
 		super();
-		this.setLayout(new GridBagLayout());
+		this.setLayout(new GridLayout(0,1,10,10));
+		this.setBorder(new EmptyBorder(80,140,20,140));
+		JLabel title = new JLabel("WAREHOUSE BOSS",JLabel.CENTER);
+		title.setFont(new Font("Cardinal",Font.BOLD,36));
+		title.setForeground(Color.white);
+		this.add(title);
 		this.makeButtons(c);
 		this.setBackground(Color.BLACK);
 		this.setFocusable(true);
 		this.setVisible(true);
 	}
 	
-	private void makeButtons(Controller c) {
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		PlayNow = makeButton("Play Now",c);
-		Campaign = makeButton("Campaign",c);
-		Settings = makeButton("Settings",c);
-		Exit = makeButton("Exit",c);	
-		this.add(PlayNow,gbc);
-		this.add(Campaign,gbc);
-		this.add(Settings,gbc);
-		this.add(Exit,gbc);
+	public JButton getPlayNow() {
+		return this.PlayNow;
+	}
+
+	public JButton getSettings() {
+		return this.Settings;
 	}
 	
+	public JButton getCampaign() {
+		return this.Campaign;
+	}
+	
+	public JButton getExit() {
+		return this.Exit;
+	}
+	
+	public JButton getLoadGame() {
+		return this.LoadGame;
+	}
+	
+	
+	// NOTE methods below this line are private
+	// ----------------------------------	
+	/**
+	 * Helper function to make all the buttons required for the Menu
+	 * 
+	 * @param c		The controller which acts as the button listener.
+	 */
+	private void makeButtons(Controller c) {
+		PlayNow = makeButton("Play Now",c);
+		LoadGame = makeButton("Load Game", c);
+		Campaign = makeButton("Campaign",c);
+		Settings = makeButton("Settings",c);
+		Exit = makeButton("Exit",c);
+		this.add(PlayNow);
+		this.add(LoadGame);
+		this.add(Campaign);
+		this.add(Settings);
+		this.add(Exit);
+	}
+	
+	/**
+	 * Helper function to make a new JButton for the Menu.
+	 * 
+	 * @param name	labelName of the Button
+	 * @param c		The main controller which deals with events on the button
+	 * @return		The new button.
+	 */
 	private JButton makeButton(String name, Controller c) {
 		JButton n;
 		n = new JButton(name);
-		Insets margin = new Insets(20,150,20,150);
+		Insets margin = new Insets(20,20,20,20);
 		n.setMargin(margin);
 		n.addActionListener(c);
 		return n; 
-	}
-	
-	public JButton getPlayNow() {
-		return this.PlayNow;
 	}
 
 }

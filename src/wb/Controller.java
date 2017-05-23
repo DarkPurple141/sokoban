@@ -2,9 +2,13 @@ package wb;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Controller
@@ -21,6 +25,8 @@ implements ActionListener {
 	private JPanel gameButtons;
 	private JPanel gameWindow;
 	private JPanel panels;
+	private String[] savedGames;
+	private String currLevelPath;
 	private Board b;
 	private Menu m;
 	private boolean running;
@@ -34,6 +40,7 @@ implements ActionListener {
 
 	public Controller(String path) {
 		super("Warehouse Boss V0.3");
+		this.currLevelPath = path;
 		this.levelPath = path;
 		makeModel(path);
 		constructorHelper();
@@ -41,11 +48,11 @@ implements ActionListener {
 
 	public Controller() {
 		super("Warehouse Boss V0.3");
-		//TODO Generate level
 		constructorHelper();
 	}
 
 	private void constructorHelper() {
+		this.populateSavedGames("saved");
 		this.setBackground(Color.BLACK);
 		panels = new JPanel();
 		panels.setLayout(new CardLayout());
@@ -75,8 +82,8 @@ implements ActionListener {
 	
 	// Work in progress
 	private void gameLayout() {
+		newGame(this.currLevelPath);
 		switchLayout();
-	    v.resetBoard(b);
 	    v.validate();
 	    this.revalidate();
 	    this.repaint();
@@ -99,9 +106,9 @@ implements ActionListener {
 	    gameButtons.add(restartButton);
 	}
 
-	public void newGame() {
+	public void newGame(String path) {
 		gg = false;
-		makeModel(this.levelPath);
+		makeModel(path);
 		v.resetBoard(b);
 		v.hideLabel();
 		paused = false;
@@ -133,7 +140,8 @@ implements ActionListener {
 				updateGameState();
 				drawGame();
 				if(b.isFinished()){
-					v.showLabel("<html>Congrats!<br><br>Press Enter to Return to Main Menu</html>");
+					v.showLabel("<html>Congrats!<br><br>"
+							+ "Press Enter to Return to Main Menu</html>");
 					this.running = false;
 					gg = true;
 					startButton.setText("Start");
@@ -143,9 +151,25 @@ implements ActionListener {
     		} catch (InterruptedException e) {
     		}
 		}
-		
-		// probs go to score menu or somethign?!
-		
+				
+	}
+	
+	private void populateSavedGames(String path) {
+		File dir = new File(path);
+
+	    Collection<String> files  = new ArrayList<String>();
+
+	    if(dir.isDirectory()){
+	        File[] listFiles = dir.listFiles();
+
+	        for(File file : listFiles){
+	            if(file.isFile()) {
+	                files.add(file.getName());
+	            }
+	        }
+	    }
+
+	    savedGames = files.toArray(new String[]{});
 	}
 
 	private void updateGameState() {
@@ -168,14 +192,17 @@ implements ActionListener {
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
 	public void processEvent(KeyEvent e) {
-		if (!running && gg) {
-			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				switchLayout();
-				gg = false;
+		if (!running) {
+			if (gg) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					v.hideLabel();
+					switchLayout();
+					gg = false;
+					return;
+				}
+			} else if (paused) {
+				return;
 			}
-		}
-		if (!running || this.paused) {
-			return;
 		}
         int curr = e.getKeyCode();
         // possibly change to vector format
@@ -224,7 +251,7 @@ implements ActionListener {
         	running = !running;
 			if (running) {
 				startButton.setText("Stop");
-				newGame();
+				newGame(this.currLevelPath);
             	runGameLoop();
 			} else {
             	startButton.setText("Start");
@@ -238,10 +265,31 @@ implements ActionListener {
          	}
       	} else if (s == restartButton) {
 			running = false;
-         	newGame();
+         	newGame(this.currLevelPath);
 			startButton.setText("Start");
       	} else if (s == m.getPlayNow()) {
-      		this.gameLayout();
+      		gameLayout();
+      	} else if (s == m.getExit()) {
+      		System.exit(0);
+      	} else if (s == m.getSettings()) {
+      		//
+      	} else if (s == m.getCampaign()) {
+      		// pre-defined missions that get harder
+      	} else if (s==m.getLoadGame()) {
+      		String curr = (String)JOptionPane.showInputDialog(
+      		                    this,
+      		                    "Which game did you want to load?\n",
+      		                    "Load Game",
+      		                    JOptionPane.PLAIN_MESSAGE,
+      		                    null,
+      		                    savedGames,
+      		            		null);
+
+      		//If a string was returned, say so.
+      		if ((curr != null) && (curr.length() > 0)) {
+      			this.currLevelPath = "saved/" + curr;
+      			gameLayout();
+      		}
       	}
 		this.requestFocusInWindow();
    	}
