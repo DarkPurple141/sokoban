@@ -45,7 +45,8 @@ implements ActionListener {
 	private JButton pauseButton = null;
 	private boolean moving = false;
 	private int gameNum;
-	private int campaignNum = 0;
+	private int campaignNum;
+	private int moves = 0;
 
 	public Controller() {
 		super("Warehouse Boss V0.3");
@@ -115,6 +116,7 @@ implements ActionListener {
 	}
 
 	public void newGame() {
+		moves = 0;
 		gg = false;
 		v.resetBoard(b);
 		v.hideLabel();
@@ -176,7 +178,8 @@ implements ActionListener {
 					} else if(state == Mode.NORMAL) {
 						threadGen(gameNum + 1);					
 					}
-					v.showLabel("Congrats!");
+					v.showLabel("<html>Congrats!<br>Moves: " + 
+					Integer.toString(moves)+"</html>");
 					this.running = false;
 					gg = true;
 					startButton.setText("Next");
@@ -254,19 +257,19 @@ implements ActionListener {
         	return;
 		switch (curr) {
 			case KeyEvent.VK_UP:
-				System.out.println("UP");
+				moves++;
 				b.doMove(0);
 				break;
 			case KeyEvent.VK_RIGHT:
-				System.out.println("RIGHT");
+				moves++;
 				b.doMove(1);
 				break;
 			case KeyEvent.VK_DOWN:
-				System.out.println("DOWN");
+				moves++;
 				b.doMove(2);
 				break;
 			case KeyEvent.VK_LEFT:
-				System.out.println("LEFT");
+				moves++;
 				b.doMove(3);
 				break;
 			case KeyEvent.VK_ENTER:
