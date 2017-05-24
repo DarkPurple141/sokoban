@@ -41,12 +41,11 @@ implements ActionListener {
 	private Board b;
 	private Menu m;
 	private boolean running;
-	private boolean paused = false;
 	private boolean gg;
 	private int fps = 30;
 	private JButton startButton = null;
 	private JButton restartButton = null;
-	private JButton pauseButton = null;
+	private JButton skipButton = null;
 	private boolean moving = false;
 	private int gameNum;
 	private int campaignNum;
@@ -113,12 +112,12 @@ implements ActionListener {
 	private void makeButtons() {
 		startButton = new JButton("Start");
 		restartButton = new JButton("Restart");
-		pauseButton = new JButton("Pause");
+		skipButton = new JButton("Skip");
 		startButton.addActionListener(this);
       	restartButton.addActionListener(this);
-      	pauseButton.addActionListener(this);
+      	skipButton.addActionListener(this);
       	gameButtons.add(startButton);
-	    gameButtons.add(pauseButton);
+	    gameButtons.add(skipButton);
 	    gameButtons.add(restartButton);
 	}
 
@@ -127,8 +126,6 @@ implements ActionListener {
 		gg = false;
 		v.resetBoard(b);
 		v.hideLabel();
-		paused = false;
-		pauseButton.setText("Pause");
 		drawGame();
 	}
 
@@ -173,28 +170,26 @@ implements ActionListener {
 		int delay = 1000/fps;
 
 		while (running) {
-			if (!paused) {
-				// do stuff
-				updateGameState();
-				drawGame();
-				if(b.isFinished()) {
-					if(state == Mode.CAMPAIGN) {
-						campaignNum++;
-						
-					} else if(state == Mode.NORMAL) {
-						threadGen(gameNum + 1);					
-					}
-					v.showLabel("<html>Congrats!<br>Moves: " + 
-					Integer.toString(moves)+"</html>");
-					this.running = false;
-					gg = true;
-					startButton.setText("Next");
-					if (campaignNum > 1) {
-						logCampaignScore();
-						switchLayout();
-					}
+			// do stuff
+			updateGameState();
+			drawGame();
+			if(b.isFinished()) {
+				if(state == Mode.CAMPAIGN) {
+					campaignNum++;			
+				} else if(state == Mode.NORMAL) {
+					threadGen(gameNum + 1);					
 				}
-			} try {
+				v.showLabel("<html>Congrats!<br>Moves: " + 
+				Integer.toString(moves)+"</html>");
+				this.running = false;
+				gg = true;
+				startButton.setText("Next");
+				if (campaignNum > 1) {
+					logCampaignScore();
+					switchLayout();
+				}
+			}
+			try {
         		Thread.sleep(delay); // 10fps
     		} catch (InterruptedException e) {
     		}
@@ -263,8 +258,6 @@ implements ActionListener {
 					gg = false;
 					return;
 				}
-			} else if (paused) {
-				return;
 			}
 		}
         int curr = e.getKeyCode();
@@ -274,7 +267,7 @@ implements ActionListener {
         	if(p.isMoving())
         		moving = true;
         }
-        if(moving || !running || paused)
+        if(moving || !running)
         	return;
 		switch (curr) {
 			case KeyEvent.VK_UP:
@@ -325,13 +318,14 @@ implements ActionListener {
 			} else {
             	startButton.setText("Start");
          	}
-      	} else if (s == pauseButton) {
-        	paused = !paused;
-        	if (paused) {
-            	pauseButton.setText("Unpause");
-         	} else {
-            	pauseButton.setText("Pause");
-         	}
+      	} else if (s == skipButton) {
+      		running = false;
+			gameNum++;
+			threadGen(gameNum+1);
+			threadGen(gameNum+2);
+			makeModel(false);
+			newGame();
+			startButton.setText("Start");
       	} else if (s == restartButton) {
 			running = false;
 			makeModel(true);
