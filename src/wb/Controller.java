@@ -8,6 +8,10 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
@@ -46,7 +50,9 @@ implements ActionListener {
 	private boolean moving = false;
 	private int gameNum;
 	private int campaignNum;
-	private int moves = 0;
+	private int moves;
+	private int campaignMoves;
+	String playerName;
 
 	public Controller() {
 		super("Warehouse Boss V0.3");
@@ -55,8 +61,8 @@ implements ActionListener {
 	}
 
 	private void constructorHelper() {
+		playerName = "admin";
 		gameNum = 0;
-		campaignNum = 0;
 		this.state = Mode.NORMAL;
 		this.populateSavedGames("saved");
 		this.populateCampaignGames("campaign");
@@ -91,6 +97,7 @@ implements ActionListener {
 	// Work in progress
 	private void gameLayout() {
 		makeModel(false);
+		startButton.setText("Start");
 		newGame();
 		switchLayout();
 	    v.validate();
@@ -140,7 +147,6 @@ implements ActionListener {
 				}
 				b = FileIO.XML2Board(currLevelPath);
 			} catch (Exception e) {
-				// nothing
 			}
 		}
 	}
@@ -174,7 +180,7 @@ implements ActionListener {
 				if(b.isFinished()) {
 					if(state == Mode.CAMPAIGN) {
 						campaignNum++;
-
+						
 					} else if(state == Mode.NORMAL) {
 						threadGen(gameNum + 1);					
 					}
@@ -183,6 +189,10 @@ implements ActionListener {
 					this.running = false;
 					gg = true;
 					startButton.setText("Next");
+					if (campaignNum > 1) {
+						logCampaignScore();
+						switchLayout();
+					}
 				}
 			} try {
         		Thread.sleep(delay); // 10fps
@@ -190,6 +200,17 @@ implements ActionListener {
     		}
 		}
 				
+	}
+	
+	private void logCampaignScore() {
+		campaignMoves += moves;
+		String toLog = playerName + " " + Integer.toString(campaignMoves) + "\n";
+		try {
+		    Files.write(Paths.get("Hall_of_Fame"), toLog.getBytes(), StandardOpenOption.APPEND);
+		}catch (IOException e) {
+			System.out.println("HERE");
+		    //exception handling left as an exercise for the reader
+		}
 	}
 	
 	private void populateSavedGames(String path) {
@@ -293,7 +314,8 @@ implements ActionListener {
 		if (s == startButton) {
         	running = !running;
 			if (running) {
-				if (gg) {		
+				if (gg) {
+					campaignMoves += moves;
 					makeModel(false);
 					gameNum++;
 				}
@@ -325,7 +347,8 @@ implements ActionListener {
       	} else if (s == m.getCampaign()) {
       		// pre-defined missions that get harder
       		state = Mode.CAMPAIGN;
-			campaignNum = 0;
+      		campaignNum = 0;
+    		campaignMoves = 0;
 			gameLayout();
 			//Make it start a campaign
       	} else if (s==m.getLoadGame()) {
@@ -367,6 +390,12 @@ implements ActionListener {
                 null,
                 g_speed,
         		null);
+  		
+  		playerName = (String)JOptionPane.showInputDialog(
+                this,
+                "Enter your name:\n",
+                "Config",
+                JOptionPane.QUESTION_MESSAGE);
   		if (curr == null) {	}
   		else if (curr.equals("Easy"))
   			return;
