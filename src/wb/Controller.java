@@ -174,8 +174,7 @@ implements ActionListener {
 						campaignNum++;
 
 					} else if(state == Mode.NORMAL) {
-						gameNum++;
-						threadGen(gameNum);					
+						threadGen(gameNum + 1);					
 					}
 					v.showLabel("Congrats!");
 					this.running = false;
@@ -291,8 +290,9 @@ implements ActionListener {
 		if (s == startButton) {
         	running = !running;
 			if (running) {
-				if (gg) {
+				if (gg) {		
 					makeModel(false);
+					gameNum++;
 				}
 				startButton.setText("Stop");
 				newGame();
