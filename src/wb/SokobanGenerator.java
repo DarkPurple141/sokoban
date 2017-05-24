@@ -78,10 +78,10 @@ public class SokobanGenerator{
 		}
 		//Add make a tile with a player in it
 		Point playerPos = new Point();
-//		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
-//		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
-		int playerx = width/2;
-		int playery = height/2;
+		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
+		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
+//		int playerx = width/2;
+//		int playery = height/2;
 		playerPos.setLocation(playerx, playery);
 		Tile playerTile = new FloorTile(playerPos);
 		playerTile.setContents(new Player(seed, playerPos));

@@ -8,7 +8,7 @@ import java.lang.Math;
 import java.util.Iterator;
 public class MctsTree{
 
-	private final int depthLimit = 3000;
+	private final int depthLimit = 1000;
 
 	private Board seed;
 	private Board sandbox;
@@ -197,14 +197,15 @@ public class MctsTree{
 				for(int y = start.y; y <= end.y; y++) {
 					Point checkThis = new Point();
 					checkThis.setLocation(x, y);
-					Tile atPos = sandbox.getPosition(checkThis);
-					if(!atPos.canBeFilled())
+					Tile seedTest = seed.getPosition(checkThis);
+					Tile sandTest = sandbox.getPosition(checkThis);
+					if(!sandTest.canBeFilled())
 						numWalls++;
 					else {
-						if(sandbox.getFinishTiles().contains(atPos))
-							numGoals++;
-						if(atPos.getContents() != null && atPos.getContents().getType() == 1)
+						if(seedTest.getContents() != null && seedTest.getContents().getType() == 1)
 							numBoxes++;
+						if(sandTest.getContents() != null && sandTest.getContents().getType() == 1)
+							numGoals++;
 					}
 				}
 			}
