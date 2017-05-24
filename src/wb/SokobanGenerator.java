@@ -62,6 +62,8 @@ public class SokobanGenerator{
 
 		System.out.println("DIVIDE");
 
+		System.out.println(best);
+
 		FileIO.saveGame(best, "levels/"+Integer.toString(id));
 	}
 
@@ -76,14 +78,14 @@ public class SokobanGenerator{
 		}
 		//Add make a tile with a player in it
 		Point playerPos = new Point();
-//		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
-//		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
-		int playerx = width/2;
-		int playery = height/2;
+		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
+		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
+//		int playerx = width/2;
+//		int playery = height/2;
 		playerPos.setLocation(playerx, playery);
 		Tile playerTile = new FloorTile(playerPos);
 		playerTile.setContents(new Player(seed, playerPos));
-		System.out.println(playerPos);
+		//System.out.println(playerPos);
 		seed.setPosition(playerPos, playerTile);
 
 		List<Point> visableWalls = new ArrayList<>();
@@ -123,7 +125,7 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		seed = fillEnds(seed, 8, 4, 1);
+		seed = fillEnds(seed, 4, 4, 1);
 		//System.out.println(seed);
 		return seed;
 	}
@@ -167,7 +169,7 @@ public class SokobanGenerator{
 
 	private static Board fillEnds(Board seed, int alpha, int beta, int gamma) {
 		MctsTree decisions = new MctsTree(seed, alpha, beta, gamma);
-		Board finished = decisions.scrambleRecurse();//TODO: IMPLEMENTl
+		Board finished = decisions.scrambleRecurse();
 		lastBestScore = decisions.getBestScore();
 		return finished;
 	}

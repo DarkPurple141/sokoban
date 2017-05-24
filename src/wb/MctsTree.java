@@ -8,7 +8,7 @@ import java.lang.Math;
 import java.util.Iterator;
 public class MctsTree{
 
-	private final int depthLimit = 3000;
+	private final int depthLimit = 1000;
 
 	private Board seed;
 	private Board sandbox;
@@ -16,7 +16,6 @@ public class MctsTree{
 	private Board currentBest;
 	private Node root;
 	private List<Point> walkedWithoutPush;
-	private List<Crate> originalCrates;
 	private Tile[][] seedTiles;
 	private Point playerStart;
 
@@ -32,28 +31,11 @@ public class MctsTree{
 		this.gamma = gamma;
 
 		this.seed = seed;
+
 		sandbox = seed.clone();
-//		System.out.println(sandbox);
 		root = new Node(null);
 		root.addOptions();
 		//walkedWithoutPush = new ArrayList<Point>();
-		originalCrates = new ArrayList<Crate>();
-		for (Crate c : seed.getCrates()){
-			int index = 0;
-			for (Crate added : originalCrates){
-				if(added.getCoord().x > c.getCoord().x){
-					break;
-				}
-				if (added.getCoord().x == c.getCoord().x){
-					if(added.getCoord().y > c.getCoord().y){
-						break;
-					}
-				}
-				index++;
-			}
-			
-			originalCrates.add(index,new Crate(seed, c.getCoord()));
-		}
 
 //		for (Crate c : originalCrates){
 //			System.out.println(c.getCoord());
@@ -128,19 +110,13 @@ public class MctsTree{
 		actionNode.visited();
 		//System.out.println(sandbox);
 		if (nextMove == 19){
-
 			double score = evaluate();
 			actionNode.updateValue(score);
 			if (score > bestScore){
-				setGoalPositions();
 				cratesToWall();
+				setGoalPositions();
 
-				//FileIO.saveGame(sandbox, Double.toString(score));
 				currentBest = sandbox.clone();
-
-				//System.out.println(seed);
-				//System.out.println(sandbox);
-				wallsToCrate();
 				bestScore = score;
 			}
 			//System.out.println(score);
@@ -162,100 +138,83 @@ public class MctsTree{
 	}
 
 	private double evaluate(){
-
 		cratesToWall();
 		int congestion = getCongestionMetric();
 		int terrain = getTerrainMetric();
-		wallsToCrate();
+		//wallsToCrate();
 		//System.out.println(sandbox);
 		//System.out.println(congestion);
-		return Math.sqrt(congestion*terrain)/10; 
+		return Math.sqrt(congestion*terrain)/1;
 	}
 
 	private void cratesToWall(){
-		int i = 0;
-		//List<Crate> newCrates = sandbox.getCrates();
-		Iterator<Crate> newCrates = sandbox.getCrates().iterator();
-		while (newCrates.hasNext()){
-			Crate c = newCrates.next();
-			if (c.getCoord().equals(originalCrates.get(i).getCoord())){
-				Tile oldtile = sandbox.getPosition(c.getCoord());
-				sandbox.setPosition(c.getCoord(), new Wall(c.getCoord()));
-				newCrates.remove();
-				sandbox.getFinishTiles().remove(oldtile);
+		int sandboxSize = sandbox.getCrates().size();
+		for(int i = 0; i < sandboxSize; i++) {
+			Crate original = seed.getCrates().get(i);
+			Crate finish = sandbox.getCrates().get(i);
+			if (original.getCoord().equals(finish.getCoord())) {
+				sandbox.setPosition(original.getCoord(), new Wall(original.getCoord()));
 			}
-			i++;
-		}
-		
-	}
-
-	private void wallsToCrate(){
-		int i = 0;
-		List<FloorTile> crateTiles = new ArrayList<FloorTile>();
-		for (Crate c : sandbox.getCrates()){
-			FloorTile tile = new FloorTile(c.getCoord());
-			
-			crateTiles.add(tile);	
-		}
-
-		for (FloorTile t : crateTiles){
-			sandbox.setPosition(t.getCoord(), t);
-			sandbox.getPosition(t.getCoord()).setContents(sandbox.getCrates().get(i));
-			i++;
 		}
 	}
+
+//	private void wallsToCrate(){
+//		int i = 0;
+//		List<FloorTile> crateTiles = new ArrayList<FloorTile>();
+//		for (Crate c : sandbox.getCrates()){
+//			FloorTile tile = new FloorTile(c.getCoord());
+//
+//			crateTiles.add(tile);
+//		}
+//
+//		for (FloorTile t : crateTiles){
+//			sandbox.setPosition(t.getCoord(), t);
+//			sandbox.getPosition(t.getCoord()).setContents(sandbox.getCrates().get(i));
+//			i++;
+//		}
+//	}
 
 	private int getCongestionMetric(){
-		int i = 0;
 		int numBoxes = 0;
 		int numGoals = 0;
 		int numWalls = 0;
-		for (Crate c : sandbox.getCrates()){
-			if (sandbox.getPosition(c.getCoord()).canBeFilled()){
-				//This crate still exists on the board
-				Crate original = originalCrates.get(i);
-				Point startPoint = original.getCoord();
-				Point endPoint = c.getCoord();
-				int minX = startPoint.x;
-				int maxX = endPoint.x;
-				int minY = startPoint.y;
-				int maxY = endPoint.y;
-				if (minX > endPoint.x){
-					minX = endPoint.x;
-					maxX = startPoint.x;
-				}
-				if (minY > endPoint.y){
-					minY = endPoint.y;
-					maxY = startPoint.y;
-				}
-				//System.out.println(startPoint);
-				//System.out.println(endPoint);
 
-				//System.out.println("ok?");
-				for (int x = minX; x <= maxX; x++){
-					for (int y = minY; y <= maxY; y++){
-						//System.out.println(x + ", " + y);
-						Point testing = new Point(x, y);
-						if (!sandbox.getPosition(testing).canBeFilled()){
-							numWalls++;
-						}else if(sandbox.getPosition(testing).getContents() != null && sandbox.getPosition(testing).getContents().getType() == 1){
+		for (int i = 0; i < sandbox.getCrates().size(); i++){
+			Crate seedCrate = seed.getCrates().get(i);
+			Point seedCoord = seedCrate.getCoord();
+			Crate sandCrate = sandbox.getCrates().get(i);
+			Point sandCoord = sandCrate.getCoord();
+
+			Point start = new Point();
+			start.x = seedCoord.x < sandCoord.x ? seedCoord.x : sandCoord.x;
+			start.y = seedCoord.y < sandCoord.y ? seedCoord.y : sandCoord.y;
+
+			Point end = new Point();
+			end.x = seedCoord.x > sandCoord.x ? seedCoord.x : sandCoord.x;
+			end.y = seedCoord.y > sandCoord.y ? seedCoord.y : sandCoord.y;
+
+			for(int x = start.x; x <= end.x; x++) {
+				for(int y = start.y; y <= end.y; y++) {
+					Point checkThis = new Point();
+					checkThis.setLocation(x, y);
+					Tile seedTest = seed.getPosition(checkThis);
+					Tile sandTest = sandbox.getPosition(checkThis);
+					if(!sandTest.canBeFilled())
+						numWalls++;
+					else {
+						if(seedTest.getContents() != null && seedTest.getContents().getType() == 1)
+							numBoxes++;
+						if(sandTest.getContents() != null && sandTest.getContents().getType() == 1)
 							numGoals++;
-						}else{
-							for (Crate cr : originalCrates){
-								if(cr.getCoord().equals(testing)){
-									numBoxes++;
-								}
-							}
-						}
 					}
 				}
-				//System.out.println("numBoxes = " + numBoxes);
-				//System.out.println("numGoals = " + numGoals);
-				//System.out.println("numWalls = " + numWalls);
-
 			}
-			i++;
 		}
+//		if(numBoxes != 0 || numGoals != 0 || numWalls != 0) {
+//			System.out.println("numBoxes = " + numBoxes);
+//			System.out.println("numGoals = " + numGoals);
+//			System.out.println("numWalls = " + numWalls);
+//		}
 		return alpha*numBoxes + beta*numGoals + gamma*numWalls;
 	}
 
@@ -278,6 +237,7 @@ public class MctsTree{
 				}
 			}
 		}
+		//System.out.println(terrainScore);
 		return terrainScore;
 	}
 
@@ -288,11 +248,45 @@ public class MctsTree{
 
 
 	private void setGoalPositions(){
-		for (Crate c : sandbox.getCrates()){
-			Tile goal = sandbox.getPosition(c.getCoord());
-			goal.setContents(null);
+
+		List<Crate> toRemove = new ArrayList<>();
+		for(int i = 0; i < seed.getCrates().size(); i++) {
+			Crate seedCrate = seed.getCrates().get(i);
+			Crate sandCrate = sandbox.getCrates().get(i);
+			if(!sandbox.getPosition(sandCrate.getCoord()).canBeFilled()) {
+				toRemove.add(sandCrate);
+				continue;
+			}
+			Tile goal = sandbox.getPosition(sandCrate.getCoord());
+			Tile crateStart = sandbox.getPosition(seedCrate.getCoord());
 			sandbox.addFinishTile((FloorTile)goal);
+			sandCrate.setCoord(seedCrate.getCoord());
+			crateStart.setContents(sandCrate);
 		}
+
+		for(Crate removeThis : toRemove) {
+			sandbox.getCrates().remove(removeThis);
+		}
+
+//		for(Crate c : seed.getCrates()) {
+//			Tile correspond = sandbox.getPosition(c.getCoord());
+//			if(!correspond.canBeFilled()) {
+//				sandbox.getCrates().remove(correspond.getContents());
+//				continue;
+//			}
+//
+//		}
+//
+//		for (Crate c : sandbox.getCrates()){
+//			Tile goal = sandbox.getPosition(c.getCoord());
+//			goal.setContents(null);
+//			sandbox.addFinishTile((FloorTile)goal);
+//		}
+//
+//		for (Crate c : seed.getCrates()) {
+//			Tile crateStart = sandbox.getPosition(c.getCoord());
+//			crateStart.setContents(c);
+//		}
 
 		for (Player p : sandbox.getPlayers()){
 			sandbox.getPosition(p.getCoord()).setContents(null);
@@ -300,15 +294,5 @@ public class MctsTree{
 			Tile playerTile = sandbox.getPosition(playerStart);
 			playerTile.setContents(p);
 		}
-
-		for (Crate c : originalCrates){
-			//System.out.println(c);
-			Tile crateStart = sandbox.getPosition(c.getCoord());
-			crateStart.setContents(c);
-		}
-
-		
-
 	}
-
 }

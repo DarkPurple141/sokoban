@@ -217,7 +217,7 @@ class Board implements Cloneable{
 	}
 
 	public Board clone(){
-
+		//TODO: DO this properly
 		Board clone = new Board(width, height);
 		Iterator<Tile> ti = tileIterator();
 		while(ti.hasNext()){
@@ -230,14 +230,19 @@ class Board implements Cloneable{
 			}
 			
 			Point addAt = toAdd.getCoord();
-			if (basedOff.getContents() != null){
-				if (basedOff.getContents().getType() == 1){
-					toAdd.setContents(new Crate(clone, addAt));
-				}else{
-					toAdd.setContents(new Player(clone, addAt));
-				}
-			}
 			clone.setPosition(addAt, toAdd);
+		}
+
+		for(Player p : players) {
+			Tile replacement = new FloorTile(p.getCoord());
+			replacement.setContents(new Player(clone, p.getCoord()));
+			clone.setPosition(p.getCoord(), replacement);
+		}
+
+		for(Crate c : crates) {
+			Tile replacement = new FloorTile(c.getCoord());
+			replacement.setContents(new Crate(clone, c.getCoord()));
+			clone.setPosition(c.getCoord(), replacement);
 		}
 
 		for (FloorTile f : finishTiles){
@@ -246,6 +251,4 @@ class Board implements Cloneable{
 
 		return clone;
 	}
-
-
 }
