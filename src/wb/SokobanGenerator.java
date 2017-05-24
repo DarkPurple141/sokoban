@@ -62,6 +62,8 @@ public class SokobanGenerator{
 
 		System.out.println("DIVIDE");
 
+		System.out.println(best);
+
 		FileIO.saveGame(best, "levels/"+Integer.toString(id));
 	}
 
@@ -83,7 +85,7 @@ public class SokobanGenerator{
 		playerPos.setLocation(playerx, playery);
 		Tile playerTile = new FloorTile(playerPos);
 		playerTile.setContents(new Player(seed, playerPos));
-		System.out.println(playerPos);
+		//System.out.println(playerPos);
 		seed.setPosition(playerPos, playerTile);
 
 		List<Point> visableWalls = new ArrayList<>();
@@ -167,7 +169,7 @@ public class SokobanGenerator{
 
 	private static Board fillEnds(Board seed, int alpha, int beta, int gamma) {
 		MctsTree decisions = new MctsTree(seed, alpha, beta, gamma);
-		Board finished = decisions.scrambleRecurse();//TODO: IMPLEMENTl
+		Board finished = decisions.scrambleRecurse();
 		lastBestScore = decisions.getBestScore();
 		return finished;
 	}

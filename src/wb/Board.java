@@ -241,7 +241,7 @@ class Board implements Cloneable{
 
 		for(Crate c : crates) {
 			Tile replacement = new FloorTile(c.getCoord());
-			replacement.setContents(new Player(clone, c.getCoord()));
+			replacement.setContents(new Crate(clone, c.getCoord()));
 			clone.setPosition(c.getCoord(), replacement);
 		}
 
