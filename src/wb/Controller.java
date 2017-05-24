@@ -251,7 +251,7 @@ implements ActionListener {
         	if(p.isMoving())
         		moving = true;
         }
-        if(moving)
+        if(moving || !running || paused)
         	return;
 		switch (curr) {
 			case KeyEvent.VK_UP:
