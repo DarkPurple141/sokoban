@@ -123,17 +123,6 @@ implements ActionListener {
 		drawGame();
 	}
 
-<<<<<<< HEAD
-	private void makeModel() throws FileNotFoundException
-	{
-		String filePath = null;
-		if (state == Mode.NORMAL) {
-			filePath = "levels/" + Integer.toString(gameNum);
-		} else if (state == Mode.CAMPAIGN) {
-			filePath = "campaign/" + Integer.toString(campaignNum);
-		} else if (state == Mode.LOAD) {
-			filePath = this.currLevelPath;
-=======
 	private void makeModel(boolean reset)
 	{	
 		if (reset) {
@@ -151,7 +140,6 @@ implements ActionListener {
 			} catch (Exception e) {
 				// nothing
 			}
->>>>>>> master
 		}
 	}
 
