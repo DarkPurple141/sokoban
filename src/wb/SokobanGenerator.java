@@ -54,13 +54,12 @@ public class SokobanGenerator{
 
 		for(int i = 0; i < tries; i++) {
 			if(scores[i] > bestScore) {
-				System.out.println(scores[i]);
 				best = selection[i];
 				bestScore = scores[i];
 			}
 		}
 
-		System.out.println("DIVIDE");
+		System.out.println(bestScore);
 
 		System.out.println(best);
 

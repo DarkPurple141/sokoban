@@ -306,11 +306,11 @@ implements ActionListener {
 			if (running) {
 				if (gg) {
 					campaignMoves += moves;
-					running = false;
 					threadGen(gameNum+2);
 					gameNum++;
 					makeModel(false);
 					newGame();
+					startButton.setText("Start");
 				}
 				startButton.setText("Stop");
 				newGame();
