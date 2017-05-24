@@ -92,7 +92,7 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		seed = fillEnds(seed);
+		seed = fillEnds(seed, 4, 4, 1);
 		//System.out.println(seed);
 		FileIO.saveGame(seed, "levels/"+Integer.toString(id));
 	}
@@ -134,8 +134,8 @@ public class SokobanGenerator{
 		return addCrates(seed, crates-1, empty);
 	}
 
-	private static Board fillEnds(Board seed) {
-		MctsTree decisions = new MctsTree(seed);
+	private static Board fillEnds(Board seed, int alpha, int beta, int gamma) {
+		MctsTree decisions = new MctsTree(seed, alpha, beta, gamma);
 		return decisions.scrambleRecurse();//TODO: IMPLEMENT
 	}
 }

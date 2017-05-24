@@ -17,9 +17,17 @@ public class MctsTree{
 	private Tile[][] seedTiles;
 	private Point playerStart;
 
+	private int alpha;
+	private int beta;
+	private int gamma;
+
 	private Random rand = new Random();
 
-	public MctsTree(Board seed){
+	public MctsTree(Board seed, int alpha, int beta, int gamma){
+		this.alpha = alpha;
+		this.beta = beta;
+		this.gamma = gamma;
+
 		this.seed = seed;
 		sandbox = seed.clone();
 //		System.out.println(sandbox);
@@ -241,7 +249,7 @@ public class MctsTree{
 			}
 			i++;
 		}
-		return numBoxes + numGoals + numWalls;
+		return alpha*numBoxes + beta*numGoals + gamma*numWalls;
 	}
 
 
