@@ -176,7 +176,7 @@ implements ActionListener {
 						campaignNum++;
 
 					} else if(state == Mode.NORMAL) {
-						threadGen(gameNum + 1);					
+						threadGen(gameNum + 2);
 					}
 					v.showLabel("<html>Congrats!<br>Moves: " + 
 					Integer.toString(moves)+"</html>");

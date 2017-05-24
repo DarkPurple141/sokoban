@@ -125,7 +125,7 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		seed = fillEnds(seed, 8, 4, 1);
+		seed = fillEnds(seed, 4, 4, 1);
 		//System.out.println(seed);
 		return seed;
 	}
