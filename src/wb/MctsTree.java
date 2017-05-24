@@ -7,6 +7,9 @@ import java.util.Random;
 import java.lang.Math;
 import java.util.Iterator;
 public class MctsTree{
+
+	private final int depthLimit = 3000;
+
 	private Board seed;
 	private Board sandbox;
 	private double bestScore;
@@ -59,6 +62,10 @@ public class MctsTree{
 
 	}
 
+	public double getBestScore() {
+		return this.bestScore;
+	}
+
 	public Board scrambleRecurse(){
 		//System.out.println(seed);
 		// Start of MCTS search (tree is set up)
@@ -68,7 +75,7 @@ public class MctsTree{
 		//walkedWithoutPush.add(currentPoint);
 		// Need to roll out here
 		int numIterations = 0;
-		while(numIterations < 1000){
+		while(numIterations < depthLimit){
 			Player player = sandbox.getPlayers().get(0);
 			mctsSearch(root, player);
 			numIterations++;

@@ -7,7 +7,11 @@ import java.util.Random;
 
 public class SokobanGenerator{
 
+	private static final int tries = 50;
+
 	private static Random rand = new Random();
+
+	private static double lastBestScore = 0;
 
 	// PLAN - Generate a level with all walls and player in centre
 	// This is base state
@@ -35,8 +39,33 @@ public class SokobanGenerator{
 //	}
 
 	public static void generateLevel(int width, int height, int id) {
-		Board seed = new Board(width, height);
 
+		Board[] selection = new Board[tries];
+		double[] scores = new double[tries];
+
+		//Fill the array with completed boards
+		for(int i = 0; i < tries; i++) {
+			selection[i] = completeSeed(new Board(width, height), width, height);
+			scores[i] = lastBestScore;
+		}
+		//Pick the best of the bunch
+		Board best = null;
+		double bestScore = 0;
+
+		for(int i = 0; i < tries; i++) {
+			if(scores[i] > bestScore) {
+				System.out.println(scores[i]);
+				best = selection[i];
+				bestScore = scores[i];
+			}
+		}
+
+		System.out.println("DIVIDE");
+
+		FileIO.saveGame(best, "levels/"+Integer.toString(id));
+	}
+
+	private static Board completeSeed(Board seed, int width, int height) {
 		//Make board full of walls
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
@@ -47,8 +76,10 @@ public class SokobanGenerator{
 		}
 		//Add make a tile with a player in it
 		Point playerPos = new Point();
-		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
-		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
+//		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
+//		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
+		int playerx = width/2;
+		int playery = height/2;
 		playerPos.setLocation(playerx, playery);
 		Tile playerTile = new FloorTile(playerPos);
 		playerTile.setContents(new Player(seed, playerPos));
@@ -92,9 +123,9 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		seed = fillEnds(seed, 4, 4, 1);
+		seed = fillEnds(seed, 8, 4, 1);
 		//System.out.println(seed);
-		FileIO.saveGame(seed, "levels/"+Integer.toString(id));
+		return seed;
 	}
 
 	private static Board clearSpace(Board seed, int spaces, List<Point> visableWalls) {
@@ -136,6 +167,8 @@ public class SokobanGenerator{
 
 	private static Board fillEnds(Board seed, int alpha, int beta, int gamma) {
 		MctsTree decisions = new MctsTree(seed, alpha, beta, gamma);
-		return decisions.scrambleRecurse();//TODO: IMPLEMENT
+		Board finished = decisions.scrambleRecurse();//TODO: IMPLEMENTl
+		lastBestScore = decisions.getBestScore();
+		return finished;
 	}
 }
