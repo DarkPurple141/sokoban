@@ -115,9 +115,7 @@ public class MctsTree{
 			double score = evaluate();
 			actionNode.updateValue(score);
 			if (score > bestScore){
-				//cratesToWall();
 				setGoalPositions();
-
 				currentBest = sandbox.clone();
 				bestScore = score;
 			}
@@ -141,8 +139,10 @@ public class MctsTree{
 
 	private double evaluate(){
 		cratesToWall();
+		
 		int congestion = getCongestionMetric();
 		int terrain = getTerrainMetric();
+
 		//wallsToCrate();
 //		System.out.println(congestion);
 //		System.out.println(terrain);
