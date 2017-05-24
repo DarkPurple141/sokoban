@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
@@ -21,7 +20,7 @@ import javax.swing.JPanel;
 public class Controller
 extends JFrame
 implements ActionListener {
-	private static double MOVE_INCREMENT = 0.2;
+	private static double MOVE_INCREMENT = 0.15;
 
 	private static final long serialVersionUID = 1L;
 	private static int SCREEN_WIDTH = 512;
@@ -50,8 +49,7 @@ implements ActionListener {
 
 	public Controller() {
 		super("Warehouse Boss V0.3");
-		threadGen();
-		threadGen();
+		threadGen(0);
 		constructorHelper();
 	}
 
@@ -83,6 +81,7 @@ implements ActionListener {
 		addKeyListener(new WBListener(this));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(SCREEN_WIDTH-1,SCREEN_HEIGHT+50); // 511 by 511 works.
+		threadGen(1);
 		this.setFocusable(true);
 		this.pack();
 		this.setVisible(true);
@@ -90,6 +89,7 @@ implements ActionListener {
 	
 	// Work in progress
 	private void gameLayout() {
+		makeModel(false);
 		newGame();
 		switchLayout();
 	    v.validate();
@@ -116,12 +116,6 @@ implements ActionListener {
 
 	public void newGame() {
 		gg = false;
-		try {
-			makeModel();
-		} catch (Exception e) {
-			System.out.println("Could not make new game");
-			return;
-		}
 		v.resetBoard(b);
 		v.hideLabel();
 		paused = false;
@@ -129,6 +123,7 @@ implements ActionListener {
 		drawGame();
 	}
 
+<<<<<<< HEAD
 	private void makeModel() throws FileNotFoundException
 	{
 		String filePath = null;
@@ -138,8 +133,26 @@ implements ActionListener {
 			filePath = "campaign/" + Integer.toString(campaignNum);
 		} else if (state == Mode.LOAD) {
 			filePath = this.currLevelPath;
+=======
+	private void makeModel(boolean reset)
+	{	
+		if (reset) {
+			b = FileIO.XML2Board(currLevelPath);
+		} else {
+			try {
+				if (state == Mode.NORMAL) {
+					currLevelPath = "levels/" + Integer.toString(gameNum);
+				} else if (state == Mode.CAMPAIGN) {
+					currLevelPath = "campaign/" + Integer.toString(campaignNum);
+				} else if (state == Mode.LOAD) {
+					// nothing
+				}
+				b = FileIO.XML2Board(currLevelPath);
+			} catch (Exception e) {
+				// nothing
+			}
+>>>>>>> master
 		}
-		b = FileIO.XML2Board(filePath);
 	}
 
 	public void runGameLoop() {
@@ -151,10 +164,10 @@ implements ActionListener {
       	loop.start();
 	}
 
-	private void threadGen() {
+	private void threadGen(int id) {
 		Thread loop = new Thread() {
 			public void run() {
-				SokobanGenerator.generateLevel(10, 10);
+				SokobanGenerator.generateLevel(10, 10, id);
 			}
 		};
 		loop.start();
@@ -171,26 +184,15 @@ implements ActionListener {
 				if(b.isFinished()) {
 					if(state == Mode.CAMPAIGN) {
 						campaignNum++;
-						try {
-							makeModel();
-						} catch(Exception e) {
-							v.showLabel("<html>Congrats!<br><br>"
-									+ "Press Enter to Return to Main Menu</html>");
-						}
 
 					} else if(state == Mode.NORMAL) {
 						gameNum++;
-						threadGen();
-						try {
-							makeModel();
-						} catch (Exception e) {
-							System.out.println("Normal exception");
-						}
-
+						threadGen(gameNum);					
 					}
+					v.showLabel("Congrats!");
 					this.running = false;
 					gg = true;
-					startButton.setText("Start");
+					startButton.setText("Next");
 				}
 			} try {
         		Thread.sleep(delay); // 10fps
@@ -301,9 +303,12 @@ implements ActionListener {
 		if (s == startButton) {
         	running = !running;
 			if (running) {
+				if (gg) {
+					makeModel(false);
+				}
 				startButton.setText("Stop");
 				newGame();
-            	runGameLoop();
+	            runGameLoop();
 			} else {
             	startButton.setText("Start");
          	}
@@ -316,6 +321,7 @@ implements ActionListener {
          	}
       	} else if (s == restartButton) {
 			running = false;
+			makeModel(true);
          	newGame();
 			startButton.setText("Start");
       	} else if (s == m.getPlayNow()) {
@@ -329,6 +335,7 @@ implements ActionListener {
       		// pre-defined missions that get harder
       		state = Mode.CAMPAIGN;
 			campaignNum = 0;
+			gameLayout();
 			//Make it start a campaign
       	} else if (s==m.getLoadGame()) {
       		state = Mode.LOAD;

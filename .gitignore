@@ -104,3 +104,4 @@ tramp
 .CVS
 .idea
 *.iml
+levels/*
