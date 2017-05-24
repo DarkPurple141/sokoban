@@ -306,10 +306,9 @@ implements ActionListener {
 			if (running) {
 				if (gg) {
 					campaignMoves += moves;
-					threadGen(gameNum+2);
 					gameNum++;
 					makeModel(false);
-					newGame();
+					threadGen(gameNum+1);
 					startButton.setText("Start");
 				}
 				startButton.setText("Stop");
@@ -320,9 +319,9 @@ implements ActionListener {
          	}
       	} else if (s == skipButton) {
       		running = false;
-			threadGen(gameNum+2);
 			gameNum++;
 			makeModel(false);
+			threadGen(gameNum+1);
 			newGame();
 			startButton.setText("Start");
       	} else if (s == restartButton) {
