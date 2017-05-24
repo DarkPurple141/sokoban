@@ -158,4 +158,13 @@ public class FileIO
 			System.out.println(e.getMessage());
 		}
 	}
+
+	public static void removeFile(String filename){
+		try{
+			File f = new File(filename);
+			f.delete();
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 }
