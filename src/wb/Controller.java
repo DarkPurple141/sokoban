@@ -251,13 +251,11 @@ implements ActionListener {
 	 */
 	public void processEvent(KeyEvent e) {
 		if (!running) {
-			if (gg) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					v.hideLabel();
-					switchLayout();
-					gg = false;
-					return;
-				}
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				v.hideLabel();
+				switchLayout();
+				gg = false;
+				return;
 			}
 		}
         int curr = e.getKeyCode();
@@ -299,7 +297,6 @@ implements ActionListener {
 		if('u' == e.getKeyChar()){
 			b.undo();
 		}
-
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -322,7 +319,6 @@ implements ActionListener {
       		running = false;
 			gameNum++;
 			threadGen(gameNum+1);
-			threadGen(gameNum+2);
 			makeModel(false);
 			newGame();
 			startButton.setText("Start");
