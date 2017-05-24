@@ -177,7 +177,7 @@ implements ActionListener {
 				if(state == Mode.CAMPAIGN) {
 					campaignNum++;			
 				} else if(state == Mode.NORMAL) {
-					threadGen(gameNum + 1);					
+
 				}
 				v.showLabel("<html>Congrats!<br>Moves: " + 
 				Integer.toString(moves)+"</html>");
@@ -192,7 +192,7 @@ implements ActionListener {
 			try {
         		Thread.sleep(delay); // 10fps
     		} catch (InterruptedException e) {
-    		}
+			}
 		}
 				
 	}
@@ -306,8 +306,11 @@ implements ActionListener {
 			if (running) {
 				if (gg) {
 					campaignMoves += moves;
-					makeModel(false);
+					running = false;
+					threadGen(gameNum+2);
 					gameNum++;
+					makeModel(false);
+					newGame();
 				}
 				startButton.setText("Stop");
 				newGame();
@@ -317,8 +320,8 @@ implements ActionListener {
          	}
       	} else if (s == skipButton) {
       		running = false;
+			threadGen(gameNum+2);
 			gameNum++;
-			threadGen(gameNum+1);
 			makeModel(false);
 			newGame();
 			startButton.setText("Start");

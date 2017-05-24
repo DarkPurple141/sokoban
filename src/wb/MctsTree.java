@@ -142,9 +142,10 @@ public class MctsTree{
 		int congestion = getCongestionMetric();
 		int terrain = getTerrainMetric();
 		//wallsToCrate();
-		//System.out.println(sandbox);
-		//System.out.println(congestion);
-		return Math.sqrt(congestion*terrain)/1;
+//		System.out.println(congestion);
+//		System.out.println(terrain);
+//		System.out.println("------");
+		return Math.sqrt(congestion*terrain);
 	}
 
 	private void cratesToWall(){
