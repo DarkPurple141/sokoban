@@ -8,7 +8,7 @@ import java.lang.Math;
 import java.util.Iterator;
 public class MctsTree{
 
-	private final int depthLimit = 1000;
+	private final int depthLimit = 2000;
 
 	private Board seed;
 	private Board sandbox;
@@ -22,13 +22,15 @@ public class MctsTree{
 	private int alpha;
 	private int beta;
 	private int gamma;
+	private int tau;
 
 	private Random rand = new Random();
 
-	public MctsTree(Board seed, int alpha, int beta, int gamma){
+	public MctsTree(Board seed, int alpha, int beta, int gamma, int tau){
 		this.alpha = alpha;
 		this.beta = beta;
 		this.gamma = gamma;
+		this.tau = tau;
 
 		this.seed = seed;
 
@@ -113,7 +115,7 @@ public class MctsTree{
 			double score = evaluate();
 			actionNode.updateValue(score);
 			if (score > bestScore){
-				cratesToWall();
+				//cratesToWall();
 				setGoalPositions();
 
 				currentBest = sandbox.clone();
@@ -211,6 +213,7 @@ public class MctsTree{
 				}
 			}
 		}
+
 //		if(numBoxes != 0 || numGoals != 0 || numWalls != 0) {
 //			System.out.println("numBoxes = " + numBoxes);
 //			System.out.println("numGoals = " + numGoals);
@@ -239,7 +242,7 @@ public class MctsTree{
 			}
 		}
 		//System.out.println(terrainScore);
-		return terrainScore;
+		return tau*terrainScore;
 	}
 
 

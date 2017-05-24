@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class SokobanGenerator{
 
-	private static final int tries = 50;
+	private static final int tries = 10;
 
 	private static Random rand = new Random();
 
@@ -56,10 +56,9 @@ public class SokobanGenerator{
 			if(scores[i] > bestScore) {
 				best = selection[i];
 				bestScore = scores[i];
+				System.out.println(bestScore);
 			}
 		}
-
-		System.out.println(bestScore);
 
 		System.out.println(best);
 
@@ -77,10 +76,10 @@ public class SokobanGenerator{
 		}
 		//Add make a tile with a player in it
 		Point playerPos = new Point();
-		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
-		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
-//		int playerx = width/2;
-//		int playery = height/2;
+//		int playerx = rand.nextInt(Integer.MAX_VALUE)%width;
+//		int playery = rand.nextInt(Integer.MAX_VALUE)%height;
+		int playerx = width/2;
+		int playery = height/2;
 		playerPos.setLocation(playerx, playery);
 		Tile playerTile = new FloorTile(playerPos);
 		playerTile.setContents(new Player(seed, playerPos));
@@ -94,8 +93,8 @@ public class SokobanGenerator{
 				visableWalls.add(neighbour);
 		}
 		//determine number of each thing that we want
-		int spaces = 1*(width * height)/2 - 2;//TODO add random element
-		int crates = (width * height)/12 + 1;//TODO add random element
+		int spaces = 1*(width * height)/2;//TODO add random element
+		int crates = (width * height)/15 + 1;//TODO add random element
 		//Adding spaces
 		seed = clearSpace(seed, spaces, visableWalls);
 		//Building list of places where crates can be placed
@@ -124,7 +123,7 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		seed = fillEnds(seed, 4, 4, 1);
+		seed = fillEnds(seed, 10, -1, 4, 1);
 		//System.out.println(seed);
 		return seed;
 	}
@@ -166,8 +165,8 @@ public class SokobanGenerator{
 		return addCrates(seed, crates-1, empty);
 	}
 
-	private static Board fillEnds(Board seed, int alpha, int beta, int gamma) {
-		MctsTree decisions = new MctsTree(seed, alpha, beta, gamma);
+	private static Board fillEnds(Board seed, int alpha, int beta, int gamma, int tau) {
+		MctsTree decisions = new MctsTree(seed, alpha, beta, gamma, tau);
 		Board finished = decisions.scrambleRecurse();
 		lastBestScore = decisions.getBestScore();
 		return finished;

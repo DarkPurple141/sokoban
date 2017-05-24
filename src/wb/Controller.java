@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 public class Controller
 extends JFrame
 implements ActionListener {
-	private static double MOVE_INCREMENT = 0.15;
+	private static double MOVE_INCREMENT = 0.2;
 
 	private static final long serialVersionUID = 1L;
 	private static int SCREEN_WIDTH = 512;
