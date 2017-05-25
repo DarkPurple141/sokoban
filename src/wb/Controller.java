@@ -13,11 +13,14 @@ import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
@@ -36,7 +39,7 @@ import javax.swing.JPanel;
  */
 public class Controller
 extends JFrame
-implements ActionListener, KeyListener {
+implements ActionListener, ComponentListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	private static final int FPS = 30;
 	private static final int SCREEN_HEIGHT = 512;
@@ -107,8 +110,7 @@ implements ActionListener, KeyListener {
 		cp.setLayout(new BorderLayout());
 		cp.add(this.panels, BorderLayout.CENTER);
 
-		// FIXME(jashankj): move these inline!
-		this.addComponentListener(new ResizeListener(this));
+		this.addComponentListener(this);
 		this.addKeyListener(this);
 
 		super.pack();
@@ -362,6 +364,7 @@ implements ActionListener, KeyListener {
 		}
 	}
 
+	// FIXME(jashankj): slice apart!
 	public void actionPerformed(ActionEvent e) {
 		// FIXME(jashankj): compare-by-reference?
 		Object s = e.getSource();
@@ -487,11 +490,26 @@ implements ActionListener, KeyListener {
 		}
 	}
 
-	public void resizeView() {
+	@Override public void
+	componentResized (ComponentEvent ce) {
+		Component evSource = (Component)ce.getSource();
+		if (this != evSource) {
+			return;
+		}
+
 		if (this.v == null) {
 			return;
 		}
 
 		this.v.resizeSprites();
 	}
+
+	@Override public void
+	componentMoved (ComponentEvent ce) {}
+
+	@Override public void
+	componentShown (ComponentEvent ce) {}
+
+	@Override public void
+	componentHidden (ComponentEvent ce) {}
 }
