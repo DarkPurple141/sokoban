@@ -8,15 +8,13 @@ import java.lang.Math;
 import java.util.Iterator;
 public class MctsTree{
 
-	private final int depthLimit = 2000;
+	private final int depthLimit = 1800;
 
 	private Board seed;
 	private Board sandbox;
 	private double bestScore;
 	private Board currentBest;
 	private Node root;
-	private List<Point> walkedWithoutPush;
-	private Tile[][] seedTiles;
 	private Point playerStart;
 
 	private int alpha;
@@ -37,11 +35,7 @@ public class MctsTree{
 		sandbox = seed.clone();
 		root = new Node(null);
 		root.addOptions();
-		//walkedWithoutPush = new ArrayList<Point>();
 
-//		for (Crate c : originalCrates){
-//			System.out.println(c.getCoord());
-//		}
 		playerStart = seed.getPlayers().get(0).getCoord();
 
 	}
@@ -51,12 +45,8 @@ public class MctsTree{
 	}
 
 	public Board scrambleRecurse(){
-		//System.out.println(seed);
 		// Start of MCTS search (tree is set up)
-		//int optionIndex = rand.nextInt(Integer.MAX_VALUE)%root.getChildren().size();
-		
-		//Point currentPoint = player.getCoord();
-		//walkedWithoutPush.add(currentPoint);
+
 		// Need to roll out here
 		int numIterations = 0;
 		while(numIterations < depthLimit){
@@ -67,7 +57,6 @@ public class MctsTree{
 		}
 
 		return currentBest;
-		//takeAction(root.getChildren().get(1), player);
 	}
 
 	private boolean mctsSearch(Node actionNode, Player player){
@@ -119,8 +108,6 @@ public class MctsTree{
 				currentBest = sandbox.clone();
 				bestScore = score;
 			}
-			//System.out.println(score);
-			//actionNode.visited();
 			return;
 		}else{
 			nextMove = nextMove%4;
@@ -241,7 +228,6 @@ public class MctsTree{
 				}
 			}
 		}
-		//System.out.println(terrainScore);
 		return tau*terrainScore;
 	}
 
@@ -271,26 +257,6 @@ public class MctsTree{
 		for(Crate removeThis : toRemove) {
 			sandbox.getCrates().remove(removeThis);
 		}
-
-//		for(Crate c : seed.getCrates()) {
-//			Tile correspond = sandbox.getPosition(c.getCoord());
-//			if(!correspond.canBeFilled()) {
-//				sandbox.getCrates().remove(correspond.getContents());
-//				continue;
-//			}
-//
-//		}
-//
-//		for (Crate c : sandbox.getCrates()){
-//			Tile goal = sandbox.getPosition(c.getCoord());
-//			goal.setContents(null);
-//			sandbox.addFinishTile((FloorTile)goal);
-//		}
-//
-//		for (Crate c : seed.getCrates()) {
-//			Tile crateStart = sandbox.getPosition(c.getCoord());
-//			crateStart.setContents(c);
-//		}
 
 		for (Player p : sandbox.getPlayers()){
 			sandbox.getPosition(p.getCoord()).setContents(null);

@@ -7,7 +7,15 @@ import java.util.Random;
 
 public class SokobanGenerator{
 
-	private static final int tries = 10;
+	private static final int alpha = 10;
+	private static final int beta = 1;
+	private static final int gamma = 4;
+	private static final int tau = 1;
+
+	private static final double blockDensity = 0.4;
+	private static final double crateDensity = 0.3;
+
+	private static final int tries = 15;
 
 	private static Random rand = new Random();
 
@@ -93,8 +101,8 @@ public class SokobanGenerator{
 				visableWalls.add(neighbour);
 		}
 		//determine number of each thing that we want
-		int spaces = 1*(width * height)/2;//TODO add random element
-		int crates = (width * height)/15 + 1;//TODO add random element
+		int spaces = (int)((width*height)*(1-blockDensity)+2);
+		int crates = (int)(spaces*crateDensity);
 		//Adding spaces
 		seed = clearSpace(seed, spaces, visableWalls);
 		//Building list of places where crates can be placed
@@ -123,7 +131,7 @@ public class SokobanGenerator{
 		//Adding crates
 		seed = addCrates(seed, crates, empty);
 		//Fill in the ends
-		seed = fillEnds(seed, 10, -1, 4, 1);
+		seed = fillEnds(seed);
 		//System.out.println(seed);
 		return seed;
 	}
@@ -165,7 +173,7 @@ public class SokobanGenerator{
 		return addCrates(seed, crates-1, empty);
 	}
 
-	private static Board fillEnds(Board seed, int alpha, int beta, int gamma, int tau) {
+	private static Board fillEnds(Board seed) {
 		MctsTree decisions = new MctsTree(seed, alpha, beta, gamma, tau);
 		Board finished = decisions.scrambleRecurse();
 		lastBestScore = decisions.getBestScore();
