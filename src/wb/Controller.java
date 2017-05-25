@@ -30,6 +30,7 @@ implements ActionListener {
 	private static int SCREEN_WIDTH = 512;
 	private static int SCREEN_HEIGHT = 512;
 
+	private ScoreParser scores;
 	private GameView v;
 	private JPanel gameButtons;
 	private JPanel gameWindow;
@@ -60,6 +61,7 @@ implements ActionListener {
 	}
 
 	private void constructorHelper() {
+		scores = new ScoreParser();
 		playerName = "admin";
 		gameNum = 0;
 		this.state = Mode.NORMAL;
@@ -186,6 +188,14 @@ implements ActionListener {
 				startButton.setText("Next");
 				if (campaignNum > 1) {
 					logCampaignScore();
+					v.showLabel(scores.getScoreTable());
+					/// HACKS LIE AHEAD
+					try {
+		        		Thread.sleep(3000); // 10fps
+		    		} catch (InterruptedException e) {
+		    			
+					}
+					/// END HACKS
 					switchLayout();
 				}
 			}
@@ -199,13 +209,7 @@ implements ActionListener {
 	
 	private void logCampaignScore() {
 		campaignMoves += moves;
-		String toLog = playerName + " " + Integer.toString(campaignMoves) + "\n";
-		try {
-		    Files.write(Paths.get("Hall_of_Fame"), toLog.getBytes(), StandardOpenOption.APPEND);
-		}catch (IOException e) {
-			System.out.println("HERE");
-		    //exception handling left as an exercise for the reader
-		}
+		scores.updateScores(playerName, campaignMoves);
 	}
 	
 	private void populateSavedGames(String path) {
