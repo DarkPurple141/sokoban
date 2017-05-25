@@ -5,7 +5,18 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Random;
 
-public class SokobanGenerator{
+/**
+ * @brief a Sokoban-style game generator
+ *
+ * uses a monte-carlo tree simulation, which seems to be the solution
+ * par excellence for this problem.
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+class SokobanGenerator {
 
 	private static final int alpha = 10;
 	private static final int beta = 1;

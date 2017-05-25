@@ -7,7 +7,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class MctsTree{
+/**
+ * @brief Monte-Carlo tree-sim.
+ *
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+class MctsTree {
+	// FIXME(jashankj): static?
 	private final int depthLimit = 1800;
 
 	private Board seed;
@@ -22,6 +30,7 @@ public class MctsTree{
 	private int gamma;
 	private int tau;
 
+	// FIXME(jashankj): move out of classloader init
 	private Random rand = new Random();
 
 	public MctsTree(Board seed, int alpha, int beta, int gamma, int tau){

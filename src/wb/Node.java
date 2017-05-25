@@ -3,7 +3,15 @@ package wb;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * @brief M-C tree sim node.
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
 public class Node {
+	// FIXME(jashankj): move this down a package
 	private List<Node> children;
 	private Node parent;
 	private MctsAction action;

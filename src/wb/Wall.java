@@ -1,8 +1,16 @@
 package wb;
 
-import java.awt.*;
+import java.awt.Point;
 
-public class Wall extends Tile {
+/**
+ * @brief an immovable object
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+class Wall
+extends Tile {
 	public Wall(Point startCoord) {
 		super(startCoord);
 	}
@@ -16,5 +24,6 @@ public class Wall extends Tile {
 	}
 
 	public void setContents(GamePiece newContents) {
+		// FIXME(jashankj): probably want to throw an exception here
 	}
 }

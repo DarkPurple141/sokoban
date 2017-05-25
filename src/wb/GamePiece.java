@@ -4,14 +4,17 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
 
-public abstract class GamePiece{
-
+/**
+ * @brief movable game pieces
+ *
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+abstract class GamePiece {
 	private Board myBoard;
-
 	private Point thisCoord;
-
 	private ArrayDeque<Point> prevCoords;
-
 	private Point2D animOffset;
 
 	public GamePiece(Board myBoard, Point startCoord) {

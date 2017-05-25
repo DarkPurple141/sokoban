@@ -1,9 +1,7 @@
 package wb;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import java.awt.Point;
+import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,10 +9,19 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
-import java.io.File;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
-public class FileIO {
+/**
+ * @brief serialisation and deserialisation for Board
+ *
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
+class FileIO {
 	/**
 	 * Used when constructing a Model from an xml file
 	 * There is potential to use the same XML format for saved games as well
@@ -69,6 +76,7 @@ public class FileIO {
 	}
 
 	public static Tile int2Tile(Board b, int code, Point pos) {
+		// FIXME (jashankj): make this switched on
 		if(code == 0){
 			return new FloorTile(pos);
 		}
