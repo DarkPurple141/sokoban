@@ -66,7 +66,6 @@ implements ActionListener {
 		gameNum = 0;
 		this.state = Mode.NORMAL;
 		this.populateSavedGames("saved");
-		this.populateCampaignGames("campaign");
 		this.setBackground(Color.BLACK);
 		panels = new JPanel();
 		panels.setLayout(new CardLayout());
@@ -141,11 +140,10 @@ implements ActionListener {
 					currLevelPath = "levels/" + Integer.toString(gameNum);
 				} else if (state == Mode.CAMPAIGN) {
 					currLevelPath = "campaign/" + Integer.toString(campaignNum);
-				} else if (state == Mode.LOAD) {
-					// nothing
 				}
 				b = FileIO.XML2Board(currLevelPath);
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -186,7 +184,7 @@ implements ActionListener {
 				this.running = false;
 				gg = true;
 				startButton.setText("Next");
-				if (campaignNum > 1) {
+				if (campaignNum > 9) {
 					logCampaignScore();
 					v.showLabel(scores.getScoreTable());
 					/// HACKS LIE AHEAD
@@ -228,10 +226,6 @@ implements ActionListener {
 	    }
 
 	    savedGames = files.toArray(new String[]{});
-	}
-	
-	private void populateCampaignGames(String path) {
-		campaignPath = new ArrayList<String>();
 	}
 
 	private void updateGameState() {

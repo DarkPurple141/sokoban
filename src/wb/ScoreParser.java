@@ -35,11 +35,11 @@ public class ScoreParser {
 	}
 	
 	public String getScoreTable() {
-		String toGive = "<html><h2 style=\"text-align:center;\">Top Scores</h2>";
+		String toGive = "<html><h1 style=\"text-align:center;\">Top Scores</h1>";
 		int index = 0;
 		while (index < names.size()) {
-			toGive += "<p>" + Integer.toString(index+1) + ". " + names.get(index) +
-					Integer.toString(scores.get(index)) + "</p>";
+			toGive += "<h2>" + Integer.toString(index+1) + ". " + names.get(index) +
+					Integer.toString(scores.get(index)) + "</h2>";
 			index++;
 		}
 		
