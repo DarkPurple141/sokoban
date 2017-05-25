@@ -38,31 +38,50 @@ Aggregates(`Board', `GamePiece');
 AssociatedWith(`Board', `Point');
 
 Class(`Controller', `
-    Field(`levelPath', `String'),
+    Field(`scores', `ScoreParser'),
     Field(`v', `GameView'),
-    Field(`b', `Board'),
-    Field(`running', `boolean'),
-    Field(`paused', `boolean'),
-    Field(`fps', `int'),
-    Field(`frameCount', `int'),
+    Field(`gameButtons', `JPanel'),
+    Field(`gameWindow', `JPanel'),
+    Field(`panels', `JPanel'),
     Field(`startButton', `JButton'),
     Field(`restartButton', `JButton'),
-    Field(`pauseButton', `JButton')',
+    Field(`pauseButton', `JButton'),
+    Field(`state', `Mode'),
+    Field(`b', `Board'),
+    Field(`m', `Menu')
+    Field(`running', `boolean')
+    Field(`gg', `boolean'),
+    Field(`moving', `boolean'),
+    Field(`moveIncrement', `double'),
+    Field(`gameNum', `int'),
+    Field(`campaignNum', `int'),
+    Field(`moves', `int'),
+    Field(`campaignMoves', `int'),
+    Field(`playerName', `String')',
 `
     Constructor(`path:String'),
-    Constructor(`'),
-    PrivMethod(`constructorHelper', `', `void'),
+    PrivMethod(`gameLayout', `', `void'),
+    PrivMethod(`switchLayout', `', `void'),
+    PrivMethod(`makeButtons', `', `void'),
     Method(`newGame', `', `void'),
-    PrivMethod(`makeModel', `filePath:String', `void'),
+    PrivMethod(`makeModel', `reset:boolean', `void'),
     Method(`runGameLoop', `', `void'),
+    Method(`threadGen', `', `void'),
     PrivMethod(`gameLoop', `', `void'),
+    PrivMethod(`logCampaignScore', `', `void'),
+    PrivMethod(`populateSavedGames', `path:String', `void')
     PrivMethod(`updateGameState', `', `void'),
     PrivMethod(`drawGame', `', `void'),
     Method(`processEvent', `e:KeyEvent', `void'),
     Method(`actionPerformed', `e:ActionEvent', `void'),
+    PrivMethod(`processSettings', `', `void'),
     Method(`resizeView', `', `void')')
-Aggregates(`Controller', `GameView');
 Aggregates(`Controller', `Board');
+Aggregates(`Controller', `GameView');
+Aggregates(`Controller', `ScoreParser');
+Aggregates(`Controller', `Mode');
+Aggregates(`Controller', `Board');
+Aggregates(`Controller', `Menu');
 
 Class(`Crate', `', `
     Constructor(`myBoard:Board,startCoord:Point'),

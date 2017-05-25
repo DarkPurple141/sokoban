@@ -36,118 +36,141 @@ import javax.swing.JPanel;
 public class Controller
 extends JFrame
 implements ActionListener {
-	private static double MOVE_INCREMENT = 0.2;
-
 	private static final long serialVersionUID = 1L;
-	private static int SCREEN_WIDTH = 512;
-	private static int SCREEN_HEIGHT = 512;
+	private static final int FPS = 30;
+	private static final int SCREEN_HEIGHT = 512;
+	private static final int SCREEN_WIDTH = 512;
 
 	private ScoreParser scores;
 	private GameView v;
+
 	private JPanel gameButtons;
 	private JPanel gameWindow;
 	private JPanel panels;
+	private JButton startButton = null;
+	private JButton restartButton = null;
+	private JButton skipButton = null;
+
 	private String[] savedGames;
 	private List<String> campaignPath;
 	private String currLevelPath;
+
 	private Mode state;
 	private Board b;
 	private Menu m;
 	private boolean running;
 	private boolean gg;
-	private int fps = 30;
-	private JButton startButton = null;
-	private JButton restartButton = null;
-	private JButton skipButton = null;
 	private boolean moving = false;
+	private double moveIncrement = 0.2;
 	private int gameNum;
 	private int campaignNum;
 	private int moves;
 	private int campaignMoves;
-	String playerName;
+	private String playerName;
 
 	public Controller() {
-		super("Warehouse Boss V0.3");
-		threadGen(0);
-		constructorHelper();
-	}
+		super();
 
-	private void constructorHelper() {
-		scores = new ScoreParser();
-		playerName = "admin";
-		gameNum = 0;
+		// Start a background generator thread as fast as we can.
+		this.threadGen(0);
+
+		this.scores = new ScoreParser();
+		this.playerName = "admin";
+		this.gameNum = 0;
 		this.state = Mode.NORMAL;
 		this.populateSavedGames("saved");
-		this.setBackground(Color.BLACK);
-		panels = new JPanel();
-		panels.setLayout(new CardLayout());
-		m = new Menu(this);
-		v = new GameView();
-		gameWindow = new JPanel();
-		gameWindow.setLayout(new BorderLayout());
-		v.setLayout(new GridBagLayout());
-		gameButtons = new JPanel();
-		gameButtons.setLayout(new GridLayout(1,2));
-		makeButtons();
-		panels.add(m);
-		gameWindow.add(v, BorderLayout.CENTER);
-		gameWindow.add(gameButtons, BorderLayout.SOUTH);
-		panels.add(gameWindow);
-		Container cp = getContentPane();
+
+		// FIXME(jashankj): expurgate view code
+		super.setBackground(Color.BLACK);
+		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		super.setSize(SCREEN_WIDTH-1, SCREEN_HEIGHT+50); // 511 by 511 works.
+		super.setTitle("Warehouse Boss V0.3");
+
+		this.panels = new JPanel();
+		this.panels.setLayout(new CardLayout());
+		this.m = new Menu(this);
+		this.v = new GameView();
+		this.gameWindow = new JPanel();
+		this.gameWindow.setLayout(new BorderLayout());
+		this.v.setLayout(new GridBagLayout());
+		this.gameButtons = new JPanel();
+		this.gameButtons.setLayout(new GridLayout(1,2));
+		this.makeButtons();
+		this.panels.add(this.m);
+		this.gameWindow.add(this.v, BorderLayout.CENTER);
+		this.gameWindow.add(this.gameButtons, BorderLayout.SOUTH);
+		this.panels.add(this.gameWindow);
+
+		// FIXME(jashank): get the type here right
+		Container cp = super.getContentPane();
 		cp.setLayout(new BorderLayout());
-		cp.add(panels,BorderLayout.CENTER);
-		addComponentListener(new ResizeListener(this));
-		addKeyListener(new WBListener(this));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(SCREEN_WIDTH-1,SCREEN_HEIGHT+50); // 511 by 511 works.
-		threadGen(1);
-		this.setFocusable(true);
-		this.pack();
-		this.setVisible(true);
+		cp.add(this.panels, BorderLayout.CENTER);
+
+		// FIXME(jashankj): move these inline!
+		this.addComponentListener(new ResizeListener(this));
+		this.addKeyListener(new WBListener(this));
+
+		super.pack();
+		super.setFocusable(true);
+		super.setVisible(true);
+
+		this.threadGen(1);
 	}
 
 	// Work in progress
 	private void gameLayout() {
-		makeModel(false);
-		startButton.setText("Start");
-		newGame();
-		switchLayout();
-		v.validate();
-		this.revalidate();
-		this.repaint();
+		this.makeModel(false);
+		this.startButton.setText("Start");
+
+		this.newGame();
+		this.switchLayout();
+
+		this.v.validate();
+
+		super.revalidate();
+		super.repaint();
 	}
 
 	private void switchLayout() {
-		CardLayout layout = (CardLayout)(panels.getLayout());
+		CardLayout layout = (CardLayout)(this.panels.getLayout());
 		layout.next(panels);
 	}
 
 	private void makeButtons() {
-		startButton = new JButton("Start");
-		restartButton = new JButton("Restart");
-		skipButton = new JButton("Skip");
-		startButton.addActionListener(this);
-		restartButton.addActionListener(this);
-		skipButton.addActionListener(this);
-		gameButtons.add(startButton);
-		gameButtons.add(skipButton);
-		gameButtons.add(restartButton);
+		// FIXME(jashank): move this inline
+		// wouldn't it be nice if Java had an `Object *` type
+		this.startButton = new JButton("Start");
+		this.startButton.addActionListener(this);
+		this.gameButtons.add(this.startButton);
+
+		this.restartButton = new JButton("Restart");
+		this.restartButton.addActionListener(this);
+		this.gameButtons.add(this.restartButton);
+
+		this.skipButton = new JButton("Skip");
+		this.skipButton.addActionListener(this);
+		this.gameButtons.add(this.skipButton);
 	}
 
 	public void newGame() {
-		moves = 0;
-		gg = false;
-		v.resetBoard(b);
-		v.hideLabel();
-		drawGame();
+		this.moves = 0;
+		this.gg = false;
+
+		// FIXME(jashankj): hey what? why don't we hand off a new board?
+		this.v.resetBoard(this.b);
+		this.v.hideLabel();
+
+		// XXX(jashankj): should we launch the game thread?
+		this.drawGame();
 	}
 
-	private void makeModel(boolean reset)
-	{
+	private void makeModel(boolean reset) {
+		// FIXME(jashankj): split this apart
 		if (reset) {
 			b = FileIO.XML2Board(currLevelPath);
 		} else {
 			try {
+				// FIXME(jashankj): use path building
 				if (state == Mode.NORMAL) {
 					currLevelPath = "levels/" + Integer.toString(gameNum);
 				} else if (state == Mode.CAMPAIGN) {
@@ -161,6 +184,7 @@ implements ActionListener {
 	}
 
 	public void runGameLoop() {
+		// FIXME(jashankj): either move this or gameLoop inline.
 		Thread loop = new Thread() {
 			public void run() {
 				gameLoop();
@@ -179,23 +203,27 @@ implements ActionListener {
 	}
 
 	private void gameLoop() {
-		int delay = 1000/fps;
+		int delay = 1000 / FPS;
 
+		// FIXME(jashankj): move into the gameLoop thread
 		while (running) {
 			// do stuff
 			updateGameState();
 			drawGame();
-			if(b.isFinished()) {
-				if(state == Mode.CAMPAIGN) {
+			if (b.isFinished()) {
+				// FIXME(jashankj): is this a switch?
+				if (state == Mode.CAMPAIGN) {
 					campaignNum++;
-				} else if(state == Mode.NORMAL) {
-
+				} else if (state == Mode.NORMAL) {
+					// FIXME: what's on this branch?
 				}
+
 				v.showLabel("<html>Congrats!<br>Moves: " +
 							Integer.toString(moves)+"</html>");
 				this.running = false;
 				gg = true;
 				startButton.setText("Next");
+
 				if (campaignNum > 9) {
 					logCampaignScore();
 					v.showLabel(scores.getScoreTable());
@@ -203,23 +231,25 @@ implements ActionListener {
 					try {
 						Thread.sleep(3000); // 10fps
 					} catch (InterruptedException e) {
-
+						// FIXME(jashankj): what's on this branch?
 					}
 					/// END HACKS
 					switchLayout();
 				}
 			}
+
 			try {
 				Thread.sleep(delay); // 10fps
 			} catch (InterruptedException e) {
+				// FIXME(jashankj): what's on this branch?
 			}
 		}
 
 	}
 
 	private void logCampaignScore() {
-		campaignMoves += moves;
-		scores.updateScores(playerName, campaignMoves);
+		this.campaignMoves += this.moves;
+		this.scores.updateScores(this.playerName, this.campaignMoves);
 	}
 
 	private void populateSavedGames(String path) {
@@ -227,24 +257,24 @@ implements ActionListener {
 
 		Collection<String> files  = new ArrayList<String>();
 
-		if(dir.isDirectory()){
+		if (dir.isDirectory()) {
 			File[] listFiles = dir.listFiles();
 
-			for(File file : listFiles){
-				if(file.isFile()) {
+			for (File file : listFiles) {
+				if (file.isFile()) {
 					files.add(file.getName());
 				}
 			}
 		}
 
-		savedGames = files.toArray(new String[]{});
+		this.savedGames = files.toArray(new String[]{});
 	}
 
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		for(GamePiece p : b.gamePieceIterator()) {
-			p.animFrame(MOVE_INCREMENT);
+		for (GamePiece p : b.gamePieceIterator()) {
+			p.animFrame(moveIncrement);
 		}
 	}
 
@@ -269,54 +299,67 @@ implements ActionListener {
 			}
 		}
 		int curr = e.getKeyCode();
+
 		// possibly change to vector format
-		moving = false;
-		for(Player p : b.getPlayers()) {
-			if(p.isMoving())
-				moving = true;
+		this.moving = false;
+		for (Player p : this.b.getPlayers()) {
+			if (p.isMoving()) {
+				this.moving = true;
+			}
 		}
-		if(moving || !running)
+
+		if (this.moving || !this.running) {
 			return;
+		}
+
+		// FIXME(jashankj): doMove in direction
 		switch (curr) {
 		case KeyEvent.VK_UP:
-			moves++;
-			b.doMove(0);
+			this.moves++;
+			this.b.doMove(0);
 			break;
+
 		case KeyEvent.VK_RIGHT:
-			moves++;
-			b.doMove(1);
+			this.moves++;
+			this.b.doMove(1);
 			break;
+
 		case KeyEvent.VK_DOWN:
-			moves++;
-			b.doMove(2);
+			this.moves++;
+			this.b.doMove(2);
 			break;
+
 		case KeyEvent.VK_LEFT:
-			moves++;
-			b.doMove(3);
+			this.moves++;
+			this.b.doMove(3);
 			break;
+
 		case KeyEvent.VK_ENTER:
 			System.out.println("SAVE");
-			FileIO.saveGame(b, "saved/save");
+			FileIO.saveGame(this.b, "saved/save");
 			break;
-
-		}
-		if('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
-			b.debug(0, e.getKeyChar() - '0');
 		}
 
-		if('u' == e.getKeyChar()){
-			b.undo();
+		if ('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
+			this.b.debug(0, e.getKeyChar() - '0');
+		}
+
+		// FIXME(jashankj): yoda-code
+		if ('u' == e.getKeyChar()) {
+			this.b.undo();
 		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		// FIXME(jashankj): compare-by-reference?
 		Object s = e.getSource();
+
 		if (s == startButton) {
 			running = !running;
 			if (running) {
 				if (gg) {
 					campaignMoves += moves;
-					if(state == Mode.NORMAL)
+					if (state == Mode.NORMAL)
 						FileIO.removeFile(currLevelPath);
 					gameNum++;
 					makeModel(false);
@@ -329,27 +372,33 @@ implements ActionListener {
 			} else {
 				startButton.setText("Start");
 			}
+
 		} else if (s == skipButton) {
 			running = false;
-			if(state == Mode.NORMAL)
+			if (state == Mode.NORMAL)
 				FileIO.removeFile(currLevelPath);
 			gameNum++;
 			makeModel(false);
 			threadGen(gameNum+1);
 			newGame();
 			startButton.setText("Start");
+
 		} else if (s == restartButton) {
 			running = false;
 			makeModel(true);
 			newGame();
 			startButton.setText("Start");
+
 		} else if (s == m.getPlayNow()) {
 			state = Mode.NORMAL;
 			gameLayout();
+
 		} else if (s == m.getExit()) {
 			System.exit(0);
+
 		} else if (s == m.getSettings()) {
 			processSettings();
+
 		} else if (s == m.getCampaign()) {
 			// pre-defined missions that get harder
 			state = Mode.CAMPAIGN;
@@ -357,7 +406,8 @@ implements ActionListener {
 			campaignMoves = 0;
 			gameLayout();
 			//Make it start a campaign
-		} else if (s==m.getLoadGame()) {
+
+		} else if (s == m.getLoadGame()) {
 			state = Mode.LOAD;
 			String curr = (String)JOptionPane.showInputDialog(
 				this,
@@ -380,6 +430,7 @@ implements ActionListener {
 	private void processSettings() {
 		String[] difficulty = {"Easy", "Medium", "Hard"};
 		String[] g_speed = {"Slow", "Medium", "Fast"};
+
 		String curr = (String)JOptionPane.showInputDialog(
 			this,
 			"Select default difficulty:\n",
@@ -397,30 +448,38 @@ implements ActionListener {
 			g_speed,
 			null);
 
-		playerName = (String)JOptionPane.showInputDialog(
+		this.playerName = (String)JOptionPane.showInputDialog(
 			this,
 			"Enter your name:\n",
 			"Config",
 			JOptionPane.QUESTION_MESSAGE);
-		if (curr == null) { }
-		else if (curr.equals("Easy"))
+
+		if (curr == null) {
+			// FIXME(jashankj): what's on this branch
+		} else if (curr.equals("Easy")) {
 			return;
-		else if (curr.equals("Medium"))
+		} else if (curr.equals("Medium")) {
 			return;
+		}
 		else if (curr.equals("Hard"))
 			return;
 
-		if (speed == null) {}
-		else if (curr.equals("Slow"))
-			Controller.MOVE_INCREMENT = 0.1;
-		else if (curr.equals("Medium"))
-			Controller.MOVE_INCREMENT = 0.15;
-		else if (curr.equals("Fast"))
-			Controller.MOVE_INCREMENT = 0.2;
+		if (speed == null) {
+			// FIXME(jashankj): what's on this branch
+		} else if (curr.equals("Slow")) {
+			this.moveIncrement = 0.1;
+		} else if (curr.equals("Medium")) {
+			this.moveIncrement = 0.15;
+		} else if (curr.equals("Fast")) {
+			this.moveIncrement = 0.2;
+		}
 	}
 
 	public void resizeView() {
-		if (v==null) return;
-		v.resizeSprites();
+		if (this.v == null) {
+			return;
+		}
+
+		this.v.resizeSprites();
 	}
 }
