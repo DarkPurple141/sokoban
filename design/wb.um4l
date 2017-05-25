@@ -142,7 +142,7 @@ Class(`View', `
     Field(`cols', `int'),
     Field(`b', `Board')',
 `
-    Constructor(`w:WBListener,rows:int,cols:int,b:Board'),
+    Constructor(`rows:int,cols:int,b:Board'),
     Method(`getFrame', `', `JFrame'),
     Method(`getBoard', `', `Board'),
     Method(`paintTiles', `', `void')');
@@ -151,14 +151,6 @@ Aggregates(`View', `Board');
 Class(`WarehouseBoss', `', `
     Method(`(static)main', `args:String[]', `void')');
 AssociatedWith(`WarehouseBoss', `Controller');
-
-Class(`WBListener', `
-    Field(`c', `Controller')',
-`
-    Constructor(`n:Controller'),
-    Method(`update', `e:KeyEvent', `void'),
-    Method(`keyPressed', `e:KeyEvent', `void')');
-Aggregates(`WBListener', `Controller')
 
 UMLEnd
 /*

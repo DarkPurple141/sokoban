@@ -19,6 +19,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -35,7 +36,7 @@ import javax.swing.JPanel;
  */
 public class Controller
 extends JFrame
-implements ActionListener {
+implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	private static final int FPS = 30;
 	private static final int SCREEN_HEIGHT = 512;
@@ -108,7 +109,7 @@ implements ActionListener {
 
 		// FIXME(jashankj): move these inline!
 		this.addComponentListener(new ResizeListener(this));
-		this.addKeyListener(new WBListener(this));
+		this.addKeyListener(this);
 
 		super.pack();
 		super.setFocusable(true);
@@ -283,6 +284,17 @@ implements ActionListener {
 		this.repaint();
 		/// calls paint in all child components
 	}
+
+	@Override public void
+	keyPressed (KeyEvent e) {
+		this.processEvent(e);
+	}
+
+	@Override public void
+	keyReleased (KeyEvent e) {}
+
+	@Override public void
+	keyTyped (KeyEvent e) {}
 
 	/*
 	 * Update model to new state.
