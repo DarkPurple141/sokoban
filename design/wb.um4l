@@ -48,8 +48,8 @@ Class(`Controller', `
     Field(`pauseButton', `JButton'),
     Field(`state', `Mode'),
     Field(`b', `Board'),
-    Field(`m', `Menu')
-    Field(`running', `boolean')
+    Field(`m', `Menu'),
+    Field(`running', `boolean'),
     Field(`gg', `boolean'),
     Field(`moving', `boolean'),
     Field(`moveIncrement', `double'),
@@ -62,21 +62,19 @@ Class(`Controller', `
     Constructor(`path:String'),
     PrivMethod(`gameLayout', `', `void'),
     PrivMethod(`switchLayout', `', `void'),
-    PrivMethod(`makeButtons', `', `void'),
     Method(`newGame', `', `void'),
     PrivMethod(`makeModel', `reset:boolean', `void'),
     Method(`runGameLoop', `', `void'),
     Method(`threadGen', `', `void'),
     PrivMethod(`gameLoop', `', `void'),
     PrivMethod(`logCampaignScore', `', `void'),
-    PrivMethod(`populateSavedGames', `path:String', `void')
+    PrivMethod(`populateSavedGames', `path:String', `void'),
     PrivMethod(`updateGameState', `', `void'),
     PrivMethod(`drawGame', `', `void'),
     Method(`processEvent', `e:KeyEvent', `void'),
     Method(`actionPerformed', `e:ActionEvent', `void'),
     PrivMethod(`processSettings', `', `void'),
     Method(`resizeView', `', `void')')
-Aggregates(`Controller', `Board');
 Aggregates(`Controller', `GameView');
 Aggregates(`Controller', `ScoreParser');
 Aggregates(`Controller', `Mode');

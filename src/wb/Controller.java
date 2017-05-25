@@ -94,12 +94,25 @@ implements ActionListener, ComponentListener, KeyListener {
 		this.panels.setLayout(new CardLayout());
 		this.m = new Menu(this);
 		this.v = new GameView();
+
 		this.gameWindow = new JPanel();
 		this.gameWindow.setLayout(new BorderLayout());
 		this.v.setLayout(new GridBagLayout());
 		this.gameButtons = new JPanel();
 		this.gameButtons.setLayout(new GridLayout(1,2));
-		this.makeButtons();
+
+		this.startButton = new JButton("Start");
+		this.startButton.addActionListener(this);
+		this.gameButtons.add(this.startButton);
+
+		this.restartButton = new JButton("Restart");
+		this.restartButton.addActionListener(this);
+		this.gameButtons.add(this.restartButton);
+
+		this.skipButton = new JButton("Skip");
+		this.skipButton.addActionListener(this);
+		this.gameButtons.add(this.skipButton);
+
 		this.panels.add(this.m);
 		this.gameWindow.add(this.v, BorderLayout.CENTER);
 		this.gameWindow.add(this.gameButtons, BorderLayout.SOUTH);
@@ -137,22 +150,6 @@ implements ActionListener, ComponentListener, KeyListener {
 	private void switchLayout() {
 		CardLayout layout = (CardLayout)(this.panels.getLayout());
 		layout.next(panels);
-	}
-
-	private void makeButtons() {
-		// FIXME(jashank): move this inline
-		// wouldn't it be nice if Java had an `Object *` type
-		this.startButton = new JButton("Start");
-		this.startButton.addActionListener(this);
-		this.gameButtons.add(this.startButton);
-
-		this.restartButton = new JButton("Restart");
-		this.restartButton.addActionListener(this);
-		this.gameButtons.add(this.restartButton);
-
-		this.skipButton = new JButton("Skip");
-		this.skipButton.addActionListener(this);
-		this.gameButtons.add(this.skipButton);
 	}
 
 	public void newGame() {
