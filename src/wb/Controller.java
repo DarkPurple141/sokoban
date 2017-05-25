@@ -304,6 +304,8 @@ implements ActionListener {
 			if (running) {
 				if (gg) {
 					campaignMoves += moves;
+					if(state == Mode.NORMAL)
+						FileIO.removeFile(currLevelPath);
 					gameNum++;
 					makeModel(false);
 					threadGen(gameNum+1);
@@ -317,6 +319,8 @@ implements ActionListener {
          	}
       	} else if (s == skipButton) {
       		running = false;
+			if(state == Mode.NORMAL)
+				FileIO.removeFile(currLevelPath);
 			gameNum++;
 			makeModel(false);
 			threadGen(gameNum+1);
