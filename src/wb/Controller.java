@@ -8,7 +8,6 @@ import java.nio.file.StandardOpenOption;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -56,7 +55,6 @@ implements ActionListener, ComponentListener, KeyListener {
 	private JButton skipButton = null;
 
 	private String[] savedGames;
-	private List<String> campaignPath;
 	private String currLevelPath;
 
 	private Mode state;
@@ -183,6 +181,8 @@ implements ActionListener, ComponentListener, KeyListener {
 		}
 	}
 
+	// initially created to prevent more than one thread being instantiated-- AH
+	// but could now be easily brought inline.
 	public void runGameLoop() {
 		// FIXME(jashankj): either move this or gameLoop inline.
 		Thread loop = new Thread() {
@@ -364,6 +364,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	// FIXME(jashankj): slice apart!
 	public void actionPerformed(ActionEvent e) {
 		// FIXME(jashankj): compare-by-reference?
+		// is that an issue? -- AH
 		Object s = e.getSource();
 
 		if (s == startButton) {
@@ -468,6 +469,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		if (curr == null) {
 			// FIXME(jashankj): what's on this branch
+			// protection against nothing being read by JPane -- AH
 		} else if (curr.equals("Easy")) {
 			return;
 		} else if (curr.equals("Medium")) {
@@ -478,6 +480,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		if (speed == null) {
 			// FIXME(jashankj): what's on this branch
+			// protection against nothing being read by JPane -- AH
 		} else if (curr.equals("Slow")) {
 			this.moveIncrement = 0.1;
 		} else if (curr.equals("Medium")) {
@@ -500,6 +503,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		this.v.resizeSprites();
 	}
+	
 
 	@Override public void
 	componentMoved (ComponentEvent ce) {}
