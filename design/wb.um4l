@@ -7,28 +7,35 @@ Class(`Board', `
     Field(`positions', `Tile[][]'),
     Field(`players', `List_Player_'),
     Field(`crates', `List_Crate_'),
-    Field(`finishTiles', `List_FloorTile_')',
+    Field(`finishTiles', `List_FloorTile_'),
+    Field(`pieces', `List_GamePiece_')',
 `
     Constructor(`filePath:String'),
     Method(`getPosition', `pos:Point', `Tile'),
+    Method(`setPosition', `pos:Point,t:Tile', `void'),
+    Method(`addFinishTile', `t:FloorTile', `void'),
     Method(`getHeight', `', `int'),
     Method(`getWidth', `', `int'),
-    Method(`doMove', `direction:int'),
+    Method(`doMove', `direction:int', `boolean'),
     Method(`getTiles', `', `Tile[][]'),
+    Method(`tileIterator', `', `Iterator_Tile_'),
+    Method(`addPieces', `', `void'),
+    Method(`gamePieceIterator', `', `List_GamePiece_'),
     Method(`getPlayers', `', `List_Player_'),
     Method(`getCrates', `', `List_Crate_'),
     Method(`getFinishTiles', `', `List_FloorTiles_'),
-    Method(`iterator', `', `Iterator_Tile_'),
-    Method(`saveGame', `filename:String', `void'),
-    Method(`debug', `player:int,num:int', `void'),
-    PrivMethod(`xmlToLevel', `filePath:String', `void'),
-    PrivMethod(`intToTile', `code:int,x:int,y:int', `Tile'),
-    Method(`isFinished', `', `boolean')');
+    Method(`undo', `', `void'),
+    Method(`addPieceUndo', `', `void'),
+    Method(`nearbyPoint', `start:Point,direction:int', `Point'),
+    Method(`isFinished', `', `boolean'),
+    Method(`toString', `', `String'),
+    Method(`clone', `', `')');
 Aggregates(`Board', `Tile');
 Aggregates(`Board', `Player');
 Aggregates(`Board', `Crate');
 Aggregates(`Board', `FloorTile');
-AssociatedWith(`Board', `Coord');
+Aggregates(`Board', `GamePiece');
+AssociatedWith(`Board', `Point');
 
 Class(`Controller', `
     Field(`levelPath', `String'),

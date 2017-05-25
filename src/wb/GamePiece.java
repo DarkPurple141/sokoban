@@ -80,7 +80,7 @@ public abstract class GamePiece{
 	}
 
 	public void storePrevCoord() {
-		if (prevCoords.size() >= myBoard.getUndoLength()) {
+		if (prevCoords.size() >= Board.UNDO_LENGTH) {
 			prevCoords.pollLast();
 		}
 		prevCoords.push(thisCoord);
