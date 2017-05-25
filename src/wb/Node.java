@@ -3,7 +3,7 @@ package wb;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Node{
+public class Node {
 	private List<Node> children;
 	private Node parent;
 	private MctsAction action;
@@ -44,7 +44,7 @@ public class Node{
 			}else{
 				child.setMoveAction(3);
 			}
-			
+
 			children.add(child);
 		}
 	}

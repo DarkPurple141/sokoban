@@ -1,5 +1,9 @@
 package wb;
 
-public enum MctsAction{
-	DELETE, PLACE, FREEZE, MOVE, EVALUATE
+public enum MctsAction {
+	DELETE,
+	PLACE,
+	FREEZE,
+	MOVE,
+	EVALUATE
 }

@@ -16,30 +16,30 @@ public class SpriteSheet {
 	private List<Image> scaled;
 	private int animationState;
 
-    public SpriteSheet(List<BufferedImage> sprites) {
-        this.sprites = new ArrayList<>(sprites);
-        this.scaled = new ArrayList<Image>();
+	public SpriteSheet(List<BufferedImage> sprites) {
+		this.sprites = new ArrayList<>(sprites);
+		this.scaled = new ArrayList<Image>();
 		this.animationState = 0;
-    }
-
-    public int count() {
-        return sprites.size();
-    }
-    
-    public void resize(int width, int height) {
-    	scaled.clear();
-    	for (BufferedImage curr: sprites) {
-    		scaled.add(curr.getScaledInstance(width, height, Image.SCALE_SMOOTH));
-    	}	
 	}
-	
+
+	public int count() {
+		return sprites.size();
+	}
+
+	public void resize(int width, int height) {
+		scaled.clear();
+		for (BufferedImage curr: sprites) {
+			scaled.add(curr.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+		}
+	}
+
 	public Image getScaled(int index) {
 		return scaled.get(index);
 	}
 
-    public BufferedImage getSprite(int index) {
-        return sprites.get(index);
-    }
+	public BufferedImage getSprite(int index) {
+		return sprites.get(index);
+	}
 
 	public Image animate(Player p) {
 		int direction = p.getDirection();

@@ -1,26 +1,38 @@
 package wb;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
+/**
+ * @brief The main game controller.
+ *
+ * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
+ * @author Jashank Jeremy {@literal <z5017851@cse.unsw.edu.au>}
+ * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ * @date May 2017
+ */
 public class Controller
 extends JFrame
 implements ActionListener {
@@ -74,17 +86,17 @@ implements ActionListener {
 		gameWindow = new JPanel();
 		gameWindow.setLayout(new BorderLayout());
 		v.setLayout(new GridBagLayout());
-	    gameButtons = new JPanel();
-	    gameButtons.setLayout(new GridLayout(1,2));
-	    makeButtons();
+		gameButtons = new JPanel();
+		gameButtons.setLayout(new GridLayout(1,2));
+		makeButtons();
 		panels.add(m);
 		gameWindow.add(v, BorderLayout.CENTER);
-	    gameWindow.add(gameButtons, BorderLayout.SOUTH);
+		gameWindow.add(gameButtons, BorderLayout.SOUTH);
 		panels.add(gameWindow);
 		Container cp = getContentPane();
-	    cp.setLayout(new BorderLayout());	    
-	    cp.add(panels,BorderLayout.CENTER);
-	    addComponentListener(new ResizeListener(this));
+		cp.setLayout(new BorderLayout());
+		cp.add(panels,BorderLayout.CENTER);
+		addComponentListener(new ResizeListener(this));
 		addKeyListener(new WBListener(this));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(SCREEN_WIDTH-1,SCREEN_HEIGHT+50); // 511 by 511 works.
@@ -93,33 +105,33 @@ implements ActionListener {
 		this.pack();
 		this.setVisible(true);
 	}
-	
+
 	// Work in progress
 	private void gameLayout() {
 		makeModel(false);
 		startButton.setText("Start");
 		newGame();
 		switchLayout();
-	    v.validate();
-	    this.revalidate();
-	    this.repaint();
+		v.validate();
+		this.revalidate();
+		this.repaint();
 	}
-	
+
 	private void switchLayout() {
 		CardLayout layout = (CardLayout)(panels.getLayout());
-        layout.next(panels);
+		layout.next(panels);
 	}
-	
+
 	private void makeButtons() {
 		startButton = new JButton("Start");
 		restartButton = new JButton("Restart");
 		skipButton = new JButton("Skip");
 		startButton.addActionListener(this);
-      	restartButton.addActionListener(this);
-      	skipButton.addActionListener(this);
-      	gameButtons.add(startButton);
-	    gameButtons.add(skipButton);
-	    gameButtons.add(restartButton);
+		restartButton.addActionListener(this);
+		skipButton.addActionListener(this);
+		gameButtons.add(startButton);
+		gameButtons.add(skipButton);
+		gameButtons.add(restartButton);
 	}
 
 	public void newGame() {
@@ -131,7 +143,7 @@ implements ActionListener {
 	}
 
 	private void makeModel(boolean reset)
-	{	
+	{
 		if (reset) {
 			b = FileIO.XML2Board(currLevelPath);
 		} else {
@@ -150,11 +162,11 @@ implements ActionListener {
 
 	public void runGameLoop() {
 		Thread loop = new Thread() {
-	    	public void run() {
-	        	gameLoop();
-	     	}
-	  	};
-      	loop.start();
+			public void run() {
+				gameLoop();
+			}
+		};
+		loop.start();
 	}
 
 	private void threadGen(int id) {
@@ -175,12 +187,12 @@ implements ActionListener {
 			drawGame();
 			if(b.isFinished()) {
 				if(state == Mode.CAMPAIGN) {
-					campaignNum++;			
+					campaignNum++;
 				} else if(state == Mode.NORMAL) {
 
 				}
-				v.showLabel("<html>Congrats!<br>Moves: " + 
-				Integer.toString(moves)+"</html>");
+				v.showLabel("<html>Congrats!<br>Moves: " +
+							Integer.toString(moves)+"</html>");
 				this.running = false;
 				gg = true;
 				startButton.setText("Next");
@@ -189,43 +201,43 @@ implements ActionListener {
 					v.showLabel(scores.getScoreTable());
 					/// HACKS LIE AHEAD
 					try {
-		        		Thread.sleep(3000); // 10fps
-		    		} catch (InterruptedException e) {
-		    			
+						Thread.sleep(3000); // 10fps
+					} catch (InterruptedException e) {
+
 					}
 					/// END HACKS
 					switchLayout();
 				}
 			}
 			try {
-        		Thread.sleep(delay); // 10fps
-    		} catch (InterruptedException e) {
+				Thread.sleep(delay); // 10fps
+			} catch (InterruptedException e) {
 			}
 		}
-				
+
 	}
-	
+
 	private void logCampaignScore() {
 		campaignMoves += moves;
 		scores.updateScores(playerName, campaignMoves);
 	}
-	
+
 	private void populateSavedGames(String path) {
 		File dir = new File(path);
 
-	    Collection<String> files  = new ArrayList<String>();
+		Collection<String> files  = new ArrayList<String>();
 
-	    if(dir.isDirectory()){
-	        File[] listFiles = dir.listFiles();
+		if(dir.isDirectory()){
+			File[] listFiles = dir.listFiles();
 
-	        for(File file : listFiles){
-	            if(file.isFile()) {
-	                files.add(file.getName());
-	            }
-	        }
-	    }
+			for(File file : listFiles){
+				if(file.isFile()) {
+					files.add(file.getName());
+				}
+			}
+		}
 
-	    savedGames = files.toArray(new String[]{});
+		savedGames = files.toArray(new String[]{});
 	}
 
 	private void updateGameState() {
@@ -256,36 +268,36 @@ implements ActionListener {
 				return;
 			}
 		}
-        int curr = e.getKeyCode();
-        // possibly change to vector format
+		int curr = e.getKeyCode();
+		// possibly change to vector format
 		moving = false;
 		for(Player p : b.getPlayers()) {
-        	if(p.isMoving())
-        		moving = true;
-        }
-        if(moving || !running)
-        	return;
+			if(p.isMoving())
+				moving = true;
+		}
+		if(moving || !running)
+			return;
 		switch (curr) {
-			case KeyEvent.VK_UP:
-				moves++;
-				b.doMove(0);
-				break;
-			case KeyEvent.VK_RIGHT:
-				moves++;
-				b.doMove(1);
-				break;
-			case KeyEvent.VK_DOWN:
-				moves++;
-				b.doMove(2);
-				break;
-			case KeyEvent.VK_LEFT:
-				moves++;
-				b.doMove(3);
-				break;
-			case KeyEvent.VK_ENTER:
-				System.out.println("SAVE");
-				FileIO.saveGame(b, "saved/save");
-				break;
+		case KeyEvent.VK_UP:
+			moves++;
+			b.doMove(0);
+			break;
+		case KeyEvent.VK_RIGHT:
+			moves++;
+			b.doMove(1);
+			break;
+		case KeyEvent.VK_DOWN:
+			moves++;
+			b.doMove(2);
+			break;
+		case KeyEvent.VK_LEFT:
+			moves++;
+			b.doMove(3);
+			break;
+		case KeyEvent.VK_ENTER:
+			System.out.println("SAVE");
+			FileIO.saveGame(b, "saved/save");
+			break;
 
 		}
 		if('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
@@ -300,7 +312,7 @@ implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if (s == startButton) {
-        	running = !running;
+			running = !running;
 			if (running) {
 				if (gg) {
 					campaignMoves += moves;
@@ -313,12 +325,12 @@ implements ActionListener {
 				}
 				startButton.setText("Stop");
 				newGame();
-	            runGameLoop();
+				runGameLoop();
 			} else {
-            	startButton.setText("Start");
-         	}
-      	} else if (s == skipButton) {
-      		running = false;
+				startButton.setText("Start");
+			}
+		} else if (s == skipButton) {
+			running = false;
 			if(state == Mode.NORMAL)
 				FileIO.removeFile(currLevelPath);
 			gameNum++;
@@ -326,85 +338,85 @@ implements ActionListener {
 			threadGen(gameNum+1);
 			newGame();
 			startButton.setText("Start");
-      	} else if (s == restartButton) {
+		} else if (s == restartButton) {
 			running = false;
 			makeModel(true);
-         	newGame();
+			newGame();
 			startButton.setText("Start");
-      	} else if (s == m.getPlayNow()) {
-      		state = Mode.NORMAL;
-      		gameLayout();
-      	} else if (s == m.getExit()) {
-      		System.exit(0);
-      	} else if (s == m.getSettings()) {
-      		processSettings();			
-      	} else if (s == m.getCampaign()) {
-      		// pre-defined missions that get harder
-      		state = Mode.CAMPAIGN;
-      		campaignNum = 0;
-    		campaignMoves = 0;
+		} else if (s == m.getPlayNow()) {
+			state = Mode.NORMAL;
+			gameLayout();
+		} else if (s == m.getExit()) {
+			System.exit(0);
+		} else if (s == m.getSettings()) {
+			processSettings();
+		} else if (s == m.getCampaign()) {
+			// pre-defined missions that get harder
+			state = Mode.CAMPAIGN;
+			campaignNum = 0;
+			campaignMoves = 0;
 			gameLayout();
 			//Make it start a campaign
-      	} else if (s==m.getLoadGame()) {
-      		state = Mode.LOAD;
-      		String curr = (String)JOptionPane.showInputDialog(
-      		                    this,
-      		                    "Which game did you want to load?\n",
-      		                    "Load Game",
-      		                    JOptionPane.PLAIN_MESSAGE,
-      		                    null,
-      		                    savedGames,
-      		            		null);
+		} else if (s==m.getLoadGame()) {
+			state = Mode.LOAD;
+			String curr = (String)JOptionPane.showInputDialog(
+				this,
+				"Which game did you want to load?\n",
+				"Load Game",
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				savedGames,
+				null);
 
-      		//If a string was returned, say so.
-      		if ((curr != null) && (curr.length() > 0)) {
-      			this.currLevelPath = "saved/" + curr;
-      			gameLayout();
-      		}
-      	}
+			//If a string was returned, say so.
+			if ((curr != null) && (curr.length() > 0)) {
+				this.currLevelPath = "saved/" + curr;
+				gameLayout();
+			}
+		}
 		this.requestFocusInWindow();
-   	}
-	
+	}
+
 	private void processSettings() {
 		String[] difficulty = {"Easy", "Medium", "Hard"};
-  		String[] g_speed = {"Slow", "Medium", "Fast"};
-  		String curr = (String)JOptionPane.showInputDialog(
-                    this,
-                    "Select default difficulty:\n",
-                    "Difficulty",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    difficulty,
-            		null);
-  		String speed = (String)JOptionPane.showInputDialog(
-                this,
-                "Select game speed:\n",
-                "Game Speed",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                g_speed,
-        		null);
-  		
-  		playerName = (String)JOptionPane.showInputDialog(
-                this,
-                "Enter your name:\n",
-                "Config",
-                JOptionPane.QUESTION_MESSAGE);
-  		if (curr == null) {	}
-  		else if (curr.equals("Easy"))
-  			return;
-  		else if (curr.equals("Medium"))
-  			return;
-  		else if (curr.equals("Hard"))
-  			return;
-  		
-  		if (speed == null) {} 
-  		else if (curr.equals("Slow"))
-  			Controller.MOVE_INCREMENT = 0.1;
-  		else if (curr.equals("Medium"))
-  			Controller.MOVE_INCREMENT = 0.15;
-  		else if (curr.equals("Fast"))
-  			Controller.MOVE_INCREMENT = 0.2;
+		String[] g_speed = {"Slow", "Medium", "Fast"};
+		String curr = (String)JOptionPane.showInputDialog(
+			this,
+			"Select default difficulty:\n",
+			"Difficulty",
+			JOptionPane.PLAIN_MESSAGE,
+			null,
+			difficulty,
+			null);
+		String speed = (String)JOptionPane.showInputDialog(
+			this,
+			"Select game speed:\n",
+			"Game Speed",
+			JOptionPane.PLAIN_MESSAGE,
+			null,
+			g_speed,
+			null);
+
+		playerName = (String)JOptionPane.showInputDialog(
+			this,
+			"Enter your name:\n",
+			"Config",
+			JOptionPane.QUESTION_MESSAGE);
+		if (curr == null) { }
+		else if (curr.equals("Easy"))
+			return;
+		else if (curr.equals("Medium"))
+			return;
+		else if (curr.equals("Hard"))
+			return;
+
+		if (speed == null) {}
+		else if (curr.equals("Slow"))
+			Controller.MOVE_INCREMENT = 0.1;
+		else if (curr.equals("Medium"))
+			Controller.MOVE_INCREMENT = 0.15;
+		else if (curr.equals("Fast"))
+			Controller.MOVE_INCREMENT = 0.2;
 	}
 
 	public void resizeView() {

@@ -36,5 +36,5 @@ public class Crate extends GamePiece{
 		prepAnimation(direction);
 		return true;
 	}
-	
+
 }

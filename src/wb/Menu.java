@@ -13,20 +13,20 @@ import javax.swing.border.EmptyBorder;
 /**
  * Menu Class is a sub-class of the javax.Swing.JPanel Class with some
  * specific functionality built in to suit the wb gameMenu.
- * 
+ *
  * @author Alexander Hinds
  *
  */
 public class Menu extends JPanel {
-	
+
 	private static final long serialVersionUID = 4427029878332103500L;
 	private JButton PlayNow;
 	private JButton LoadGame;
 	private JButton Campaign;
 	private JButton Settings;
 	private JButton Exit;
-	
-	
+
+
 	public Menu(Controller c) {
 		super();
 		this.setLayout(new GridLayout(0,1,10,10));
@@ -40,7 +40,7 @@ public class Menu extends JPanel {
 		this.setFocusable(true);
 		this.setVisible(true);
 	}
-	
+
 	public JButton getPlayNow() {
 		return this.PlayNow;
 	}
@@ -48,25 +48,25 @@ public class Menu extends JPanel {
 	public JButton getSettings() {
 		return this.Settings;
 	}
-	
+
 	public JButton getCampaign() {
 		return this.Campaign;
 	}
-	
+
 	public JButton getExit() {
 		return this.Exit;
 	}
-	
+
 	public JButton getLoadGame() {
 		return this.LoadGame;
 	}
-	
-	
+
+
 	// NOTE methods below this line are private
-	// ----------------------------------	
+	// ----------------------------------
 	/**
 	 * Helper function to make all the buttons required for the Menu
-	 * 
+	 *
 	 * @param c		The controller which acts as the button listener.
 	 */
 	private void makeButtons(Controller c) {
@@ -81,10 +81,10 @@ public class Menu extends JPanel {
 		this.add(Settings);
 		this.add(Exit);
 	}
-	
+
 	/**
 	 * Helper function to make a new JButton for the Menu.
-	 * 
+	 *
 	 * @param name	labelName of the Button
 	 * @param c		The main controller which deals with events on the button
 	 * @return		The new button.
@@ -95,7 +95,7 @@ public class Menu extends JPanel {
 		Insets margin = new Insets(20,20,20,20);
 		n.setMargin(margin);
 		n.addActionListener(c);
-		return n; 
+		return n;
 	}
 
 }

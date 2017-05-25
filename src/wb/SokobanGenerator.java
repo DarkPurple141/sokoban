@@ -138,7 +138,7 @@ public class SokobanGenerator{
 
 	private static Board clearSpace(Board seed, int spaces, List<Point> visableWalls) {
 		if(spaces <= 0)
-			return  seed;
+			return seed;
 		if(visableWalls.size() == 0)
 			return seed;
 		//Expand empty space

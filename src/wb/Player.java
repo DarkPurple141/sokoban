@@ -37,7 +37,7 @@ public class Player extends GamePiece{
 		prepAnimation(direction);
 		return true;
 	}
-	
+
 	public boolean isMoving () {
 		Point2D curr = super.getAnimOffset();
 		if (curr.getX() == 0 && curr.getY() == 0) {
@@ -54,5 +54,5 @@ public class Player extends GamePiece{
 		return this.direction;
 	}
 
-	
+
 }

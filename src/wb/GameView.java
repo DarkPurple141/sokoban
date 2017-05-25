@@ -1,83 +1,86 @@
 package wb;
-import javax.swing.JPanel;
+
+import java.io.*;
+import java.util.*;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
-import java.io.*;
+import javax.swing.JPanel;
 
-public class GameView extends JPanel {
+public class GameView
+extends JPanel {
 
-    private Board b;
+	private Board b;
 	private JLabel gameState;
-    //private SpriteSheet crates;
-    private SpriteSheet tiles;
-    private SpriteSheet player;
-    //private SpriteSheet box;
-    private static final long serialVersionUID = 11; // apparently swing needs this
+	//private SpriteSheet crates;
+	private SpriteSheet tiles;
+	private SpriteSheet player;
+	//private SpriteSheet box;
+	private static final long serialVersionUID = 11; // apparently swing needs this
 
-    public GameView(Board b) {
-        super();
-        this.b = b;
-        this.setPreferredSize(new Dimension(711, 711));
-        GameViewBuilder();
-    }
-    
-    public GameView() {
-    	super();
-    	this.setPreferredSize(new Dimension(711, 711));
-        GameViewBuilder();
-    }
+	public GameView(Board b) {
+		super();
+		this.b = b;
+		this.setPreferredSize(new Dimension(711, 711));
+		GameViewBuilder();
+	}
+
+	public GameView() {
+		super();
+		this.setPreferredSize(new Dimension(711, 711));
+		GameViewBuilder();
+	}
 
 	public void resetBoard(Board b) {
 		this.b = b;
 		resizeSprites();
 	}
 
-    private void GameViewBuilder() {
-        try {
-        	/*
-            crates = new SpriteSheetBuilder()
-                .withSheet(ImageIO.read(new File("assets/crates_walls.png")))
-                .withRows(1)
-                .withColumns(5)
-                .withxOffset(20)
-                .withSpriteSize(90,90)
-                .withSpriteCount(5)
-                .build();
-            */
-            tiles = new SpriteSheetBuilder()
-                .withSheet(ImageIO.read(new File("assets/spriteSheet.png")))
-                .withRows(3)
-                .withColumns(2)
-                .withSpriteSize(90,90)
-                .withSpriteCount(5)
-                .build();
-            player = new SpriteSheetBuilder()
-                .withSheet(ImageIO.read(new File("assets/player_4x4_48x48.png")))
-                .withRows(4)
-                .withColumns(4)
-                .withSpriteSize(48,48)
-                .withSpriteCount(16)
-                .build();
-            /*
-            box = new SpriteSheetBuilder()
-            	.withSheet(ImageIO.read(new File("assets/crate.png")))
-            	.withSpriteSize(90,90)
-            	.withSpriteCount(1)
-            	.build();
-            */
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-  
+	private void GameViewBuilder() {
+		try {
+			/*
+			  crates = new SpriteSheetBuilder()
+			  .withSheet(ImageIO.read(new File("assets/crates_walls.png")))
+			  .withRows(1)
+			  .withColumns(5)
+			  .withxOffset(20)
+			  .withSpriteSize(90,90)
+			  .withSpriteCount(5)
+			  .build();
+			*/
+			tiles = new SpriteSheetBuilder()
+				.withSheet(ImageIO.read(new File("assets/spriteSheet.png")))
+				.withRows(3)
+				.withColumns(2)
+				.withSpriteSize(90,90)
+				.withSpriteCount(5)
+				.build();
+			player = new SpriteSheetBuilder()
+				.withSheet(ImageIO.read(new File("assets/player_4x4_48x48.png")))
+				.withRows(4)
+				.withColumns(4)
+				.withSpriteSize(48,48)
+				.withSpriteCount(16)
+				.build();
+			/*
+			  box = new SpriteSheetBuilder()
+			  .withSheet(ImageIO.read(new File("assets/crate.png")))
+			  .withSpriteSize(90,90)
+			  .withSpriteCount(1)
+			  .build();
+			*/
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+
 		gameState = new JLabel();
 		gameState.setBackground(Color.lightGray);
 		gameState.setOpaque(true);
 		this.add(gameState);
-    }
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -106,7 +109,7 @@ public class GameView extends JPanel {
 	}
 
 	private void paintAnimatables(Graphics g, double squareWidth, double squareHeight) {
-    	for(GamePiece p : b.getCrates()) {
+		for(GamePiece p : b.getCrates()) {
 			paintPiece(g, p, squareWidth, squareHeight);
 		}
 		for(GamePiece p : b.getPlayers()) {
@@ -144,19 +147,20 @@ public class GameView extends JPanel {
 
 	private void paintPiece(Graphics g, GamePiece p, double squareWidth, double squareHeight) {
 		Point2D pos = new Point2D.Double();
-		pos.setLocation(p.getCoord().getX() + p.getAnimOffset().getX(),
+		pos.setLocation(
+			p.getCoord().getX() + p.getAnimOffset().getX(),
 			p.getCoord().getY() + p.getAnimOffset().getY());
-		 Image curr = null;
-		
+		Image curr = null;
+
 		if(p.getType() == 0) {
 			// normal player
 			curr = player.animate((Player)p);
-			
+
 		} else if(p.getType() == 1) {
 			// crate
 			curr = tiles.getScaled(1);
 		}
-		
+
 		if (curr == null)
 			return;
 		int width = curr.getWidth(null);
@@ -177,10 +181,10 @@ public class GameView extends JPanel {
 		int board_cols = b.getWidth();
 		int board_rows = b.getHeight();
 		//System.out.println(panel_width + " " + panel_height);
-		
+
 		int squareWidth = (int)((double)panel_width/(double)board_cols);
 		int squareHeight = (int)((double)panel_height/(double)board_rows);
-		
+
 		//crates.resize(squareWidth, squareHeight);
 		tiles.resize(squareWidth, squareHeight);
 		//box.resize(squareWidth, squareHeight);

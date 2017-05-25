@@ -1,13 +1,13 @@
 package wb;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.awt	.Point;
-import java.util.Random;
+import java.awt.Point;
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.Iterator;
-public class MctsTree{
+import java.util.List;
+import java.util.Random;
 
+public class MctsTree{
 	private final int depthLimit = 1800;
 
 	private Board seed;
@@ -53,7 +53,7 @@ public class MctsTree{
 			Player player = sandbox.getPlayers().get(0);
 			mctsSearch(root, player);
 			numIterations++;
-			seedReset();	
+			seedReset();
 		}
 
 		return currentBest;
@@ -119,14 +119,14 @@ public class MctsTree{
 					return;
 				}
 			}
-			
+
 			rollout(actionNode, player);
 		}
 	}
 
 	private double evaluate(){
 		cratesToWall();
-		
+
 		int congestion = getCongestionMetric();
 		int terrain = getTerrainMetric();
 

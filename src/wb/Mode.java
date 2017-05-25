@@ -1,5 +1,7 @@
 package wb;
 
 public enum Mode {
-	NORMAL, CAMPAIGN, LOAD
+	NORMAL,
+	CAMPAIGN,
+	LOAD
 }

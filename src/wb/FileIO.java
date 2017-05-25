@@ -14,23 +14,22 @@ import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.io.File;
 
-public class FileIO
-{
+public class FileIO {
 	/**
 	 * Used when constructing a Model from an xml file
 	 * There is potential to use the same XML format for saved games as well
 	 * Just need to include 2 more possible states:
-	 * 		1. Finish Tile w Player
-	 * 		2. Finsh Tile w Box
+	 *		1. Finish Tile w Player
+	 *		2. Finsh Tile w Box
 	 *
 	 * @return The 2D array of the board with columns as the secondary layer
 	 * Format:
-	 * 		[row][col,col,col...]
-	 * 		[row][col,col,col...]
-	 * 		.
-	 * 		.
-	 * 		.
-	 * 		[row][col,col,col...]
+	 *		[row][col,col,col...]
+	 *		[row][col,col,col...]
+	 *		.
+	 *		.
+	 *		.
+	 *		[row][col,col,col...]
 	 * @param filePath : The path to the XML file being used to create the model (relative from base dirctory (cs2911-proj1))
 	 * See "level1.xml" for XML formatting
 	 *

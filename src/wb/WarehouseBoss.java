@@ -12,11 +12,11 @@ import java.io.IOException;
  */
 public class WarehouseBoss {
 	public static void main (String[] args) {
-		
+
 		try {
-			 GraphicsEnvironment ge = 
-			     GraphicsEnvironment.getLocalGraphicsEnvironment();
-			 ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("assets/Cardinal.ttf")));
+			GraphicsEnvironment ge =
+				GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("assets/Cardinal.ttf")));
 		} catch (IOException|FontFormatException e) {
 			//Handle exception
 		}
