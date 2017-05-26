@@ -10,7 +10,7 @@ Class(`Board', `
     Field(`finishTiles', `List_FloorTile_'),
     Field(`pieces', `List_GamePiece_')',
 `
-    Constructor(`filePath:String'),
+    Constructor(`width:int,height:int'),
     Method(`getPosition', `pos:Point', `Tile'),
     Method(`setPosition', `pos:Point,t:Tile', `void'),
     Method(`addFinishTile', `t:FloorTile', `void'),
@@ -86,6 +86,12 @@ Class(`Crate', `', `
     Method(`doMove', `direction:int', `boolean'),
     Method(`bePushed', `direction:int', `boolean')');
 Extends(`Crate', `GamePiece');
+
+Enum(`Direction', `
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT')
 
 dnl no non-static methods... x_x
 Class(`FileIO', `', `');
@@ -224,6 +230,13 @@ Aggregates(`MctsTree', `MctsNode');
 AssociatedWith(`MctsTree', `Player');
 DependsOn(`MctsTree', `Crate');
 DependsOn(`MctsTree', `Tile');
+DependsOn(`MctsTree', `FloorTile');
+DependsOn(`MctsTree', `WallTile');
+
+Enum(`Mode', `
+    NORMAL,
+    CAMPAIGN,
+    LOAD');
 
 Class(`Player', `
     Field(`direction', `int')',
@@ -294,13 +307,13 @@ Class(`Tile', `
     Method(`setContents', `new:GamePiece', `void')');
 AssociatedWith(`Tile', `GamePiece');
 
-Class(`Wall', `', `
+Class(`WallTile', `', `
     Constructor(`start:Point'),
     Method(`canBeFilled', `', `boolean'),
     Method(`getContents', `', `GamePiece'),
     Method(`setContents', `c:GamePiece', `GamePiece')');
-Extends(`Wall', `Tile');
-AssociatedWith(`Wall', `GamePiece');
+Extends(`WallTile', `Tile');
+AssociatedWith(`WallTile', `GamePiece');
 
 Class(`WarehouseBoss', `', `
     Method(`(static)main', `args:String[]', `void')');
