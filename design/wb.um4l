@@ -47,7 +47,7 @@ Class(`Controller', `
     Field(`pauseButton', `JButton'),
     Field(`state', `Mode'),
     Field(`b', `Board'),
-    Field(`m', `Menu'),
+    Field(`m', `GameMenu'),
     Field(`running', `boolean'),
     Field(`gg', `boolean'),
     Field(`moving', `boolean'),
@@ -78,7 +78,7 @@ Aggregates(`Controller', `GameView');
 Aggregates(`Controller', `ScoreParser');
 Aggregates(`Controller', `Mode');
 Aggregates(`Controller', `Board');
-Aggregates(`Controller', `Menu');
+Aggregates(`Controller', `GameMenu');
 
 Class(`Crate', `', `
     Constructor(`myBoard:Board,startCoord:Point'),
@@ -87,6 +87,7 @@ Class(`Crate', `', `
     Method(`bePushed', `direction:int', `boolean')');
 Extends(`Crate', `GamePiece');
 
+dnl no non-static methods... x_x
 Class(`FileIO', `', `');
 
 Class(`FloorTile', `
@@ -98,6 +99,21 @@ Class(`FloorTile', `
     Method(`setContents', `content:GamePiece', `boolean')');
 Extends(`FloorTile', `Tile');
 Aggregates(`FloorTile', `GamePiece');
+
+Class(`GameMenu', `
+    Field(`playNow', `JButton'),
+    Field(`loadGame', `JButton'),
+    Field(`campaign', `JButton'),
+    Field(`settings', `JButton'),
+    Field(`exit', `JButton')',
+`
+    Constructor(`c:Controller'),
+    Method(`getPlayNow', `', `JButton'),
+    Method(`getLoadGame', `', `JButton'),
+    Method(`getCampaign', `', `JButton'),
+    Method(`getSettings', `', `JButton'),
+    Method(`getExit', `', `JButton'),
+    PrivMethod(`makeButton', `name:String,c:Controller', `JButton')');
 
 Class(`GamePiece', `', `');
 
@@ -126,13 +142,36 @@ AssociatedWith(`GameView', `Tile');
 AssociatedWith(`GameView', `GamePiece');
 DependsOn(`GameView', `SpriteSheetBuilder');
 
-Class(`MctsAction', `', `');
+Enum(`MctsAction', `
+    DELETE,
+    PLACE,
+    FREEZE,
+    MOVE,
+    EVALUATE');
+
+Class(`MctsNode', `
+    Field(`children', `List_MctsNode_'),
+    Field(`parent', `MctsNode'),
+    Field(`action', `MctsAction'),
+    Field(`movedDirection', `int'),
+    Field(`visited', `int'),
+    Field(`totalScore', `double')',
+`
+    Constructor(`parent:MctsNode'),
+    Method(`setMoveAction', `dir:int', `void'),
+    Method(`setEvaluateAction', `', `void'),
+    Method(`addOptions', `', `void'),
+    Method(`getAction', `', `MctsAction'),
+    Method(`getChildren', `', `List_MctsNode_'),
+    Method(`getMoveDirection', `', `int'),
+    Method(`visited', `', `void'),
+    Method(`timesVisited', `', `int'),
+    Method(`updateValue', `add:double', `void'),
+    Method(`getScore', `', `double')');
+Aggregates(`MctsNode', `MctsNode');
+Aggregates(`MctsNode', `MctsAction');
 
 Class(`MctsTree', `', `');
-
-Class(`Menu', `', `');
-
-Class(`Node', `', `');
 
 Class(`Player', `
     Field(`direction', `int')',
