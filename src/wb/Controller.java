@@ -450,55 +450,67 @@ implements ActionListener, ComponentListener, KeyListener {
 	}
 
 	private void processSettings() {
+		requestGameDifficulty();
+		requestGameSpeed();
+		requestPlayerName();
+	}
+
+	private void requestGameDifficulty() {
 		String[] difficulty = {"Easy", "Medium", "Hard"};
-		String[] g_speed = {"Slow", "Medium", "Fast"};
-
 		String curr = (String)JOptionPane.showInputDialog(
-			this,
-			"Select default difficulty:\n",
-			"Difficulty",
-			JOptionPane.PLAIN_MESSAGE,
-			null,
-			difficulty,
-			null);
-		String speed = (String)JOptionPane.showInputDialog(
-			this,
-			"Select game speed:\n",
-			"Game Speed",
-			JOptionPane.PLAIN_MESSAGE,
-			null,
-			g_speed,
-			null);
-
-		this.playerName = (String)JOptionPane.showInputDialog(
-			this,
-			"Enter your name:\n",
-			"Config",
-			JOptionPane.QUESTION_MESSAGE);
+			this, "Select default difficulty:\n",
+			"Difficulty", JOptionPane.PLAIN_MESSAGE,
+			null, difficulty, null);
 
 		if (curr == null) {
-			// FIXME(jashankj): what's on this branch
-			// protection against nothing being read by JPane -- AH
-		} else if (curr.equals("Easy")) {
-			gameDifficulty = Difficulty.EASY;
-		} else if (curr.equals("Medium")) {
-			gameDifficulty = Difficulty.MEDIUM;
-		} else if (curr.equals("Hard")){
-			gameDifficulty = Difficulty.HARD;
+			return;
 		}
-			
+
+		switch (curr) {
+		case "Easy":
+			this.gameDifficulty = Difficulty.EASY;
+			break;
+
+		case "Medium":
+			this.gameDifficulty = Difficulty.MEDIUM;
+			break;
+
+		case "Hard":
+			this.gameDifficulty = Difficulty.HARD;
+			break;
+		}
+	}
+
+	private void requestGameSpeed () {
+		String[] g_speed = {"Slow", "Medium", "Fast"};
+		String speed = (String)JOptionPane.showInputDialog(
+			this, "Select game speed:\n",
+			"Game Speed", JOptionPane.PLAIN_MESSAGE,
+			null, g_speed, null);
 
 		if (speed == null) {
-			// FIXME(jashankj): what's on this branch
-			// protection against nothing being read by JPane -- AH
-		} else if (speed.equals("Slow")) {
-			this.moveIncrement = 0.1;
-		} else if (speed.equals("Medium")) {
-			this.moveIncrement = 0.2;
-		} else if (speed.equals("Fast")) {
-			this.moveIncrement = 0.6;
+			return;
 		}
 
+		switch (speed) {
+		case "Slow":
+			this.moveIncrement = 0.1;
+			break;
+
+		case "Medium":
+			this.moveIncrement = 0.2;
+			break;
+
+		case "Fast":
+			this.moveIncrement = 0.6;
+			break;
+		}
+	}
+
+	private void requestPlayerName () {
+		this.playerName = (String)JOptionPane.showInputDialog(
+			this, "Enter your name:\n",
+			"Config", JOptionPane.QUESTION_MESSAGE);
 	}
 
 	@Override public void
@@ -514,7 +526,6 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		this.v.resizeSprites();
 	}
-	
 
 	@Override public void
 	componentMoved (ComponentEvent ce) {}
