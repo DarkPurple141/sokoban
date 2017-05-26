@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @brief a Sokoban-style game generator
+ * a Sokoban-style game generator
  *
  * uses a monte-carlo tree simulation, which seems to be the solution
  * par excellence for this problem.
@@ -14,7 +14,6 @@ import java.util.Random;
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
- * @date May 2017
  */
 class SokobanGenerator {
 

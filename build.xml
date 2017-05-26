@@ -34,9 +34,11 @@
   <target name="doc" depends="init">
     <mkdir dir="${doc}" />
     <javadoc destdir="${doc}" sourcepath="${src}">
-      <tag name="precond" scope="constructors,methods" description="Precondition:" />
-      <tag name="postcond" scope="constructors,methods" description="Postcondition:" />
-      <tag name="invariant" scope="all" description="Invariants:" />
+      <!-- "programming-by-contract" tags.
+        - <tag name="precond" scope="constructors,methods" description="Precondition:" />
+        - <tag name="postcond" scope="constructors,methods" description="Postcondition:" />
+        - <tag name="invariant" scope="all" description="Invariants:" />
+        -->
     </javadoc>
   </target>
 

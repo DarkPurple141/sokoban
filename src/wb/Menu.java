@@ -11,10 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 /**
- * @brief a game menu
+ * a game menu
  *
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
- * @date May 2017
  */
 class Menu
 extends JPanel {

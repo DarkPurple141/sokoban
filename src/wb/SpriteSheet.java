@@ -6,13 +6,12 @@ import java.util.ArrayList;
 import java.awt.Image;
 
 /**
- * @brief SpriteSheet is BufferedImage used to store game assets.
+ * SpriteSheet is BufferedImage used to store game assets.
  *
  * adapted from here:
  * http://stackoverflow.com/questions/35472233/load-a-sprites-image-in-java
  *
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
- * @date May 2017
  */
 class SpriteSheet {
 

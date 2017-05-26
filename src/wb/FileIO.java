@@ -15,11 +15,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * @brief serialisation and deserialisation for Board
+ * serialisation and deserialisation for Board
  *
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
- * @date May 2017
  */
 class FileIO {
 	/**

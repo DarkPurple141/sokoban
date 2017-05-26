@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @brief Monte-Carlo tree-sim.
+ * Monte-Carlo tree-sim.
  *
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
- * @date May 2017
  */
 class MctsTree {
 	// FIXME(jashankj): static?

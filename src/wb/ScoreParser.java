@@ -11,14 +11,13 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * @brief high score file
+ * high score file
  *
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
  * @author Jashank Jeremy {@literal <z5017851@cse.unsw.edu.au>}
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  * @author Arunabh Mukherjee {@literal <z5120075@cse.unsw.edu.au>}
- * @date May 2017
  */
 class ScoreParser {
 	// FIXME(jashankj): why is this not XML?

@@ -104,4 +104,9 @@ tramp
 .CVS
 .idea
 *.iml
-levels/*
+
+# Generated levels!
+levels/
+
+# Generated documentation!
+doc/

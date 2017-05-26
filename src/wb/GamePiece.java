@@ -5,11 +5,10 @@ import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
 
 /**
- * @brief movable game pieces
+ * movable game pieces
  *
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
- * @date May 2017
  */
 abstract class GamePiece {
 	private Board myBoard;
