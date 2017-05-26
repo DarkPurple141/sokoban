@@ -9,17 +9,17 @@ import java.util.ArrayList;
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
-public class Node {
+public class MctsNode {
 	// FIXME(jashankj): move this down a package
-	private List<Node> children;
-	private Node parent;
+	private List<MctsNode> children;
+	private MctsNode parent;
 	private MctsAction action;
 	private int movedDirection;
 	private int visited;
 	private double totalScore;
 
-	public Node(Node parent){
-		children = new ArrayList<Node>();
+	public MctsNode(MctsNode parent){
+		children = new ArrayList<MctsNode>();
 		this.parent = parent;
 		visited = 0;
 		totalScore = 0;
@@ -36,12 +36,12 @@ public class Node {
 
 	public void addOptions(){
 		if (parent != null){
-			Node child = new Node(this);
+			MctsNode child = new MctsNode(this);
 			child.setEvaluateAction();
 			children.add(child);
 		}
 		for (Direction dir : Direction.values()){
-			Node child = new Node(this);
+			MctsNode child = new MctsNode(this);
 			if (dir == Direction.UP){
 				child.setMoveAction(0);
 			}else if (dir == Direction.RIGHT) {
@@ -60,7 +60,7 @@ public class Node {
 		return action;
 	}
 
-	public List<Node> getChildren(){
+	public List<MctsNode> getChildren(){
 		return children;
 	}
 

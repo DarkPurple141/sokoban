@@ -15,18 +15,18 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
  */
-class Menu
+class GameMenu
 extends JPanel {
 	// FIXME(jashankj): this class name is quite bad
 	// FIXME(jashankj): variable names
-	private JButton PlayNow;
-	private JButton LoadGame;
-	private JButton Campaign;
-	private JButton Settings;
-	private JButton Exit;
+	private JButton playNow;
+	private JButton loadGame;
+	private JButton campaign;
+	private JButton settings;
+	private JButton exit;
 
 
-	public Menu(Controller c) {
+	public GameMenu(Controller c) {
 		super();
 		this.setLayout(new GridLayout(0,1,10,10));
 		this.setBorder(new EmptyBorder(80,140,20,140));
@@ -41,23 +41,23 @@ extends JPanel {
 	}
 
 	public JButton getPlayNow() {
-		return this.PlayNow;
+		return this.playNow;
 	}
 
 	public JButton getSettings() {
-		return this.Settings;
+		return this.settings;
 	}
 
 	public JButton getCampaign() {
-		return this.Campaign;
+		return this.campaign;
 	}
 
 	public JButton getExit() {
-		return this.Exit;
+		return this.exit;
 	}
 
 	public JButton getLoadGame() {
-		return this.LoadGame;
+		return this.loadGame;
 	}
 
 
@@ -69,16 +69,16 @@ extends JPanel {
 	 * @param c		The controller which acts as the button listener.
 	 */
 	private void makeButtons(Controller c) {
-		PlayNow = makeButton("Play Now",c);
-		LoadGame = makeButton("Load Game", c);
-		Campaign = makeButton("Campaign",c);
-		Settings = makeButton("Settings",c);
-		Exit = makeButton("Exit",c);
-		this.add(PlayNow);
-		this.add(LoadGame);
-		this.add(Campaign);
-		this.add(Settings);
-		this.add(Exit);
+		playNow = makeButton("Play Now",c);
+		loadGame = makeButton("Load Game", c);
+		campaign = makeButton("Campaign",c);
+		settings = makeButton("Settings",c);
+		exit = makeButton("Exit",c);
+		this.add(playNow);
+		this.add(loadGame);
+		this.add(campaign);
+		this.add(settings);
+		this.add(exit);
 	}
 
 	/**

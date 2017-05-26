@@ -21,7 +21,7 @@ class MctsTree {
 	private Board sandbox;
 	private double bestScore;
 	private Board currentBest;
-	private Node root;
+	private MctsNode root;
 	private Point playerStart;
 
 	private int alpha;
@@ -41,7 +41,7 @@ class MctsTree {
 		this.seed = seed;
 
 		sandbox = seed.clone();
-		root = new Node(null);
+		root = new MctsNode(null);
 		root.addOptions();
 
 		playerStart = seed.getPlayers().get(0).getCoord();
@@ -67,11 +67,11 @@ class MctsTree {
 		return currentBest;
 	}
 
-	private boolean mctsSearch(Node actionNode, Player player){
+	private boolean mctsSearch(MctsNode actionNode, Player player){
 		double maxScore = 0;
-		Node bestNode = null;
+		MctsNode bestNode = null;
 		actionNode.visited();
-		for (Node child : actionNode.getChildren()){
+		for (MctsNode child : actionNode.getChildren()){
 			if (child.timesVisited() < 1){
 				rollout(child, player);
 				if (child.getScore() == 0){
@@ -96,7 +96,7 @@ class MctsTree {
 	}
 
 
-	private void takeAction(Node actionNode, Player player){
+	private void takeAction(MctsNode actionNode, Player player){
 		if (actionNode.getAction() == MctsAction.MOVE){
 			player.doMove(actionNode.getMoveDirection());
 		}else{
@@ -104,7 +104,7 @@ class MctsTree {
 		}
 	}
 
-	private void rollout(Node actionNode, Player player){
+	private void rollout(MctsNode actionNode, Player player){
 		int nextMove = rand.nextInt(Integer.MAX_VALUE)%20;
 		actionNode.visited();
 		//System.out.println(sandbox);

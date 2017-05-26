@@ -58,7 +58,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 	private Mode state;
 	private Board b;
-	private Menu m;
+	private GameMenu m;
 	private boolean running;
 	private boolean gg;
 	private boolean moving = false;
@@ -92,7 +92,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		this.panels = new JPanel();
 		this.panels.setLayout(new CardLayout());
-		this.m = new Menu(this);
+		this.m = new GameMenu(this);
 		this.v = new GameView();
 
 		this.gameWindow = new JPanel();
