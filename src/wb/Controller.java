@@ -71,6 +71,11 @@ implements ActionListener, ComponentListener, KeyListener {
 
 	private Difficulty gameDifficulty;
 
+	/**
+	 * Initialises the controller
+	 * Starts the view
+	 * Begins generating the procedural levels in the background
+	 */
 	public Controller() {
 		super();
 
@@ -133,7 +138,9 @@ implements ActionListener, ComponentListener, KeyListener {
 		this.threadGen(1);
 	}
 
-	// Work in progress
+	/**
+	 * Initialises the game window
+	 */
 	private void gameLayout() {
 		this.makeModel(false);
 		this.startButton.setText("Start");
@@ -147,11 +154,17 @@ implements ActionListener, ComponentListener, KeyListener {
 		super.repaint();
 	}
 
+	/**
+	 * Changes the main game window
+	 */
 	private void switchLayout() {
 		CardLayout layout = (CardLayout)(this.panels.getLayout());
 		layout.next(panels);
 	}
 
+	/**
+	 * Resets all game variables
+	 */
 	public void newGame() {
 		this.moves = 0;
 		this.gg = false;
@@ -160,10 +173,13 @@ implements ActionListener, ComponentListener, KeyListener {
 		this.v.resetBoard(this.b);
 		this.v.hideLabel();
 
-		// XXX(jashankj): should we launch the game thread?
 		this.drawGame();
 	}
 
+	/**
+	 * Loads the board from the level file path
+	 * @param reset if true reloads from the current path. If false loads the next level in order depending on the game type
+	 */
 	private void makeModel(boolean reset) {
 		// FIXME(jashankj): split this apart
 		if (reset) {
@@ -185,6 +201,10 @@ implements ActionListener, ComponentListener, KeyListener {
 
 	// initially created to prevent more than one thread being instantiated-- AH
 	// but could now be easily brought inline.
+
+	/**
+	 * Starts the game loop
+	 */
 	public void runGameLoop() {
 		// FIXME(jashankj): either move this or gameLoop inline.
 		Thread loop = new Thread() {
@@ -195,6 +215,10 @@ implements ActionListener, ComponentListener, KeyListener {
 		loop.start();
 	}
 
+	/**
+	 * Generates a new level in the background and saves to a file
+	 * @param id the name of the file to save to in the levels folder
+	 */
 	private void threadGen(int id) {
 		Thread loop = new Thread() {
 			public void run() {
@@ -204,6 +228,9 @@ implements ActionListener, ComponentListener, KeyListener {
 		loop.start();
 	}
 
+	/**
+	 * The main game loop which governs the IO and rendering
+	 */
 	private void gameLoop() {
 		int delay = 1000 / FPS;
 
@@ -251,11 +278,18 @@ implements ActionListener, ComponentListener, KeyListener {
 
 	}
 
+	/**
+	 * Adds the move score to the high-scores board
+	 */
 	private void logCampaignScore() {
 		this.campaignMoves += this.moves;
 		this.scores.updateScores(this.playerName, this.campaignMoves);
 	}
 
+	/**
+	 * Loads all the saved game strings into an array
+	 * @param path the path to look in
+	 */
 	private void populateSavedGames(String path) {
 		File dir = new File(path);
 
@@ -274,6 +308,9 @@ implements ActionListener, ComponentListener, KeyListener {
 		this.savedGames = files.toArray(new String[]{});
 	}
 
+	/**
+	 * Animates all the pieces which are currently in motion - changing their apparent position
+	 */
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
@@ -282,12 +319,19 @@ implements ActionListener, ComponentListener, KeyListener {
 		}
 	}
 
+	/**
+	 * Calls the view rendering components
+	 */
 	private void drawGame() {
 		this.validate();
 		this.repaint();
 		/// calls paint in all child components
 	}
 
+	/**
+	 * Called if a key is pressed without a board
+	 * @param e the Keyevent object to hold information about the key pressed
+	 */
 	@Override public void
 	keyPressed (KeyEvent e) {
 		// If there's no board, bail.
@@ -298,16 +342,23 @@ implements ActionListener, ComponentListener, KeyListener {
 		this.processEvent(e);
 	}
 
+	/**
+	 * Called if a key is released without a board
+	 * @param e the Keyevent object to hold information about the key pressed
+	 */
 	@Override public void
 	keyReleased (KeyEvent e) {}
 
+	/**
+	 * Called if a key is typed without a board
+	 * @param e the Keyevent object to hold information about the key pressed
+	 */
 	@Override public void
 	keyTyped (KeyEvent e) {}
 
-	/*
-	 * Update model to new state.
-	 * directions in clockwise form.
-	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
+	/**
+	 * The main handler for keys pressed
+	 * @param e the Keyevent object to hold information about the key pressed
 	 */
 	public void processEvent(KeyEvent e) {
 		if (!running) {
@@ -370,6 +421,10 @@ implements ActionListener, ComponentListener, KeyListener {
 		}
 	}
 
+	/**
+	 * The main action handler for GUI buttons pressed
+	 * @param e the Keyevent object to hold information about the button pressed
+	 */
 	// FIXME(jashankj): slice apart!
 	public void actionPerformed(ActionEvent e) {
 		// FIXME(jashankj): compare-by-reference?
@@ -449,12 +504,19 @@ implements ActionListener, ComponentListener, KeyListener {
 		this.requestFocusInWindow();
 	}
 
+	/**
+	 * Handles the collection of new settings
+	 */
 	private void processSettings() {
 		requestGameDifficulty();
 		requestGameSpeed();
 		requestPlayerName();
 	}
 
+	/**
+	 * Requests the difficulty setting
+	 * Uses user input into a dropdown menu
+	 */
 	private void requestGameDifficulty() {
 		String[] difficulty = {"Medium", "Easy", "Hard"};
 		String curr = (String)JOptionPane.showInputDialog(
@@ -497,6 +559,10 @@ implements ActionListener, ComponentListener, KeyListener {
 		}
 	}
 
+	/**
+	 * Requests the game speed setting
+	 * Uses user input into a dropdown menu
+	 */
 	private void requestGameSpeed () {
 		String[] g_speed = {"Medium", "Slow", "Fast"};
 		String speed = (String)JOptionPane.showInputDialog(
@@ -523,12 +589,22 @@ implements ActionListener, ComponentListener, KeyListener {
 		}
 	}
 
+	/**
+	 * Requests the player name
+	 * Uses user input into an input box
+	 * used for the high-scores list
+	 */
 	private void requestPlayerName () {
 		this.playerName = (String)JOptionPane.showInputDialog(
 			this, "Enter your name:\n",
 			"Config", JOptionPane.QUESTION_MESSAGE);
 	}
 
+	/**
+	 * An event to handle the window being resized
+	 * Redraws all tiles and pieces to fit the new dimensions
+	 * @param ce the ComponentEvent which holds information about the resize
+	 */
 	@Override public void
 	componentResized (ComponentEvent ce) {
 		Component evSource = (Component)ce.getSource();
@@ -542,7 +618,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		this.v.resizeSprites();
 	}
-
+	
 	@Override public void
 	componentMoved (ComponentEvent ce) {}
 
