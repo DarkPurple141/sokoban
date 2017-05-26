@@ -52,7 +52,7 @@ class ScoreParser {
 		int index = 0;
 		while (index < names.size()) {
 			toGive += "<h2>" + Integer.toString(index+1) + ". " + names.get(index) +
-				Integer.toString(scores.get(index)) + "</h2>";
+				" " + Integer.toString(scores.get(index)) + "</h2>";
 			index++;
 		}
 

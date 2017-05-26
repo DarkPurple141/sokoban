@@ -242,7 +242,7 @@ implements ActionListener, ComponentListener, KeyListener {
 				gameSettings.setGameOver(true);
 				startButton.setText("Next");
 
-				if (campaignNum > 9) {
+				if (campaignNum >= 9) {
 					logCampaignScore();
 					v.showLabel(gameSettings.getScoreTable());
 					/// HACKS LIE AHEAD
@@ -418,6 +418,8 @@ implements ActionListener, ComponentListener, KeyListener {
 			}
 
 		} else if (s == skipButton) {
+			if (gameSettings.getState() == Mode.CAMPAIGN)
+				return;
 			gameSettings.setRunning(false);
 			if (gameSettings.getState() == Mode.NORMAL)
 			{
@@ -425,9 +427,6 @@ implements ActionListener, ComponentListener, KeyListener {
 				gameNum++;
 				makeModel(false);
 				threadGen(gameNum + 1);
-			} else {
-				campaignNum++;
-				makeModel(false);
 			}
 			newGame();
 			startButton.setText("Start");
