@@ -22,8 +22,8 @@ class SokobanGenerator {
 	private static final int gamma = 4;
 	private static final int tau = 1;
 
-	private static final double blockDensity = 0.4;
-	private static final double crateDensity = 0.3;
+	private static double blockDensity = 0.4;
+	private static double crateDensity = 0.3;
 
 	private static final int tries = 15;
 
@@ -56,10 +56,25 @@ class SokobanGenerator {
 //		}
 //	}
 
-	public static void generateLevel(int width, int height, int id) {
+	public static void generateLevel(int width, int height, int id, Difficulty gameDifficulty) {
 
 		Board[] selection = new Board[tries];
 		double[] scores = new double[tries];
+
+		switch(gameDifficulty){
+			case EASY:
+				crateDensity = 0.15;
+				blockDensity = 0.25;
+				break;
+			case MEDIUM:
+				crateDensity = 0.3;
+				blockDensity = 0.3;
+				break;
+			case HARD:
+				crateDensity = 0.4;
+				blockDensity = 0.4;
+				break;
+		}
 
 		//Fill the array with completed boards
 		for(int i = 0; i < tries; i++) {

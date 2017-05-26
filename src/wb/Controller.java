@@ -69,9 +69,12 @@ implements ActionListener, ComponentListener, KeyListener {
 	private int campaignMoves;
 	private String playerName;
 
+	private Difficulty gameDifficulty;
+
 	public Controller() {
 		super();
 
+		this.gameDifficulty = Difficulty.MEDIUM;
 		// Start a background generator thread as fast as we can.
 		this.threadGen(0);
 
@@ -195,7 +198,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	private void threadGen(int id) {
 		Thread loop = new Thread() {
 			public void run() {
-				SokobanGenerator.generateLevel(10, 10, id);
+				SokobanGenerator.generateLevel(10, 10, id, gameDifficulty);
 			}
 		};
 		loop.start();
@@ -472,12 +475,11 @@ implements ActionListener, ComponentListener, KeyListener {
 			// FIXME(jashankj): what's on this branch
 			// protection against nothing being read by JPane -- AH
 		} else if (curr.equals("Easy")) {
-			System.out.println("Easy!");
+			gameDifficulty = Difficulty.EASY;
 		} else if (curr.equals("Medium")) {
-			System.out.println("Med");
-		}
-		else if (curr.equals("Hard")){
-
+			gameDifficulty = Difficulty.MEDIUM;
+		} else if (curr.equals("Hard")){
+			gameDifficulty = Difficulty.HARD;
 		}
 			
 
