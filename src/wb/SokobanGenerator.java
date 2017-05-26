@@ -120,8 +120,8 @@ class SokobanGenerator {
 		seed.setPosition(playerPos, playerTile);
 
 		List<Point> visableWalls = new ArrayList<>();
-		for(int i = 0; i < 4; i++) {
-			Point neighbour = seed.nearbyPoint(playerPos, i);
+		for(Direction d : Direction.values()) {
+			Point neighbour = seed.nearbyPoint(playerPos, d);
 			if(neighbour != null)
 				visableWalls.add(neighbour);
 		}
@@ -139,8 +139,8 @@ class SokobanGenerator {
 				if(!seed.getPosition(pos).canBeFilled())
 					continue;
 				int surroundingWalls = 0;
-				for(int i = 0; i < 4; i++) {
-					Point neighbour = seed.nearbyPoint(pos, i);
+				for(Direction d : Direction.values()) {
+					Point neighbour = seed.nearbyPoint(pos, d);
 					if(neighbour == null)
 						surroundingWalls++;
 					else if(!seed.getPosition(neighbour).canBeFilled())
@@ -171,8 +171,8 @@ class SokobanGenerator {
 		visableWalls.remove(chosenWall);
 
 		seed.setPosition(chosenWall, new FloorTile(chosenWall));
-		for(int i = 0; i < 4; i++) {
-			Point neighbour = seed.nearbyPoint(chosenWall, i);
+		for(Direction d : Direction.values()) {
+			Point neighbour = seed.nearbyPoint(chosenWall, d);
 			if(neighbour == null)
 				continue;
 			if(seed.getPosition(neighbour).canBeFilled())

@@ -19,13 +19,13 @@ extends GamePiece {
 		return 1;
 	}
 
-	public boolean doMove(int direction) {
+	public boolean doMove(Direction dir) {
 		return false;
 	}
 
-	public boolean bePushed(int direction) {
+	public boolean bePushed(Direction dir) {
 		Point sourceCoord = super.getCoord();
-		Point destCoord = super.getBoard().nearbyPoint(super.getCoord(), direction);
+		Point destCoord = super.getBoard().nearbyPoint(super.getCoord(), dir);
 
 		Tile source = super.getBoard().getPosition(sourceCoord);
 		Tile destination = super.getBoard().getPosition(destCoord);
@@ -41,7 +41,7 @@ extends GamePiece {
 		super.getBoard().addPiecesUndo();
 		destination.setContents(this);
 		super.setCoord(destCoord);
-		prepAnimation(direction);
+		prepAnimation(dir);
 		return true;
 	}
 

@@ -11,20 +11,17 @@ import java.awt.Point;
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
 abstract class Tile {
+	private Point here;
 
-	private Point thisCoord;
-
-	public Tile(Point startCoord) {
-		this.thisCoord = startCoord;
+	public Tile(Point start) {
+		this.here = start;
 	}
 
 	public Point getCoord(){
-		return thisCoord;
+		return this.here;
 	}
 
 	public abstract boolean canBeFilled();
-
 	public abstract GamePiece getContents();
-
 	public abstract void setContents(GamePiece newContents);
 }

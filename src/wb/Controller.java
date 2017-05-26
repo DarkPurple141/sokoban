@@ -35,7 +35,7 @@ import javax.swing.JPanel;
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
-public class Controller
+class Controller
 extends JFrame
 implements ActionListener, ComponentListener, KeyListener {
 	private static final long serialVersionUID = 1L;
@@ -261,7 +261,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		for (GamePiece p : b.gamePieceIterator()) {
+		for (GamePiece p : b.gamePieces()) {
 			p.animFrame(moveIncrement);
 		}
 	}
@@ -320,22 +320,22 @@ implements ActionListener, ComponentListener, KeyListener {
 		switch (curr) {
 		case KeyEvent.VK_UP:
 			this.moves++;
-			this.b.doMove(0);
+			this.b.doMove(Direction.UP);
 			break;
 
 		case KeyEvent.VK_RIGHT:
 			this.moves++;
-			this.b.doMove(1);
+			this.b.doMove(Direction.RIGHT);
 			break;
 
 		case KeyEvent.VK_DOWN:
 			this.moves++;
-			this.b.doMove(2);
+			this.b.doMove(Direction.DOWN);
 			break;
 
 		case KeyEvent.VK_LEFT:
 			this.moves++;
-			this.b.doMove(3);
+			this.b.doMove(Direction.LEFT);
 			break;
 
 		case KeyEvent.VK_ENTER:

@@ -120,14 +120,13 @@ class MctsTree {
 		}else{
 			nextMove = nextMove%4;
 			int firstTry = nextMove;
-			while(!player.doMove(nextMove)){
+			while(!player.doMove(Direction.int2Dir(nextMove))){
 				nextMove++;
 				nextMove = nextMove%4;
 				if (nextMove == firstTry){
 					return;
 				}
 			}
-
 			rollout(actionNode, player);
 		}
 	}
@@ -219,14 +218,13 @@ class MctsTree {
 
 
 	private int getTerrainMetric(){
-		int[] directions = {0,1,2,3};
 		Iterator<Tile> tileIt = sandbox.tileIterator();
 		int terrainScore = 0;
 		while (tileIt.hasNext()){
 			Tile currentTile = tileIt.next();
 			if(currentTile.canBeFilled()){
-				for (int dir : directions){
-					Point nearby = sandbox.nearbyPoint(currentTile.getCoord(), dir);
+				for (Direction d : Direction.values()){
+					Point nearby = sandbox.nearbyPoint(currentTile.getCoord(), d);
 					if (nearby != null){
 						Tile neighbour = sandbox.getPosition(nearby);
 						if (!neighbour.canBeFilled()){

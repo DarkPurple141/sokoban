@@ -45,10 +45,10 @@ class SpriteSheet {
 	}
 
 	public Image animate(Player p) {
-		int direction = p.getDirection();
+		Direction dir = p.getDirection();
 		boolean moving = p.isMoving();
 
-		int x = (direction + 2) % 4;
+		int x = Direction.dir2Int(Direction.reverseDir(dir));
 		int y = moving ? animationState+1 : 0;
 
 		animationState = (animationState + 1) % 3;//Maximum of 3 moving animation frames

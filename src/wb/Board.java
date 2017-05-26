@@ -1,5 +1,7 @@
 package wb;
 
+import org.omg.PortableInterceptor.DISCARDING;
+
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -28,6 +30,11 @@ implements Cloneable {
 	private List<FloorTile> finishTiles;
 	private List<GamePiece> pieces;
 
+	/**
+	 * Initialises the board with a given width and height
+	 * @param width the width in tiles
+	 * @param height the height in tiles
+	 */
 	public Board(int width, int height) {
 		//Initialise all local variables
 		this.width = width;
@@ -39,6 +46,11 @@ implements Cloneable {
 		this.pieces = new ArrayList<GamePiece>();
 	}
 
+	/**
+	 * Returns the Tile at a given position
+	 * @param pos the position of the tile
+	 * @return the tile at the position
+	 */
 	public Tile getPosition(Point pos) {
 		if (pos == null) {
 			return null;
@@ -52,6 +64,12 @@ implements Cloneable {
 		return this.positions[pos.x][pos.y];
 	}
 
+	/**
+	 * Overwrites the tile at a given position
+	 * Updates the lists of gamepieces with anything in that tile
+	 * @param pos the position to set the tile
+	 * @param t the new tile to use
+	 */
 	public void setPosition(Point pos, Tile t) {
 		if (pos == null) {
 			throw new IllegalArgumentException();
@@ -69,32 +87,58 @@ implements Cloneable {
 		} else if (gp.getType() == 1) {
 			this.crates.add((Crate) gp);
 		}
-
-		this.addPieces();
+		this.pieces.add(gp);
 	}
 
+	/**
+	 * Adds a FloorTile to the list of finish tiles
+	 * @param t the FloorTile to add
+	 */
 	public void addFinishTile(FloorTile t) {
 		this.finishTiles.add(t);
 	}
 
-	public int getHeight() {
-		return this.height;
-	}
 
+	/**
+	 * Returns the width of the board
+	 * @return the width
+	 */
 	public int getWidth() {
 		return this.width;
 	}
 
-	public boolean doMove(int direction) {
-		// FIXME(jashankj): factor out the 0
-		// Can only use player 0 for now
-		return this.players.get(0).doMove(direction);
+	/**
+	 * Returns the height of the board
+	 * @return the height
+	 */
+	public int getHeight() {
+		return this.height;
 	}
 
+	/**
+	 * Tries to make a move by a player
+	 * @param dir the direction to move
+	 * @return true if the move was successful
+	 */
+	public boolean doMove(Direction dir) {
+		// FIXME(jashankj): factor out the 0
+		// Can only use player 0 for now
+		return this.players.get(0).doMove(dir);
+	}
+
+	/**
+	 * Returns the 2d array of tiles on the board
+	 * @return the 2d array of tiles
+	 */
 	public Tile[][] getTiles() {
 		return this.positions;
 	}
 
+	/**
+	 * Fetch an iterator across each Tile.
+	 *
+	 * @return an Iterator over all Tiles in this Board.
+	 */
 	public Iterator<Tile> tileIterator() {
 		// FIXME(jashankj): rename this method
 		// FIXME(jashankj): fix for efficiency?
@@ -105,32 +149,41 @@ implements Cloneable {
 		return flatten.iterator();
 	}
 
-	public void addPieces() {
-		// FIXME(jashankj): why is this method?
-		// this should only be called if an update is made in the num of pieces.
-		this.pieces = new ArrayList<GamePiece>();
-		this.pieces.addAll(this.crates);
-		this.pieces.addAll(this.players);
-	}
-
-	public List<GamePiece> gamePieceIterator() {
-		// FIXME(jashankj): wat
-		// simple reference to all pieces
+	/**
+	 * Returns the list of all game pieces on the board
+	 * @return List of GamePieces
+	 */
+	public List<GamePiece> gamePieces() {
 		return this.pieces;
 	}
 
+	/**
+	 * Returns the list of players on the board
+	 * @return List of Players
+	 */
 	public List<Player> getPlayers() {
 		return this.players;
 	}
 
+	/**
+	 * Returns the list of Crates on the board
+	 * @return List of Crates
+	 */
 	public List<Crate> getCrates() {
 		return this.crates;
 	}
 
+	/**
+	 * Returns the list of FloorTiles marked as finish tiles
+	 * @return the List of finish tiles
+	 */
 	public List<FloorTile> getFinishTiles() {
 		return this.finishTiles;
 	}
 
+	/**
+	 * Undoes one step on the board
+	 */
 	public void undo() {
 
 		// Needs to undo players first
@@ -147,25 +200,34 @@ implements Cloneable {
 		}
 	}
 
+	/**
+	 * Adds a new undo waypoint for each piece on the board
+	 */
 	public void addPiecesUndo() {
 		for (GamePiece p : this.pieces) {
 			p.storePrevCoord();
 		}
 	}
 
-	public Point nearbyPoint(Point start, int direction) {
+	/**
+	 * Returns a point adjacent to an arbitrary point using a given direction
+	 * @param start the point to use as the origin
+	 * @param dir the direction to find the adjacent point in
+	 * @return the found adjacent point
+	 */
+	public Point nearbyPoint(Point start, Direction dir) {
 		// FIXME(jashankj): Direction refactoring
 		// FIXME(jashankj): Point-in-Direction refactorin
 		int startx = start.x;
 		int starty = start.y;
 
-		if (direction == 0)
+		if (dir == Direction.UP)
 			starty--;
-		else if (direction == 1)
+		else if (dir == Direction.RIGHT)
 			startx++;
-		else if (direction == 2)
+		else if (dir == Direction.DOWN)
 			starty++;
-		else if (direction == 3)
+		else if (dir == Direction.LEFT)
 			startx--;
 
 		if (startx < 0 || width <= startx)
@@ -178,6 +240,11 @@ implements Cloneable {
 		return f;
 	}
 
+	/**
+	 * Overwrites the tile in front of a player based on the XML code
+	 * @param player the player to set the tile in front of
+	 * @param num the XML coded id for the tile to set
+	 */
 	public void debug(int player, int num) {
 		Player p = this.players.get(player);
 		Point coord = this.nearbyPoint(p.getCoord(), p.getDirection());
@@ -205,6 +272,11 @@ implements Cloneable {
 		this.setPosition(coord, FileIO.int2Tile(this, num, coord));
 	}
 
+	/**
+	 * Checks to see if the level is finished
+	 * Each finish tile is checked to see if it is filled by a crate
+	 * @return true if all finish tiles contain a crate
+	 */
 	public boolean isFinished() {
 		for (Tile t : this.finishTiles) {
 			GamePiece tc = t.getContents();
@@ -223,6 +295,10 @@ implements Cloneable {
 		return true;
 	}
 
+	/**
+	 * Returns the board as a string
+	 * @return visual representation of the board when printed
+	 */
 	public String toString() {
 		// FIXME(jashankj): use a StringBuilder
 		String board = "";
@@ -261,6 +337,10 @@ implements Cloneable {
 		return board;
 	}
 
+	/**
+	 * Returns a copy of the board
+	 * @return new Board with identical properties and fields
+	 */
 	public Board clone() {
 		// TODO: DO this properly
 		Board clone = new Board(width, height);
