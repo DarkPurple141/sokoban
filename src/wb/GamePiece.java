@@ -44,9 +44,9 @@ abstract class GamePiece {
 
 	public abstract int getType();
 
-	public abstract boolean doMove(int direction);
+	public abstract boolean doMove(Direction dir);
 
-	public abstract boolean bePushed(int direction);
+	public abstract boolean bePushed(Direction dir);
 
 	public Board getBoard() {
 		return myBoard;
@@ -54,16 +54,16 @@ abstract class GamePiece {
 
 	//Public methods below this line are only used by subclasses//
 
-	public void prepAnimation(int direction) {
+	public void prepAnimation(Direction dir) {
 		double startx = animOffset.getX();
 		double starty = animOffset.getY();
-		if(direction == 0)
+		if(dir == Direction.UP)
 			starty++;
-		else if(direction == 1)
+		else if(dir == Direction.RIGHT)
 			startx--;
-		else if(direction == 2)
+		else if(dir == Direction.DOWN)
 			starty--;
-		else if(direction == 3)
+		else if(dir == Direction.LEFT)
 			startx++;
 		animOffset.setLocation(startx, starty);
 	}

@@ -1,5 +1,7 @@
 package wb;
 
+import org.omg.PortableInterceptor.DISCARDING;
+
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -85,10 +87,10 @@ implements Cloneable {
 		return this.width;
 	}
 
-	public boolean doMove(int direction) {
+	public boolean doMove(Direction dir) {
 		// FIXME(jashankj): factor out the 0
 		// Can only use player 0 for now
-		return this.players.get(0).doMove(direction);
+		return this.players.get(0).doMove(dir);
 	}
 
 	public Tile[][] getTiles() {
@@ -153,19 +155,19 @@ implements Cloneable {
 		}
 	}
 
-	public Point nearbyPoint(Point start, int direction) {
+	public Point nearbyPoint(Point start, Direction dir) {
 		// FIXME(jashankj): Direction refactoring
 		// FIXME(jashankj): Point-in-Direction refactorin
 		int startx = start.x;
 		int starty = start.y;
 
-		if (direction == 0)
+		if (dir == Direction.UP)
 			starty--;
-		else if (direction == 1)
+		else if (dir == Direction.RIGHT)
 			startx++;
-		else if (direction == 2)
+		else if (dir == Direction.DOWN)
 			starty++;
-		else if (direction == 3)
+		else if (dir == Direction.LEFT)
 			startx--;
 
 		if (startx < 0 || width <= startx)

@@ -13,36 +13,36 @@ import java.awt.geom.Point2D;
 class Player
 extends GamePiece {
 
-	private int direction;
+	private Direction direction;
 
 	public Player(Board myBoard, Point startCoord) {
 		super(myBoard, startCoord);
-		this.direction = 2;
+		this.direction = Direction.DOWN;
 	}
 
 	public int getType() {
 		return 0;
 	}
 
-	public boolean doMove(int direction) {
+	public boolean doMove(Direction dir) {
 		Point sourceCoord = super.getCoord();
-		Point destCoord = super.getBoard().nearbyPoint(super.getCoord(), direction);
+		Point destCoord = super.getBoard().nearbyPoint(super.getCoord(), dir);
 
 		Tile source = super.getBoard().getPosition(sourceCoord);
 		Tile destination = super.getBoard().getPosition(destCoord);
 
-		this.direction = direction;
+		this.direction = dir;
 
 		if(destination == null || !destination.canBeFilled())
 			return false;//Encountered wall
 
 		GamePiece blocking = destination.getContents();
-		if(blocking != null && !blocking.bePushed(direction))
+		if(blocking != null && !blocking.bePushed(dir))
 			return false;//Encountered unmovable object
 		source.setContents(null);
 		destination.setContents(this);
 		super.setCoord(destCoord);
-		prepAnimation(direction);
+		prepAnimation(dir);
 		return true;
 	}
 
@@ -54,11 +54,11 @@ extends GamePiece {
 		return true;
 	}
 
-	public boolean bePushed(int direction) {
+	public boolean bePushed(Direction direction) {
 		return false;
 	}
 
-	public int getDirection() {
+	public Direction getDirection() {
 		return this.direction;
 	}
 
