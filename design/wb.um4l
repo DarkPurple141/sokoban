@@ -171,7 +171,37 @@ Class(`MctsNode', `
 Aggregates(`MctsNode', `MctsNode');
 Aggregates(`MctsNode', `MctsAction');
 
-Class(`MctsTree', `', `');
+Class(`MctsTree', `
+    Field(`depthLimit', `int'),
+    Field(`seed', `Board'),
+    Field(`sandbox', `Board'),
+    Field(`bestScore', `double'),
+    Field(`currentBest', `Board'),
+    Field(`root', `MctsNode'),
+    Field(`playerStart', `Point'),
+    Field(`alpha', `int'),
+    Field(`beta', `int'),
+    Field(`gamma', `int'),
+    Field(`tau', `int'),
+    Field(`rand', `Random')',
+`
+    Constructor(`seed:Board,α:int,β:int,γ:int,τ:int'),
+    Method(`getBestScore', `', `double'),
+    Method(`scrambleRecurse', `', `Board'),
+    PrivMethod(`mctsSearch', `an:MctsNode,p:Player', `Board'),
+    PrivMethod(`takeAction', `an:MctsNode,p:Player', `void'),
+    PrivMethod(`rollout', `an:MctsNode,p:Player', `void'),
+    PrivMethod(`evaluate', `', `double'),
+    PrivMethod(`cratesToWall', `', `void'),
+    PrivMethod(`getCongestionMetric', `', `int'),
+    PrivMethod(`getTerrainMetric', `', `int'),
+    PrivMethod(`seedReset', `', `void'),
+    PrivMethod(`setGoalPositions', `', `void')');
+Aggregates(`MctsTree', `Board');
+Aggregates(`MctsTree', `MctsNode');
+AssociatedWith(`MctsTree', `Player');
+DependsOn(`MctsTree', `Crate');
+DependsOn(`MctsTree', `Tile');
 
 Class(`Player', `
     Field(`direction', `int')',
