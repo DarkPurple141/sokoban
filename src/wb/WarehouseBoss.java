@@ -26,7 +26,7 @@ public class WarehouseBoss {
 				GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(
 				Font.createFont(
-					Font.TRUETYPE_FONT, new File("assets/Cardinal.ttf")));
+					Font.TRUETYPE_FONT, new File("assets/visitor2.ttf")));
 		} catch (IOException|FontFormatException e) {
 			//Handle exception
 		}
