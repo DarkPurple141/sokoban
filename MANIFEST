@@ -29,8 +29,8 @@ src/wb/ScoreParser.java
 src/wb/Settings.java
 src/wb/SettingsView.java
 src/wb/SokobanGenerator.java
-src/wb/SpriteSheet.java
 src/wb/SpriteSheetBuilder.java
+src/wb/SpriteSheet.java
 src/wb/Tile.java
 src/wb/WallTile.java
 src/wb/WarehouseBoss.java
@@ -40,7 +40,7 @@ design/uml.dot.m4
 design/wb.pdf
 design/wb.um4l
 
-assets/Cardinal.ttf
+assets/visitor2.ttf
 assets/player_4x4_48x48.png
 assets/spriteSheet.png
 campaign/0
@@ -54,3 +54,4 @@ campaign/7
 campaign/8
 campaign/9
 levels/.keep
+settings
