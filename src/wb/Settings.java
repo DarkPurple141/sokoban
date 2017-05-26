@@ -1,27 +1,31 @@
 package wb;
 
-public class Settings{
-
+/**
+ * Game settings and configuration.
+ *
+ * @author Jashank Jeremy {@literal <z5017851@cse.unsw.edu.au>}
+ * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
+ */
+class Settings {
 	private Difficulty gameDifficulty;
 	private Mode state;
-	
+
 	private boolean running;
 	private boolean gg;
 	private double moveIncrement = 0.2;
-	
+
 	private String playerName;
 	private ScoreParser scores;
 
 	private String[] savedGames;
 
-	public Settings(){
+	public Settings() {
 		this.gameDifficulty = Difficulty.MEDIUM;
 		this.state = Mode.NORMAL;
 		this.playerName = "admin";
 		this.scores = new ScoreParser();
 
 		this.populateSavedGames("saved");
-
 	}
 
 	private void populateSavedGames(String path) {
