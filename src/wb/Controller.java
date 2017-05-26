@@ -437,6 +437,7 @@ implements ActionListener, ComponentListener, KeyListener {
 		requestGameDifficulty();
 		requestGameSpeed();
 		requestPlayerName();
+		FileIO.saveSettings(gameSettings);
 	}
 
 	private void requestGameDifficulty() {
