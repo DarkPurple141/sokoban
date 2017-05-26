@@ -229,25 +229,30 @@ implements Cloneable {
 
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.width; j++) {
+				board += "|";
 				if (! positions[j][i].canBeFilled()) {
-					board += "| W |";
+					board += " W ";
 
 				} else if (finishTiles.contains(positions[j][i])) {
 					if (positions[j][i].getContents() == null) {
-						board += "| G |";
+						board += " ";
 					} else if (positions[j][i].getContents().getType() == 0) {
-						board += "|PG |";
+						board += "P";
 					} else {
-						board += "|CG |";
+						board += "C";
 					}
 
+					board += "G ";
+
 				} else if (positions[j][i].getContents() == null) {
-					board += "|	  |";
+					board += "   ";
 				} else if (positions[j][i].getContents().getType() == 0) {
-					board += "| P |";
+					board += " P ";
 				} else {
-					board += "| C |";
+					board += " C ";
 				}
+
+				board += "|";
 			}
 
 			board += "\n";
