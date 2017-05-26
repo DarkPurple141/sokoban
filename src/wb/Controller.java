@@ -43,7 +43,6 @@ implements ActionListener, ComponentListener, KeyListener {
 	private static final int SCREEN_HEIGHT = 512;
 	private static final int SCREEN_WIDTH = 512;
 
-	private ScoreParser scores;
 	private GameView v;
 
 	private JPanel gameButtons;
@@ -53,23 +52,16 @@ implements ActionListener, ComponentListener, KeyListener {
 	private JButton restartButton = null;
 	private JButton skipButton = null;
 
-	private String[] savedGames;
 	private String currLevelPath;
 
-	private Mode state;
 	private Board b;
 	private GameMenu m;
-	private boolean running;
-	private boolean gg;
 	private boolean moving = false;
-	private double moveIncrement = 0.2;
 	private int gameNum;
 	private int campaignNum;
 	private int moves;
 	private int campaignMoves;
-	private String playerName;
 
-	private Difficulty gameDifficulty;
 
 	private Settings gameSettings;
 
@@ -78,15 +70,10 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		gameSettings = new Settings();
 
-		this.gameDifficulty = Difficulty.MEDIUM;
 		// Start a background generator thread as fast as we can.
 		this.threadGen(0);
 
-		this.scores = new ScoreParser();
-		this.playerName = "admin";
 		this.gameNum = 0;
-		this.state = Mode.NORMAL;
-		//this.populateSavedGames("saved");
 
 		// FIXME(jashankj): expurgate view code
 		super.setBackground(Color.BLACK);
@@ -158,7 +145,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 	public void newGame() {
 		this.moves = 0;
-		this.gg = false;
+		gameSettings.setGameOver(false);
 
 		// FIXME(jashankj): hey what? why don't we hand off a new board?
 		this.v.resetBoard(this.b);
@@ -175,9 +162,9 @@ implements ActionListener, ComponentListener, KeyListener {
 		} else {
 			try {
 				// FIXME(jashankj): use path building
-				if (state == Mode.NORMAL) {
+				if (gameSettings.getState() == Mode.NORMAL) {
 					currLevelPath = "levels/" + Integer.toString(gameNum);
-				} else if (state == Mode.CAMPAIGN) {
+				} else if (gameSettings.getState() == Mode.CAMPAIGN) {
 					currLevelPath = "campaign/" + Integer.toString(campaignNum);
 				}
 				b = FileIO.XML2Board(currLevelPath);
@@ -202,7 +189,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	private void threadGen(int id) {
 		Thread loop = new Thread() {
 			public void run() {
-				SokobanGenerator.generateLevel(10, 10, id, gameDifficulty);
+				SokobanGenerator.generateLevel(10, 10, id, gameSettings.getDifficulty());
 			}
 		};
 		loop.start();
@@ -224,13 +211,13 @@ implements ActionListener, ComponentListener, KeyListener {
 
 				v.showLabel("<html>Congrats!<br>Moves: " +
 							Integer.toString(moves)+"</html>");
-				this.running = false;
+				gameSettings.setRunning(false);
 				gameSettings.setGameOver(true);
 				startButton.setText("Next");
 
 				if (campaignNum > 9) {
 					logCampaignScore();
-					v.showLabel(scores.getScoreTable());
+					v.showLabel(gameSettings.getScoreTable());
 					/// HACKS LIE AHEAD
 					try {
 						Thread.sleep(3000); // 10fps
@@ -262,7 +249,7 @@ implements ActionListener, ComponentListener, KeyListener {
 		// update animatables
 		// move by standard length
 		for (GamePiece p : b.gamePieces()) {
-			p.animFrame(moveIncrement);
+			p.animFrame(gameSettings.getMoveIncrement());
 		}
 	}
 
@@ -294,7 +281,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	 * 0, 1, 2, 3 corresponding UP, RIGHT, DOWN, LEFT
 	 */
 	public void processEvent(KeyEvent e) {
-		if (!running) {
+		if (!gameSettings.isRunning()) {
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				v.hideLabel();
 				switchLayout();
@@ -421,7 +408,7 @@ implements ActionListener, ComponentListener, KeyListener {
 				"Load Game",
 				JOptionPane.PLAIN_MESSAGE,
 				null,
-				savedGames,
+				gameSettings.getSavedGames(),
 				null);
 
 			//If a string was returned, say so.

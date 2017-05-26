@@ -87,6 +87,10 @@ class Settings {
 		this.scores.updateScores(playerName, campaignMoves);
 	}
 
+	public String getScoreTable(){
+		return scores.getScoreTable();
+	}
+
 	public boolean getGameOver(){
 		return this.gg;
 	}
@@ -101,5 +105,9 @@ class Settings {
 
 	public void setDifficulty(Difficulty newDifficulty){
 		this.gameDifficulty = newDifficulty;
+	}
+
+	public String[] getSavedGames(){
+		return savedGames;
 	}
 }
