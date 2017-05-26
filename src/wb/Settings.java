@@ -24,6 +24,11 @@ class Settings {
 
 	private String[] savedGames;
 
+	/**
+	 * Initialises a new batch of Settings
+	 * Loads the files persisted in the settings file
+	 *
+	 */
 	public Settings() {
 
 		FileIO.fillSettings(this);
@@ -50,63 +55,128 @@ class Settings {
 		this.savedGames = files.toArray(new String[]{});
 	}
 
+	/**
+	 *
+	 * @return A boolean representing whether or not the game is running
+	 */
 	public boolean isRunning(){
 		return this.running;
 	}
 
-	public double getMoveIncrement(){
-		return this.moveIncrement;
-	}
 
-
-	public void setMoveIncrement(double moveIncrement){
-		this.moveIncrement = moveIncrement;
-	}
-
-	public String getPlayerName(){
-		return this.playerName;
-	}
-
-	public void setPlayerName(String playerName){
-		this.playerName = playerName;
-	}
-
-	public Mode getState(){
-		return this.state;
-	}
-
+	/**
+	 *
+	 * @param Used to set whether or not the game is currently running
+	 */
 	public void setRunning(boolean setTo){
 		this.running = setTo;
 	}
 
+	/**
+	 *
+	 * @return The distance that the pieces move each frame
+	 */
+	public double getMoveIncrement(){
+		return this.moveIncrement;
+	}
+
+	/**
+	 *
+	 * @param moveIncrement : The new distance pieces will move each frame
+	 */ 
+	public void setMoveIncrement(double moveIncrement){
+		this.moveIncrement = moveIncrement;
+	}
+
+
+	/**
+	 *
+	 * @return The name of the current player
+	 */
+	public String getPlayerName(){
+		return this.playerName;
+	}
+
+	/**
+	 *
+	 * @param playerName : The updated player name to be used from this point on
+	 */
+	public void setPlayerName(String playerName){
+		this.playerName = playerName;
+	}
+
+	
+	/**
+	 *
+	 * @return The current state of the game
+	 */
+	public Mode getState(){
+		return this.state;
+	}
+
+	
+	/**
+	 * Used to update the current state of the game
+	 * @param setTo : The new mode the game will be set to
+	 */
 	public void setState(Mode newMode){
 		this.state = newMode;
 	}
 
-	public void updateScores(int campaignMoves){
-		this.scores.updateScores(playerName, campaignMoves);
-	}
-
-	public String getScoreTable(){
-		return scores.getScoreTable();
-	}
-
+	/**
+	 *
+	 * @return true if the game is over and false otherwise
+	 */
 	public boolean getGameOver(){
 		return this.gg;
 	}
 
+	/**
+	 *
+	 * @param isFinished : Determines whether the current game is over
+	 */
 	public void setGameOver(boolean isFinished){
 		this.gg = isFinished;
 	}
 
+	/**
+	 *
+	 * @param campaignMoves :
+	 */
+	public void updateScores(int campaignMoves){
+		this.scores.updateScores(playerName, campaignMoves);
+	}
+
+
+	/**
+	 *
+	 * @return The string representation of the high scores
+	 */
+	public String getScoreTable(){
+		return scores.getScoreTable();
+	}
+
+	
+	/**
+	 *
+	 * @return The current difficulty of the game
+	 */
 	public Difficulty getDifficulty(){
 		return this.gameDifficulty;
 	}
 
+	/**
+	 *
+	 * @param newDifficulty : The new difficulty of all subsequent boards
+	 */
 	public void setDifficulty(Difficulty newDifficulty){
 		this.gameDifficulty = newDifficulty;
 	}
 
+	/**
+	 *
+	 * @return An array of all of the save game file names
+	 */
 	public String[] getSavedGames(){
 		return savedGames;
 	}

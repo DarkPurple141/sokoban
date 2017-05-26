@@ -19,16 +19,29 @@ class SpriteSheet {
 	private List<Image> scaled;
 	private int animationState;
 
+	/**
+	 * Initialises the sprate sheet
+	 * @param sprites
+	 */
 	public SpriteSheet(List<BufferedImage> sprites) {
 		this.sprites = new ArrayList<>(sprites);
 		this.scaled = new ArrayList<Image>();
 		this.animationState = 0;
 	}
 
+	/**
+	 * Counts the number of sprites
+	 * @return the number of sprites
+	 */
 	public int count() {
 		return sprites.size();
 	}
 
+	/**
+	 * Resizes the sprite sheet to the given number of rows and columns on the screen
+	 * @param width
+	 * @param height
+	 */
 	public void resize(int width, int height) {
 		scaled.clear();
 		for (BufferedImage curr: sprites) {
@@ -36,14 +49,30 @@ class SpriteSheet {
 		}
 	}
 
+	/**
+	 * Returns one scales sprite
+	 * @param index the sprite to scale
+	 * @return the Image of the sprite
+	 */
 	public Image getScaled(int index) {
 		return scaled.get(index);
 	}
 
+	/**
+	 * Returns one of the existing sprites
+	 * @param index the index of the sprite to get
+	 * @return The image of the sprite
+	 */
 	public BufferedImage getSprite(int index) {
 		return sprites.get(index);
 	}
 
+	/**
+	 * Animates the player sprite based on the animationState variable
+	 * This is looped every 4 times this is called
+	 * @param p the player to animate
+	 * @return the next frame of the player animation
+	 */
 	public Image animate(Player p) {
 		Direction dir = p.getDirection();
 		boolean moving = p.isMoving();
