@@ -18,9 +18,7 @@ import javax.swing.border.EmptyBorder;
 class Menu
 extends JPanel {
 	// FIXME(jashankj): this class name is quite bad
-	// FIXME(jashankj): this isn't serialisable
 	// FIXME(jashankj): variable names
-	private static final long serialVersionUID = 4427029878332103500L;
 	private JButton PlayNow;
 	private JButton LoadGame;
 	private JButton Campaign;

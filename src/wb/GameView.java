@@ -23,7 +23,6 @@ extends JPanel {
 	private JLabel gameState;
 	private SpriteSheet tiles;
 	private SpriteSheet player;
-	private static final long serialVersionUID = 11; // apparently swing needs this
 
 	public GameView(Board b) {
 		super();
