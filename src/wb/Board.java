@@ -354,7 +354,7 @@ implements Cloneable {
 			if (basedOff.canBeFilled()) {
 				toAdd = new FloorTile(basedOff.getCoord());
 			} else {
-				toAdd = new Wall(basedOff.getCoord());
+				toAdd = new WallTile(basedOff.getCoord());
 			}
 
 			Point addAt = toAdd.getCoord();

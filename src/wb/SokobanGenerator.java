@@ -104,7 +104,7 @@ class SokobanGenerator {
 			for(int y = 0; y < height; y++) {
 				Point pos = new Point();
 				pos.setLocation(x, y);
-				seed.setPosition(pos, new Wall(pos));
+				seed.setPosition(pos, new WallTile(pos));
 			}
 		}
 		//Add make a tile with a player in it

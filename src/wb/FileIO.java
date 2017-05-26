@@ -82,7 +82,7 @@ class FileIO {
 
 		switch (code) {
 		case 1:
-			t = new Wall(pos);
+			t = new WallTile (pos);
 			break;
 
 		case 0:
