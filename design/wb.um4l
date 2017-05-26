@@ -140,9 +140,39 @@ Class(`ScoreParser', `', `');
 
 Class(`SokobanGenerator', `', `');
 
-Class(`SpriteSheetBuilder', `', `');
+Class(`SpriteSheetBuilder', `
+    Field(`spriteSheet', `BufferedImage'),
+    Field(`rows', `int'),
+    Field(`cols', `int'),
+    Field(`widthOffset', `int'),
+    Field(`heightOffset', `int'),
+    Field(`spriteWidth', `int'),
+    Field(`spriteHeight', `int'),
+    Field(`spriteCount', `int')',
+`
+    Constructor(`'),
+    Method(`withSheet', `img:BufferedImage', `SpriteSheetBuilder'),
+    Method(`withRows', `rows:int', `SpriteSheetBuilder'),
+    Method(`withColumns', `cols:int', `SpriteSheetBuilder'),
+    Method(`withxOffset', `x:int', `SpriteSheetBuilder'),
+    Method(`withyOffset', `y:int', `SpriteSheetBuilder'),
+    Method(`withSpriteSize', `w:int,h:int', `SpriteSheetBuilder'),
+    Method(`withSpriteCount', `n:int', `SpriteSheetBuilder'),
+    Method(`build', `', `SpriteSheet')');
+AssociatedWith(`SpriteSheetBuilder', `SpriteSheetBuilder');
+AssociatedWith(`SpriteSheetBuilder', `SpriteSheet');
 
-Class(`SpriteSheet', `', `');
+Class(`SpriteSheet', `
+    Field(`sprites', `List_BufferedImage_'),
+    Field(`scaled', `List_Image_'),
+    Field(`animationState', `int')',
+`
+    Constructor(`sprites:List_BufferedImage_'),
+    Method(`count', `', `int'),
+    Method(`resize', `width:int,height:int', `void'),
+    Method(`getScaled', `index:int', `Image'),
+    Method(`getSprite', `index:int', `BufferedImage'),
+    Method(`animate', `p:Player', `Image')');
 
 Class(`Tile', `', `');
 
