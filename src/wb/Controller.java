@@ -290,6 +290,11 @@ implements ActionListener, ComponentListener, KeyListener {
 
 	@Override public void
 	keyPressed (KeyEvent e) {
+		// If there's no board, bail.
+		if (this.b == null) {
+			return;
+		}
+
 		this.processEvent(e);
 	}
 
