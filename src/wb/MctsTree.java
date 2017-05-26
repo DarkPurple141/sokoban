@@ -150,7 +150,7 @@ class MctsTree {
 			Crate original = seed.getCrates().get(i);
 			Crate finish = sandbox.getCrates().get(i);
 			if (original.getCoord().equals(finish.getCoord())) {
-				sandbox.setPosition(original.getCoord(), new Wall(original.getCoord()));
+				sandbox.setPosition(original.getCoord(), new WallTile(original.getCoord()));
 			}
 		}
 	}
