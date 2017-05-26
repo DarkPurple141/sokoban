@@ -13,14 +13,22 @@ import java.awt.Point;
 abstract class Tile {
 	private Point here;
 
+	/**
+	 * Sets the position that this tile is situated in
+	 * @param start the starting position
+	 */
 	public Tile(Point start) {
 		this.here = start;
 	}
 
+	/**
+	 * Gets the coordinate of this tile
+	 * @return the point coordiante
+	 */
 	public Point getCoord(){
 		return this.here;
 	}
-
+	
 	public abstract boolean canBeFilled();
 	public abstract GamePiece getContents();
 	public abstract void setContents(GamePiece newContents);
