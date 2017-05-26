@@ -336,22 +336,22 @@ implements ActionListener, ComponentListener, KeyListener {
 		switch (curr) {
 		case KeyEvent.VK_UP:
 			this.moves++;
-			this.b.doMove(0);
+			this.b.doMove(Direction.UP);
 			break;
 
 		case KeyEvent.VK_RIGHT:
 			this.moves++;
-			this.b.doMove(1);
+			this.b.doMove(Direction.RIGHT);
 			break;
 
 		case KeyEvent.VK_DOWN:
 			this.moves++;
-			this.b.doMove(2);
+			this.b.doMove(Direction.DOWN);
 			break;
 
 		case KeyEvent.VK_LEFT:
 			this.moves++;
-			this.b.doMove(3);
+			this.b.doMove(Direction.LEFT);
 			break;
 
 		case KeyEvent.VK_ENTER:

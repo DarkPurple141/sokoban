@@ -14,7 +14,7 @@ public class MctsNode {
 	private List<MctsNode> children;
 	private MctsNode parent;
 	private MctsAction action;
-	private int movedDirection;
+	private Direction movedDirection;
 	private int visited;
 	private double totalScore;
 
@@ -25,7 +25,7 @@ public class MctsNode {
 		totalScore = 0;
 	}
 
-	public void setMoveAction(int direction){
+	public void setMoveAction(Direction direction){
 		action = MctsAction.MOVE;
 		movedDirection = direction;
 	}
@@ -40,17 +40,9 @@ public class MctsNode {
 			child.setEvaluateAction();
 			children.add(child);
 		}
-		for (Direction dir : Direction.values()){
+		for (Direction d : Direction.values()){
 			MctsNode child = new MctsNode(this);
-			if (dir == Direction.UP){
-				child.setMoveAction(0);
-			}else if (dir == Direction.RIGHT) {
-				child.setMoveAction(1);
-			}else if (dir == Direction.DOWN) {
-				child.setMoveAction(2);
-			}else{
-				child.setMoveAction(3);
-			}
+			child.setMoveAction(d);
 
 			children.add(child);
 		}
@@ -64,7 +56,7 @@ public class MctsNode {
 		return children;
 	}
 
-	public int getMoveDirection(){
+	public Direction getMoveDirection(){
 		return movedDirection;
 	}
 
