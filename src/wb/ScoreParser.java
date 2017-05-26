@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * high score file
+ * high score file parser and generator
  *
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
  * @author Jashank Jeremy {@literal <z5017851@cse.unsw.edu.au>}
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
- * @author Arunabh Mukherjee {@literal <z5120075@cse.unsw.edu.au>}
  */
 class ScoreParser {
 	// FIXME(jashankj): why is this not XML?
@@ -44,6 +43,10 @@ class ScoreParser {
 		}
 	}
 
+	/**
+	 * Parse and return the String for the High Scores from
+	 * the HallOfFame file for the High Score Button.
+	 */
 	public String getScoreTable() {
 		String toGive = "<html><h1 style=\"text-align:center;\">Top Scores</h1>";
 		int index = 0;
@@ -56,6 +59,11 @@ class ScoreParser {
 		return toGive;
 	}
 
+	/**
+	 * Updates a high score if it's in the top-10.
+	 * @param name	The player name
+	 * @param score	The player score
+	 */
 	public void updateScores(String name, int score) {
 		boolean change = false;
 		int index = 0;
@@ -84,6 +92,9 @@ class ScoreParser {
 		}
 	}
 
+	/**
+	 * Write the Scores to disk.
+	 */
 	private void writeScores() {
 		try(FileWriter fw = new FileWriter(PATH, false);
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -100,7 +111,10 @@ class ScoreParser {
 		}
 	}
 
-
+	/**
+	 * Parse lines from the HS file.
+	 * @param line	A line in HS file.
+	 */
 	private void parseLine(String line) {
 		String data[] = line.split(" ");
 		names.add(data[0]);
