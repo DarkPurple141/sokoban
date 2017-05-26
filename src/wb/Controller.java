@@ -35,7 +35,7 @@ import javax.swing.JPanel;
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
-public class Controller
+class Controller
 extends JFrame
 implements ActionListener, ComponentListener, KeyListener {
 	private static final long serialVersionUID = 1L;

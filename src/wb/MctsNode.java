@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
-public class MctsNode {
+class MctsNode {
 	// FIXME(jashankj): move this down a package
 	private List<MctsNode> children;
 	private MctsNode parent;

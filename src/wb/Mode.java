@@ -5,7 +5,7 @@ package wb;
  *
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
  */
-public enum Mode {
+enum Mode {
 	NORMAL,
 	CAMPAIGN,
 	LOAD
