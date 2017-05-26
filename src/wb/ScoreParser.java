@@ -62,7 +62,7 @@ class ScoreParser {
 	/**
 	 * Updates a high score if it's in the top-10.
 	 * @param name	The player name
-	 * @param score	The player score
+	 * @param score The player score
 	 */
 	public void updateScores(String name, int score) {
 		boolean change = false;

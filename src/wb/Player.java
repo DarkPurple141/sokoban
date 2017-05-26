@@ -83,7 +83,7 @@ extends GamePiece {
 	}
 
 	/**
-	 * Can this piece be pushed in this direction?  (Spoiler: no.)
+	 * Can this piece be pushed in this direction? (Spoiler: no.)
 	 *
 	 * @param dir the direction to attempt a move in.
 	 * @return false: you can't push players.

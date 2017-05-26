@@ -5,7 +5,6 @@ package wb;
  *
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
-
 enum Difficulty {
 	EASY,
 	MEDIUM,

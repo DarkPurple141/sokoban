@@ -72,21 +72,21 @@ class SokobanGenerator {
 		double[] scores = new double[tries];
 
 		switch(gameDifficulty){
-			case EASY:
-				crateDensity = 0.15;
-				blockDensity = 0.25;
-				break;
-			case MEDIUM:
-				crateDensity = 0.3;
-				blockDensity = 0.3;
-				break;
-			case HARD:
-				crateDensity = 0.4;
-				blockDensity = 0.4;
-				break;
-			case SANDBOX:
-				crateDensity = 0.1;
-				blockDensity = 0.1;
+		case EASY:
+			crateDensity = 0.15;
+			blockDensity = 0.25;
+			break;
+		case MEDIUM:
+			crateDensity = 0.3;
+			blockDensity = 0.3;
+			break;
+		case HARD:
+			crateDensity = 0.4;
+			blockDensity = 0.4;
+			break;
+		case SANDBOX:
+			crateDensity = 0.1;
+			blockDensity = 0.1;
 		}
 
 		//Fill the array with completed boards
