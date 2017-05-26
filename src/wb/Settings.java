@@ -1,5 +1,10 @@
 package wb;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.io.File;
+
 /**
  * Game settings and configuration.
  *
@@ -44,5 +49,58 @@ class Settings {
 		}
 
 		this.savedGames = files.toArray(new String[]{});
+	}
+
+	public boolean isRunning(){
+		return this.running;
+	}
+
+	public double getMoveIncrement(){
+		return this.moveIncrement;
+	}
+
+
+	public void setMoveIncrement(double moveIncrement){
+		this.moveIncrement = moveIncrement;
+	}
+
+	public String getPLayerName(){
+		return this.playerName;
+	}
+
+	public void setPlayerName(String playerName){
+		this.playerName = playerName;
+	}
+
+	public Mode getState(){
+		return this.state;
+	}
+
+	public void setRunning(boolean setTo){
+		this.running = setTo;
+	}
+
+	public void setState(Mode newMode){
+		this.state = newMode;
+	}
+
+	public void updateScores(int campaignMoves){
+		this.scores.updateScores(playerName, campaignMoves);
+	}
+
+	public boolean getGameOver(){
+		return this.gg;
+	}
+
+	public void setGameOver(boolean isFinished){
+		this.gg = isFinished;
+	}
+
+	public Difficulty getDifficulty(){
+		return this.gameDifficulty;
+	}
+
+	public void setDifficulty(Difficulty newDifficulty){
+		this.gameDifficulty = newDifficulty;
 	}
 }
