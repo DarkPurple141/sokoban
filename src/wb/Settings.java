@@ -83,7 +83,7 @@ class Settings {
 	/**
 	 *
 	 * @param moveIncrement : The new distance pieces will move each frame
-	 */ 
+	 */
 	public void setMoveIncrement(double moveIncrement){
 		this.moveIncrement = moveIncrement;
 	}
@@ -102,10 +102,14 @@ class Settings {
 	 * @param playerName : The updated player name to be used from this point on
 	 */
 	public void setPlayerName(String playerName){
-		this.playerName = playerName;
+		if (playerName == null){
+			this.playerName = "admin";
+		}else{
+			this.playerName = playerName;
+		}
 	}
 
-	
+
 	/**
 	 *
 	 * @return The current state of the game
@@ -114,7 +118,7 @@ class Settings {
 		return this.state;
 	}
 
-	
+
 	/**
 	 * Used to update the current state of the game
 	 * @param newMode : The new mode the game will be set to
@@ -156,7 +160,7 @@ class Settings {
 		return scores.getScoreTable();
 	}
 
-	
+
 	/**
 	 *
 	 * @return The current difficulty of the game

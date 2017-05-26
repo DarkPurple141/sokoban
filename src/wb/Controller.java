@@ -38,7 +38,6 @@ import javax.swing.JPanel;
 class Controller
 extends JFrame
 implements ActionListener, ComponentListener, KeyListener {
-	private static final long serialVersionUID = 1L;
 	private static final int FPS = 30;
 	private static final int SCREEN_HEIGHT = 512;
 	private static final int SCREEN_WIDTH = 512;
@@ -235,7 +234,7 @@ implements ActionListener, ComponentListener, KeyListener {
 				// FIXME(jashankj): is this a switch?
 				if (gameSettings.getState() == Mode.CAMPAIGN) {
 					campaignNum++;
-				} 
+				}
 
 				v.showLabel("<html>Congrats!<br>Moves: " +
 							Integer.toString(moves)+"</html>");
@@ -582,9 +581,10 @@ implements ActionListener, ComponentListener, KeyListener {
 	 * used for the high-scores list
 	 */
 	private void requestPlayerName () {
-		gameSettings.setPlayerName((String)JOptionPane.showInputDialog(
-			this, "Enter your name:\n",
-			"Config", JOptionPane.QUESTION_MESSAGE));
+		gameSettings.setPlayerName(
+			(String)JOptionPane.showInputDialog(
+				this, "Enter your name:\n",
+				"Config", JOptionPane.QUESTION_MESSAGE));
 	}
 
 	/**
@@ -605,7 +605,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		this.v.resizeSprites();
 	}
-	
+
 	@Override public void
 	componentMoved (ComponentEvent ce) {}
 

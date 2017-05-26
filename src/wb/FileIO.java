@@ -217,15 +217,15 @@ class FileIO {
 			Node difficultyNode = allSettings.getElementsByTagName("difficulty").item(0);
 
 			switch(difficultyNode.getTextContent()){
-				case "0":
-					toFill.setDifficulty(Difficulty.EASY);
-					break;
-				case "1":
-					toFill.setDifficulty(Difficulty.MEDIUM);
-					break;
-				case "2":
-					toFill.setDifficulty(Difficulty.HARD);
-					break;
+			case "0":
+				toFill.setDifficulty(Difficulty.EASY);
+				break;
+			case "1":
+				toFill.setDifficulty(Difficulty.MEDIUM);
+				break;
+			case "2":
+				toFill.setDifficulty(Difficulty.HARD);
+				break;
 			}
 
 			Node player = allSettings.getElementsByTagName("playername").item(0);
@@ -254,20 +254,22 @@ class FileIO {
 			Element difficultyNode = settingsFile.createElement("difficulty");
 			String difficultyEncoding = "";
 			switch (toSave.getDifficulty()){
-				case EASY:
-					difficultyEncoding = "0";
-					break;
-				case HARD:
-					difficultyEncoding = "2";
-					break;
-				default:
-					difficultyEncoding = "1";
-					break;
+			case EASY:
+				difficultyEncoding = "0";
+				break;
+			case HARD:
+				difficultyEncoding = "2";
+				break;
+			default:
+				difficultyEncoding = "1";
+				break;
 			}
 			difficultyNode.appendChild(settingsFile.createTextNode(difficultyEncoding));
 			allSettings.appendChild(difficultyNode);
 
 			Element playerName = settingsFile.createElement("playername");
+			String name = toSave.getPlayerName();
+			
 			playerName.appendChild(settingsFile.createTextNode(toSave.getPlayerName()));
 			allSettings.appendChild(playerName);
 
