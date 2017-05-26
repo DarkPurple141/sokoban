@@ -68,8 +68,8 @@ class FileIO {
 					b.setPosition(pos, int2Tile(b, code, pos));
 				}
 			}
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return b;
 	}
@@ -107,7 +107,7 @@ class FileIO {
 			break;
 
 		default:
-			throw new IllegalArgumentException ();
+			throw new IllegalStateException ();
 		}
 
 		return t;
@@ -161,17 +161,17 @@ class FileIO {
 			transformer.transform(save, result);
 
 
-		}catch(Exception e){
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	public static void removeFile(String filename){
-		try{
+		try {
 			File f = new File(filename);
 			f.delete();
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

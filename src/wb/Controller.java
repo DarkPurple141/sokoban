@@ -230,6 +230,7 @@ implements ActionListener, ComponentListener, KeyListener {
 					try {
 						Thread.sleep(3000); // 10fps
 					} catch (InterruptedException e) {
+						e.printStackTrace();
 						// FIXME(jashankj): what's on this branch?
 					}
 					/// END HACKS
@@ -240,6 +241,7 @@ implements ActionListener, ComponentListener, KeyListener {
 			try {
 				Thread.sleep(delay); // 10fps
 			} catch (InterruptedException e) {
+				e.printStackTrace();
 				// FIXME(jashankj): what's on this branch?
 			}
 		}
