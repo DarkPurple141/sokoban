@@ -87,6 +87,8 @@ Class(`Crate', `', `
     Method(`bePushed', `direction:int', `boolean')');
 Extends(`Crate', `GamePiece');
 
+Class(`FileIO', `', `');
+
 Class(`FloorTile', `
     Field(`contents', `GamePiece')',
 `
@@ -96,6 +98,8 @@ Class(`FloorTile', `
     Method(`setContents', `content:GamePiece', `boolean')');
 Extends(`FloorTile', `Tile');
 Aggregates(`FloorTile', `GamePiece');
+
+Class(`GamePiece', `', `');
 
 Class(`GameView', `
     Field(`b', `Board'),
@@ -121,6 +125,34 @@ Aggregates(`GameView', `SpriteSheet');
 AssociatedWith(`GameView', `Tile');
 AssociatedWith(`GameView', `GamePiece');
 DependsOn(`GameView', `SpriteSheetBuilder');
+
+Class(`MctsAction', `', `');
+
+Class(`MctsTree', `', `');
+
+Class(`Menu', `', `');
+
+Class(`Node', `', `');
+
+Class(`Player', `', `');
+
+Class(`ScoreParser', `', `');
+
+Class(`SokobanGenerator', `', `');
+
+Class(`SpriteSheetBuilder', `', `');
+
+Class(`SpriteSheet', `', `');
+
+Class(`Tile', `', `');
+
+Class(`Wall', `', `
+    Constructor(`start:Point'),
+    Method(`canBeFilled', `', `boolean'),
+    Method(`getContents', `', `GamePiece'),
+    Method(`setContents', `c:GamePiece', `GamePiece')');
+Extends(`Wall', `Tile');
+AssociatedWith(`Wall', `GamePiece');
 
 Class(`WarehouseBoss', `', `
     Method(`(static)main', `args:String[]', `void')');

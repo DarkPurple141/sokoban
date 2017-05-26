@@ -10,8 +10,8 @@ import java.awt.Point;
  */
 class Wall
 extends Tile {
-	public Wall(Point startCoord) {
-		super(startCoord);
+	public Wall(Point start) {
+		super(start);
 	}
 
 	public boolean canBeFilled() {
