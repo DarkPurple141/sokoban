@@ -472,23 +472,26 @@ implements ActionListener, ComponentListener, KeyListener {
 			// FIXME(jashankj): what's on this branch
 			// protection against nothing being read by JPane -- AH
 		} else if (curr.equals("Easy")) {
-			return;
+			System.out.println("Easy!");
 		} else if (curr.equals("Medium")) {
-			return;
+			System.out.println("Med");
 		}
-		else if (curr.equals("Hard"))
-			return;
+		else if (curr.equals("Hard")){
+
+		}
+			
 
 		if (speed == null) {
 			// FIXME(jashankj): what's on this branch
 			// protection against nothing being read by JPane -- AH
-		} else if (curr.equals("Slow")) {
+		} else if (speed.equals("Slow")) {
 			this.moveIncrement = 0.1;
-		} else if (curr.equals("Medium")) {
-			this.moveIncrement = 0.15;
-		} else if (curr.equals("Fast")) {
+		} else if (speed.equals("Medium")) {
 			this.moveIncrement = 0.2;
+		} else if (speed.equals("Fast")) {
+			this.moveIncrement = 0.6;
 		}
+
 	}
 
 	@Override public void
