@@ -75,6 +75,13 @@ class FileIO {
 		return b;
 	}
 
+	/**
+	 * Uses the built-in XML code to convert an integer to a tile and place it on the board
+	 * @param b the board to place on
+	 * @param code the code of the tile to create
+	 * @param pos the position to place the tile
+	 * @return The tile that was placed
+	 */
 	public static Tile int2Tile (Board b, int code, Point pos) {
 		Tile t;
 		FloorTile ft;
@@ -114,6 +121,11 @@ class FileIO {
 		return t;
 	}
 
+	/**
+	 * Parses the board back into XML format and saves it as a file
+	 * @param b the board to save
+	 * @param filename the file path to save as
+	 */
 	public static void saveGame(Board b, String filename){
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
 		try{
@@ -167,6 +179,10 @@ class FileIO {
 		}
 	}
 
+	/**
+	 * Deletes a file at the given path
+	 * @param filename the path to delete
+	 */
 	public static void removeFile(String filename){
 		try {
 			File f = new File(filename);
@@ -176,6 +192,9 @@ class FileIO {
 		}
 	}
 
+	/**
+	 * Clears the entire levels folder to make room for a new round of generation
+	 */
 	public static void deleteAllLevels(){
 		File[] oldLevels = new File("levels/").listFiles();
 		for (File f : oldLevels){
@@ -183,6 +202,10 @@ class FileIO {
 		}
 	}
 
+	/**
+	 * Populates settings from the settings file
+	 * @param toFill the data structure to populate
+	 */
 	public static void fillSettings(Settings toFill){
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
 
@@ -216,6 +239,10 @@ class FileIO {
 		}
 	}
 
+	/**
+	 * Saves settings to the settings file
+	 * @param toSave the data structure to save from
+	 */
 	public static void saveSettings(Settings toSave){
 		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
 
