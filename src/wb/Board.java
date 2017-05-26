@@ -216,24 +216,33 @@ implements Cloneable {
 	 * @return the found adjacent point
 	 */
 	public Point nearbyPoint(Point start, Direction dir) {
-		// FIXME(jashankj): Direction refactoring
 		// FIXME(jashankj): Point-in-Direction refactorin
 		int startx = start.x;
 		int starty = start.y;
 
-		if (dir == Direction.UP)
+		switch (dir) {
+		case UP:
 			starty--;
-		else if (dir == Direction.RIGHT)
-			startx++;
-		else if (dir == Direction.DOWN)
-			starty++;
-		else if (dir == Direction.LEFT)
-			startx--;
+			break;
 
-		if (startx < 0 || width <= startx)
+		case RIGHT:
+			startx++;
+			break;
+
+		case DOWN:
+			starty++;
+			break;
+
+		case LEFT:
+			startx--;
+			break;
+		}
+
+		// If our new coördinate isn't in range, bail.
+		if ((! (0 <= startx && startx < this.width)) ||
+			(! (0 <= starty && starty < this.height))) {
 			return null;
-		if (starty < 0 || height <= starty)
-			return null;
+		}
 
 		Point f = new Point();
 		f.setLocation(startx, starty);
