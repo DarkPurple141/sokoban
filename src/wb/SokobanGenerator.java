@@ -56,6 +56,16 @@ class SokobanGenerator {
 //		}
 //	}
 
+	/**
+	 * Creates a new level of the given width, height and difficulty
+	 * Generates a given (tries) number of seed level candidates (no finish positions)
+	 * Uses a Monte-Carlo search tree to optimise each seed based on a number of heuristics
+	 * Picks the highest ranked level of the candidates to save
+	 * @param width width in tiles
+	 * @param height height in tiles
+	 * @param id the number to save the file as
+	 * @param gameDifficulty the difficulty of the generated level
+	 */
 	public static void generateLevel(int width, int height, int id, Difficulty gameDifficulty) {
 
 		Board[] selection = new Board[tries];
@@ -98,6 +108,13 @@ class SokobanGenerator {
 		FileIO.saveGame(best, "levels/"+Integer.toString(id));
 	}
 
+	/**
+	 * Generates one complete seed using Monte-Carlo search tree
+	 * @param seed the empty board to populate with the generated level
+	 * @param width the width of the empty board
+	 * @param height the height of the empty board
+	 * @return the completed level
+	 */
 	private static Board completeSeed(Board seed, int width, int height) {
 		//Make board full of walls
 		for(int x = 0; x < width; x++) {
@@ -161,6 +178,13 @@ class SokobanGenerator {
 		return seed;
 	}
 
+	/**
+	 * Recursively generates empty space out from the player to ensure reachability
+	 * @param seed the seed level
+	 * @param spaces numer of spaces to generate
+	 * @param visibleWalls the list of walls available to generate an empty space from
+	 * @return a board with added empty space
+	 */
 	private static Board clearSpace(Board seed, int spaces, List<Point> visibleWalls) {
 		if(spaces <= 0)
 			return seed;
@@ -185,6 +209,13 @@ class SokobanGenerator {
 		return clearSpace(seed, spaces-1, visibleWalls);
 	}
 
+	/**
+	 * Recursively randomly places crates around the empty space of the level
+	 * @param seed the board with empty spaces added
+	 * @param crates the number of crates to add
+	 * @param empty the list of empty spaces crates may be added to
+	 * @return the board with crates added to empty spaces
+	 */
 	private static Board addCrates(Board seed, int crates, List<Point> empty) {
 		if(crates <= 0)
 			return seed;
@@ -198,6 +229,12 @@ class SokobanGenerator {
 		return addCrates(seed, crates-1, empty);
 	}
 
+	/**
+	 * Uses a Monte-Carlo search tree to push boxes to the furthest possible state then use those positions as finish positions
+	 * Adds those finish positions to the board and returns board
+	 * @param seed the board lacking only finish positions
+	 * @return the finished board
+	 */
 	private static Board fillEnds(Board seed) {
 		MctsTree decisions = new MctsTree(seed, alpha, beta, gamma, tau);
 		Board finished = decisions.scrambleRecurse();
