@@ -11,25 +11,25 @@ import java.util.ArrayDeque;
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
 abstract class GamePiece {
-	private Board myBoard;
-	private Point thisCoord;
+	private Board b;
+	private Point here;
 	private ArrayDeque<Point> prevCoords;
 	private Point2D animOffset;
 
-	public GamePiece(Board myBoard, Point startCoord) {
-		this.myBoard = myBoard;
-		this.thisCoord = startCoord;
+	public GamePiece(Board b, Point start) {
+		this.b = b;
+		this.here = start;
 		this.prevCoords = new ArrayDeque<Point>();
 		this.animOffset = new Point2D.Double();
 		this.animOffset.setLocation(0.0, 0.0);
 	}
 
 	public Point getCoord() {
-		return thisCoord;
+		return this.here;
 	}
 
 	public void setCoord(Point coord) {
-		this.thisCoord = coord;
+		this.here = coord;
 	}
 
 	public Point2D getAnimOffset() {
@@ -49,7 +49,7 @@ abstract class GamePiece {
 	public abstract boolean bePushed(Direction dir);
 
 	public Board getBoard() {
-		return myBoard;
+		return this.b;
 	}
 
 	//Public methods below this line are only used by subclasses//
@@ -85,14 +85,14 @@ abstract class GamePiece {
 		if (prevCoords.size() >= Board.UNDO_LENGTH) {
 			prevCoords.pollLast();
 		}
-		prevCoords.push(thisCoord);
+		prevCoords.push(this.here);
 	}
 
 	public void undo() {
 		if (prevCoords.isEmpty()){
 			return;
 		}
-		thisCoord = prevCoords.pop();
+		this.here = prevCoords.pop();
 	}
 
 }
