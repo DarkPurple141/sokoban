@@ -15,6 +15,11 @@ import java.io.IOException;
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
 public class WarehouseBoss {
+	/**
+	 * The main insance of hte program
+	 * Crates the controller which starts the game
+	 * @param args the input arguments - do nothing
+	 */
 	public static void main (String[] args) {
 		try {
 			GraphicsEnvironment ge =

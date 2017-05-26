@@ -272,33 +272,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	 */
 	private void logCampaignScore() {
 		this.campaignMoves += this.moves;
-<<<<<<< HEAD
-		this.scores.updateScores(this.playerName, this.campaignMoves);
-	}
-
-	/**
-	 * Loads all the saved game strings into an array
-	 * @param path the path to look in
-	 */
-	private void populateSavedGames(String path) {
-		File dir = new File(path);
-
-		Collection<String> files  = new ArrayList<String>();
-
-		if (dir.isDirectory()) {
-			File[] listFiles = dir.listFiles();
-
-			for (File file : listFiles) {
-				if (file.isFile()) {
-					files.add(file.getName());
-				}
-			}
-		}
-
-		this.savedGames = files.toArray(new String[]{});
-=======
 		this.gameSettings.updateScores(this.campaignMoves);
->>>>>>> 90ac21ef1d81b7ebc467397c49ebd15e898c9f33
 	}
 
 	/**
