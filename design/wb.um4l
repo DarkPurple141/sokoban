@@ -122,41 +122,6 @@ AssociatedWith(`GameView', `Tile');
 AssociatedWith(`GameView', `GamePiece');
 DependsOn(`GameView', `SpriteSheetBuilder');
 
-Class(`Model', `
-    Field(`board', `Board'),
-    Field(`p', `Player')',
-`
-    Constructor(`'),
-    Constructor(`filePath:String'),
-    Method(`getPlayer', `', `Player'),
-    Method(`parseXML', `filePath:String', `int[][]'),
-    Method(`getBoard', `', `Board'),
-    Method(`canMove', `direction:int', `boolean'),
-    Method(`doMove', `direction:int', `boolean')');
-AssociatedWith(`Model', `Board');
-AssociatedWith(`Model', `Player');
-
-Class(`Player', `
-    Field(`thisCoord', `Coord')',
-`
-    Constructor(`startCoord:Coord'),
-    Method(`getCoord', `', `Coord'),
-    Method(`canMove', `direction:int,gameBoard:Board', `boolean'),
-    Method(`doMove', `direction:int,gameBoard:Board', `boolean'),
-    Method(`setCoord', `updated:Coord', `void')');
-Aggregates(`Player', `Coord');
-AssociatedWith(`Player', `Board');
-DependsOn(`Player', `Tile');
-
-Class(`Tile', `
-    Field(`thisCoord', `Coord')',
-`
-    Constructor(`startCoord:Coord'),
-    Method(`getCoord', `', `Coord'),
-    Method(`canBeFilled', `', `boolean')');
-Aggregates(`Tile', `Coord');
-AssociatedWith(`Tile', `Board');
-
 Class(`WarehouseBoss', `', `
     Method(`(static)main', `args:String[]', `void')');
 AssociatedWith(`WarehouseBoss', `Controller');
