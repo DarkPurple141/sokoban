@@ -118,14 +118,16 @@ class MctsTree {
 			}
 			return;
 		}else{
-			int start = rand.nextInt()%4;
-			for(int i = 0; i < 4; i++) {
-				if(player.doMove(Direction.int2Dir(start))) {
-					rollout(actionNode, player);
-					break;
+			nextMove = nextMove%4;
+			int firstTry = nextMove;
+			while(!player.doMove(Direction.int2Dir(nextMove))){
+				nextMove++;
+				nextMove = nextMove%4;
+				if (nextMove == firstTry){
+					return;
 				}
 			}
-			return;
+			rollout(actionNode, player);
 		}
 	}
 
