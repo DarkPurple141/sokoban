@@ -13,6 +13,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 
 /**
  * serialisation and deserialisation for Board
@@ -179,6 +180,84 @@ class FileIO {
 		File[] oldLevels = new File("levels/").listFiles();
 		for (File f : oldLevels){
 			removeFile("levels/" + f.getName());
+		}
+	}
+
+	public static void fillSettings(Settings toFill){
+		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
+
+		try {
+			DocumentBuilder builder = documentBuilderF.newDocumentBuilder();
+			File settingsFile = new File("settings");
+			Document settingsDoc = builder.parse(settingsFile);
+			Element allSettings = settingsDoc.getDocumentElement();
+			Node difficultyNode = allSettings.getElementsByTagName("difficulty").item(0);
+
+			switch(difficultyNode.getTextContent()){
+				case "0":
+					toFill.setDifficulty(Difficulty.EASY);
+					break;
+				case "1":
+					toFill.setDifficulty(Difficulty.MEDIUM);
+					break;
+				case "2":
+					toFill.setDifficulty(Difficulty.HARD);
+					break;
+			}
+
+			Node player = allSettings.getElementsByTagName("playername").item(0);
+			toFill.setPlayerName(player.getTextContent());
+
+			Node gameSpeed = allSettings.getElementsByTagName("speed").item(0);
+			toFill.setMoveIncrement(Double.parseDouble(gameSpeed.getTextContent()));
+
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveSettings(Settings toSave){
+		DocumentBuilderFactory documentBuilderF = DocumentBuilderFactory.newInstance();
+
+		try {
+			DocumentBuilder builder = documentBuilderF.newDocumentBuilder();
+			Document settingsFile = builder.newDocument();
+			Element allSettings = settingsFile.createElement("settings");
+			settingsFile.appendChild(allSettings);
+			Element difficultyNode = settingsFile.createElement("difficulty");
+			String difficultyEncoding = "";
+			switch (toSave.getDifficulty()){
+				case EASY:
+					difficultyEncoding = "0";
+					break;
+				case MEDIUM:
+					difficultyEncoding = "1";
+					break;
+				case HARD:
+					difficultyEncoding = "2";
+					break;
+			}
+			difficultyNode.appendChild(settingsFile.createTextNode(difficultyEncoding));
+			allSettings.appendChild(difficultyNode);
+
+			Element playerName = settingsFile.createElement("playername");
+			playerName.appendChild(settingsFile.createTextNode(toSave.getPlayerName()));
+			allSettings.appendChild(playerName);
+
+			Element gameSpeed = settingsFile.createElement("speed");
+			gameSpeed.appendChild(settingsFile.createTextNode(Double.toString(toSave.getMoveIncrement())));
+			allSettings.appendChild(gameSpeed);
+
+			TransformerFactory transformerF = TransformerFactory.newInstance();
+			Transformer transformer = transformerF.newTransformer();
+
+			DOMSource savedSettings = new DOMSource(settingsFile);
+			StreamResult result = new StreamResult(new File("settings"));
+			//StreamResult result = new StreamResult(System.out);
+			transformer.transform(savedSettings, result);
+
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -25,9 +25,8 @@ class Settings {
 	private String[] savedGames;
 
 	public Settings() {
-		this.gameDifficulty = Difficulty.MEDIUM;
-		this.state = Mode.NORMAL;
-		this.playerName = "admin";
+
+		FileIO.fillSettings(this);
 		this.scores = new ScoreParser();
 
 		this.populateSavedGames("saved");
@@ -64,7 +63,7 @@ class Settings {
 		this.moveIncrement = moveIncrement;
 	}
 
-	public String getPLayerName(){
+	public String getPlayerName(){
 		return this.playerName;
 	}
 
