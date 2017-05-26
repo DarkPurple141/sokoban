@@ -70,7 +70,6 @@ class FileIO {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return b;
 	}
