@@ -74,42 +74,42 @@ class FileIO {
 		return b;
 	}
 
-	public static Tile int2Tile(Board b, int code, Point pos) {
-		// FIXME (jashankj): make this switched on
-		if(code == 0){
-			return new FloorTile(pos);
+	public static Tile int2Tile (Board b, int code, Point pos) {
+		Tile t;
+		FloorTile ft;
+		GamePiece content;
+
+		switch (code) {
+		case 1:
+			t = new Wall(pos);
+			break;
+
+		case 0:
+		case 2: case 6:
+		case 3: case 5:
+			ft = new FloorTile (pos);
+			t = (Tile)ft;
+
+			if (code == 2 || code == 6) {
+				ft.setContents (new Player (b, pos));
+			}
+
+			if (code == 3 || code == 5) {
+				ft.setContents (new Crate (b, pos));
+			}
+
+			if (! (4 <= code && code <= 6)) {
+				break;
+			}
+
+			b.addFinishTile(ft);
+			break;
+
+		default:
+			throw new IllegalArgumentException ();
 		}
-		if(code == 1) {
-			return new Wall(pos);
-		}
-		if(code == 2) {
-			Tile t = new FloorTile(pos);
-			t.setContents(new Player(b, pos));
-			return t;
-		}
-		if(code == 3) {
-			FloorTile t = new FloorTile(pos);
-			t.setContents(new Crate(b, pos));
-			return t;
-		}
-		if(code == 4) {
-			FloorTile t = new FloorTile(pos);
-			b.addFinishTile(t);
-			return t;
-		}
-		if(code == 5) {
-			FloorTile t = new FloorTile(pos);
-			t.setContents(new Crate(b, pos));
-			b.addFinishTile(t);
-			return t;
-		}
-		if(code == 6) {
-			FloorTile t = new FloorTile(pos);
-			t.setContents(new Player(b, pos));
-			b.addFinishTile(t);
-			return t;
-		}
-		return null;
+
+		return t;
 	}
 
 	public static void saveGame(Board b, String filename){
