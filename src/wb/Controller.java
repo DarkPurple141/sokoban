@@ -277,7 +277,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	private void updateGameState() {
 		// update animatables
 		// move by standard length
-		for (GamePiece p : b.gamePieceIterator()) {
+		for (GamePiece p : b.gamePieces()) {
 			p.animFrame(moveIncrement);
 		}
 	}
