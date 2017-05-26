@@ -11,18 +11,39 @@ import java.awt.Point;
  */
 class Crate
 extends GamePiece {
+
+	/**
+	 * Constructor
+	 *
+	 * @param myBoard : The board that this crate belongs to
+	 * @param startCoord : The starting point of the crate
+	 */
 	public Crate(Board myBoard, Point startCoord) {
 		super(myBoard, startCoord);
 	}
 
+	/**
+	 *
+	 * @return 1 indicating this is of type crate
+	 */
 	public int getType() {
 		return 1;
 	}
 
+	/**
+	 *
+	 * @return false since crates can only be pushed, not do moves
+	 * @param dir : The Direction of attempted movement
+	 */
 	public boolean doMove(Direction dir) {
 		return false;
 	}
 
+	/**
+	 *
+	 * @return true if the crate can be pushed and false otherwise
+	 * @param dir : The direction that a player is attempting to push a crate
+	 */
 	public boolean bePushed(Direction dir) {
 		Point sourceCoord = super.getCoord();
 		Point destCoord = super.getBoard().nearbyPoint(super.getCoord(), dir);
