@@ -106,7 +106,8 @@ tramp
 *.iml
 
 # Generated levels!
-levels/
+levels/*
+!levels/.keep
 
 # Generated documentation!
 doc/
