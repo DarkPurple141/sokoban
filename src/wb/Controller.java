@@ -74,7 +74,8 @@ implements ActionListener, ComponentListener, KeyListener {
 		super();
 
 		gameSettings = new Settings();
-
+		// yay or nay?
+		this.setResizable(false);
 		// Start a background generator thread as fast as we can.
 		this.threadGen(0);
 
