@@ -28,7 +28,7 @@ abstract class Tile {
 	public Point getCoord(){
 		return this.here;
 	}
-	
+
 	public abstract boolean canBeFilled();
 	public abstract GamePiece getContents();
 	public abstract void setContents(GamePiece newContents);

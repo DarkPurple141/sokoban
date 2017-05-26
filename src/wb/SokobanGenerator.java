@@ -84,6 +84,9 @@ class SokobanGenerator {
 				crateDensity = 0.4;
 				blockDensity = 0.4;
 				break;
+			case SANDBOX:
+				crateDensity = 0.1;
+				blockDensity = 0.1;
 		}
 
 		//Fill the array with completed boards

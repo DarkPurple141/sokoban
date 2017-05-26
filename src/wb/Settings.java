@@ -17,7 +17,7 @@ class Settings {
 
 	private boolean running;
 	private boolean gg;
-	private double moveIncrement = 0.2;
+	private double moveIncrement;
 
 	private String playerName;
 	private ScoreParser scores;
@@ -66,7 +66,7 @@ class Settings {
 
 	/**
 	 *
-	 * @param Used to set whether or not the game is currently running
+	 * @param setTo to set whether or not the game is currently running
 	 */
 	public void setRunning(boolean setTo){
 		this.running = setTo;
@@ -117,7 +117,7 @@ class Settings {
 	
 	/**
 	 * Used to update the current state of the game
-	 * @param setTo : The new mode the game will be set to
+	 * @param newMode : The new mode the game will be set to
 	 */
 	public void setState(Mode newMode){
 		this.state = newMode;

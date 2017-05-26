@@ -379,7 +379,7 @@ implements ActionListener, ComponentListener, KeyListener {
 			break;
 		}
 
-		if ('0' <= e.getKeyChar() && e.getKeyChar() <= '6') {
+		if ('0' <= e.getKeyChar() && e.getKeyChar() <= '6' && gameSettings.getDifficulty() == Difficulty.SANDBOX) {
 			this.b.debug(0, e.getKeyChar() - '0');
 		}
 
@@ -486,38 +486,51 @@ implements ActionListener, ComponentListener, KeyListener {
 	 * Requests the difficulty setting
 	 * Uses user input into a dropdown menu
 	 */
-	private void requestGameDifficulty() {
-		String[] difficulty = {"Medium", "Easy", "Hard"};
-		String curr = (String)JOptionPane.showInputDialog(
-			this, "Select default difficulty:\n",
-			"Difficulty", JOptionPane.PLAIN_MESSAGE,
-			null, difficulty, null);
+	private void requestGameDifficulty()
+	{
+		String[] difficulty = {"Medium", "Easy", "Hard", "Sandbox"};
+		String curr = (String) JOptionPane.showInputDialog(
+				this, "Select default game mode:\n",
+				"Difficulty", JOptionPane.PLAIN_MESSAGE,
+				null, difficulty, null);
 
-		if (curr == null) {
+		if (curr == null)
+		{
 			return;
 		}
 		boolean needRegen = false;
-		switch (curr) {
-		case "Easy":
-			if (gameSettings.getDifficulty() != Difficulty.EASY){
-				needRegen = true;
-			}
-			gameSettings.setDifficulty(Difficulty.EASY);
-			break;
+		switch (curr)
+		{
+			case "Easy":
+				if (gameSettings.getDifficulty() != Difficulty.EASY)
+				{
+					needRegen = true;
+				}
+				gameSettings.setDifficulty(Difficulty.EASY);
+				break;
 
-		case "Medium":
-			if (gameSettings.getDifficulty() != Difficulty.MEDIUM){
-				needRegen = true;
-			}
-			gameSettings.setDifficulty(Difficulty.MEDIUM);
-			break;
+			case "Medium":
+				if (gameSettings.getDifficulty() != Difficulty.MEDIUM)
+				{
+					needRegen = true;
+				}
+				gameSettings.setDifficulty(Difficulty.MEDIUM);
+				break;
 
-		case "Hard":
-			if (gameSettings.getDifficulty() != Difficulty.HARD){
-				needRegen = true;
-			}
-			gameSettings.setDifficulty(Difficulty.HARD);
-			break;
+			case "Hard":
+				if (gameSettings.getDifficulty() != Difficulty.HARD)
+				{
+					needRegen = true;
+				}
+				gameSettings.setDifficulty(Difficulty.HARD);
+				break;
+			case "Sandbox":
+				if (gameSettings.getDifficulty() != Difficulty.SANDBOX)
+				{
+					needRegen = true;
+				}
+				gameSettings.setDifficulty(Difficulty.SANDBOX);
+				break;
 		}
 
 		if (needRegen){
