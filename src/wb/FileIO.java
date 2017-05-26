@@ -257,11 +257,11 @@ class FileIO {
 				case EASY:
 					difficultyEncoding = "0";
 					break;
-				case MEDIUM:
-					difficultyEncoding = "1";
-					break;
 				case HARD:
 					difficultyEncoding = "2";
+					break;
+				default:
+					difficultyEncoding = "1";
 					break;
 			}
 			difficultyNode.appendChild(settingsFile.createTextNode(difficultyEncoding));

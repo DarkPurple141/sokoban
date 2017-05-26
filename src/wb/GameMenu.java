@@ -66,7 +66,7 @@ extends JPanel {
 
 	/**
 	 * The campaign button
-	 * @return tje campaign event
+	 * @return the campaign event
 	 */
 	public JButton getCampaign() {
 		return this.campaign;
