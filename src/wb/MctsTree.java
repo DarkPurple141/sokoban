@@ -29,9 +29,20 @@ class MctsTree {
 	private int gamma;
 	private int tau;
 
-	// FIXME(jashankj): move out of classloader init
 	private Random rand = new Random();
 
+	/**
+	 * 
+	 * Constructor for the intial MCTS algorithm
+	 * Initialises a base node (with no action)
+	 * The heuristic parameters are used in board evaluation
+	 * 
+	 * @param seed : The seed board that the shuffling will occur on
+	 * @param alpha : The heuristic scaling of the number of boxes
+	 * @param beta : The heuristic scaling of the number of goals
+	 * @param gamma : The heuristic scaling of the number of walls
+	 * @param tau : The heuritic scaling of the terrain metric
+	 */
 	public MctsTree(Board seed, int alpha, int beta, int gamma, int tau){
 		this.alpha = alpha;
 		this.beta = beta;
@@ -48,14 +59,27 @@ class MctsTree {
 
 	}
 
+
+	/**
+	 * 
+	 * @return The best score seen during the shuffling of the current seed
+	 */
 	public double getBestScore() {
 		return this.bestScore;
 	}
 
-	public Board scrambleRecurse(){
-		// Start of MCTS search (tree is set up)
 
-		// Need to roll out here
+	/**
+	 * 
+	 * Begins the shuffling of the board by following a Monte Carlo Tree Search
+	 * The player randomly shuffles crates around on a seed board, saving the
+	 * finish positions as goals.
+	 *
+	 * The board with the best heuristic score after shuffling is returned from this method
+	 *
+	 * @return The board set up with the best heurstic score seen during shuffling
+	 */
+	public Board scrambleRecurse(){
 		int numIterations = 0;
 		while(numIterations < depthLimit){
 			Player player = sandbox.getPlayers().get(0);
@@ -67,6 +91,17 @@ class MctsTree {
 		return currentBest;
 	}
 
+
+	/**
+	 * 
+	 * The actual running of the MCTS search. 
+	 * Follows the process of 'rolling out' on unvisited nodes and then 
+	 * takes the best child node and continues the process. Runs recursively
+	 * 
+	 * @return true when the rollout on a child node resulted in a valid configuration 
+	 * @param actionNode : The current node that is being visited
+	 * @param player : The player object on the sandbox board
+	 */
 	private boolean mctsSearch(MctsNode actionNode, Player player){
 		double maxScore = 0;
 		MctsNode bestNode = null;
@@ -96,6 +131,13 @@ class MctsTree {
 	}
 
 
+	/**
+	 * 
+	 * Takes a particular node's action
+	 * 
+	 * @param actionNode : The node that is being visited and hence whose action is being taken
+	 * @param player : The player object on the sandbox board
+	 */
 	private void takeAction(MctsNode actionNode, Player player){
 		if (actionNode.getAction() == MctsAction.MOVE){
 			player.doMove(actionNode.getMoveDirection());
@@ -104,6 +146,13 @@ class MctsTree {
 		}
 	}
 
+	/**
+	 * 
+	 * Randomly moves the player around a board until the evaluation action is chosen
+	 * Updates the actionNode's score
+	 * 
+	 * @param actionNode : The node that is being rolled out on
+	 */
 	private void rollout(MctsNode actionNode, Player player){
 		int nextMove = rand.nextInt(Integer.MAX_VALUE)%20;
 		actionNode.visited();
@@ -131,19 +180,28 @@ class MctsTree {
 		}
 	}
 
+
+	/**
+	 * 
+	 * Runs the evaluation process on the current sandbox board
+	 * 
+	 * @return The heuristic score of the current sandbox board
+	 */
 	private double evaluate(){
 		cratesToWall();
-
 		int congestion = getCongestionMetric();
 		int terrain = getTerrainMetric();
-
-		//wallsToCrate();
-//		System.out.println(congestion);
-//		System.out.println(terrain);
-//		System.out.println("------");
 		return Math.sqrt(congestion*terrain);
 	}
 
+
+	/**
+	 * 
+	 * Turns the crates that have not been moved at all from their starting positions to walls
+	 * in the sandbox board
+	 * 
+	 * @param parent : The new node's parent node
+	 */
 	private void cratesToWall(){
 		int sandboxSize = sandbox.getCrates().size();
 		for(int i = 0; i < sandboxSize; i++) {
@@ -155,22 +213,14 @@ class MctsTree {
 		}
 	}
 
-//	private void wallsToCrate(){
-//		int i = 0;
-//		List<FloorTile> crateTiles = new ArrayList<FloorTile>();
-//		for (Crate c : sandbox.getCrates()){
-//			FloorTile tile = new FloorTile(c.getCoord());
-//
-//			crateTiles.add(tile);
-//		}
-//
-//		for (FloorTile t : crateTiles){
-//			sandbox.setPosition(t.getCoord(), t);
-//			sandbox.getPosition(t.getCoord()).setContents(sandbox.getCrates().get(i));
-//			i++;
-//		}
-//	}
 
+	/**
+	 *
+	 * Returns a valuation of the current sandbox board going of it's 
+	 * congestion
+	 *
+	 * @return The heuristic value of the board congestion
+	 */
 	private int getCongestionMetric(){
 		int numBoxes = 0;
 		int numGoals = 0;
@@ -208,15 +258,18 @@ class MctsTree {
 			}
 		}
 
-//		if(numBoxes != 0 || numGoals != 0 || numWalls != 0) {
-//			System.out.println("numBoxes = " + numBoxes);
-//			System.out.println("numGoals = " + numGoals);
-//			System.out.println("numWalls = " + numWalls);
-//		}
+
 		return alpha*numBoxes + beta*numGoals + gamma*numWalls;
 	}
 
 
+	/**
+	 * 
+	 * The heursitic score of the sandbox board based on the terrain
+	 * ie the amount of walls in free space etc.
+	 * 
+	 * @param parent : The new node's parent node
+	 */
 	private int getTerrainMetric(){
 		Iterator<Tile> tileIt = sandbox.tileIterator();
 		int terrainScore = 0;
@@ -238,11 +291,20 @@ class MctsTree {
 	}
 
 
+	/**
+	 * 
+	 * Resets the sandbox board the the seed config 
+	 *
+	 */
 	private void seedReset(){
 		sandbox = seed.clone();
 	}
 
-
+	/**
+	 * 
+	 * Turns the final positions of the crates in the sandbox board to
+	 * be the goal positions in the board returned by the algorithm
+	 */
 	private void setGoalPositions(){
 
 		List<Crate> toRemove = new ArrayList<>();
