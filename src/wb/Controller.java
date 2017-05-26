@@ -475,10 +475,28 @@ implements ActionListener, ComponentListener, KeyListener {
 			// FIXME(jashankj): what's on this branch
 			// protection against nothing being read by JPane -- AH
 		} else if (curr.equals("Easy")) {
+			if (gameDifficulty != Difficulty.EASY){
+				FileIO.deleteAllLevels();
+				gameNum = 0;
+				this.threadGen(0);
+				this.threadGen(1);
+			}
 			gameDifficulty = Difficulty.EASY;
 		} else if (curr.equals("Medium")) {
+			if (gameDifficulty != Difficulty.MEDIUM){
+				FileIO.deleteAllLevels();
+				gameNum = 0;
+				this.threadGen(0);
+				this.threadGen(1);
+			}
 			gameDifficulty = Difficulty.MEDIUM;
 		} else if (curr.equals("Hard")){
+			if (gameDifficulty != Difficulty.HARD){
+				FileIO.deleteAllLevels();
+				gameNum = 0;
+				this.threadGen(0);
+				this.threadGen(1);
+			}
 			gameDifficulty = Difficulty.HARD;
 		}
 			

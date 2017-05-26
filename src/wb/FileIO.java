@@ -174,4 +174,11 @@ class FileIO {
 			e.printStackTrace();
 		}
 	}
+
+	public static void deleteAllLevels(){
+		File[] oldLevels = new File("levels/").listFiles();
+		for (File f : oldLevels){
+			removeFile("levels/" + f.getName());
+		}
+	}
 }
