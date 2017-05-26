@@ -456,7 +456,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	}
 
 	private void requestGameDifficulty() {
-		String[] difficulty = {"Easy", "Medium", "Hard"};
+		String[] difficulty = {"Medium", "Easy", "Hard"};
 		String curr = (String)JOptionPane.showInputDialog(
 			this, "Select default difficulty:\n",
 			"Difficulty", JOptionPane.PLAIN_MESSAGE,
@@ -465,24 +465,40 @@ implements ActionListener, ComponentListener, KeyListener {
 		if (curr == null) {
 			return;
 		}
-
+		boolean needRegen = false;
 		switch (curr) {
 		case "Easy":
+			if (gameDifficulty != Difficulty.EASY){
+				needRegen = true;
+			}
 			this.gameDifficulty = Difficulty.EASY;
 			break;
 
 		case "Medium":
+			if (gameDifficulty != Difficulty.MEDIUM){
+				needRegen = true;
+			}
 			this.gameDifficulty = Difficulty.MEDIUM;
 			break;
 
 		case "Hard":
+			if (gameDifficulty != Difficulty.HARD){
+				needRegen = true;
+			}
 			this.gameDifficulty = Difficulty.HARD;
 			break;
+		}
+
+		if (needRegen){
+			FileIO.deleteAllLevels();
+			gameNum = 0;
+			this.threadGen(0);
+			this.threadGen(1);
 		}
 	}
 
 	private void requestGameSpeed () {
-		String[] g_speed = {"Slow", "Medium", "Fast"};
+		String[] g_speed = {"Medium", "Slow", "Fast"};
 		String speed = (String)JOptionPane.showInputDialog(
 			this, "Select game speed:\n",
 			"Game Speed", JOptionPane.PLAIN_MESSAGE,
