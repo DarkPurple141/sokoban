@@ -1,5 +1,5 @@
 package wb;
 
-public class SettingsView(){
-	JPanel settingsMenu; 
+public class SettingsView{
+	
 }
