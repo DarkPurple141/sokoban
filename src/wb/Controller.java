@@ -421,10 +421,15 @@ implements ActionListener, ComponentListener, KeyListener {
 		} else if (s == skipButton) {
 			gameSettings.setRunning(false);
 			if (gameSettings.getState() == Mode.NORMAL)
+			{
 				FileIO.removeFile(currLevelPath);
-			gameNum++;
-			makeModel(false);
-			threadGen(gameNum+1);
+				gameNum++;
+				makeModel(false);
+				threadGen(gameNum + 1);
+			} else {
+				campaignNum++;
+				makeModel(false);
+			}
 			newGame();
 			startButton.setText("Start");
 
