@@ -43,7 +43,6 @@ implements ActionListener, ComponentListener, KeyListener {
 	private static final int SCREEN_HEIGHT = 512;
 	private static final int SCREEN_WIDTH = 512;
 
-	private ScoreParser scores;
 	private GameView v;
 
 	private JPanel gameButtons;
@@ -53,23 +52,18 @@ implements ActionListener, ComponentListener, KeyListener {
 	private JButton restartButton = null;
 	private JButton skipButton = null;
 
-	private String[] savedGames;
 	private String currLevelPath;
 
-	private Mode state;
 	private Board b;
 	private GameMenu m;
-	private boolean running;
-	private boolean gg;
 	private boolean moving = false;
-	private double moveIncrement = 0.2;
 	private int gameNum;
 	private int campaignNum;
 	private int moves;
 	private int campaignMoves;
-	private String playerName;
 
-	private Difficulty gameDifficulty;
+
+	private Settings gameSettings;
 
 	/**
 	 * Initialises the controller
@@ -79,15 +73,12 @@ implements ActionListener, ComponentListener, KeyListener {
 	public Controller() {
 		super();
 
-		this.gameDifficulty = Difficulty.MEDIUM;
+		gameSettings = new Settings();
+
 		// Start a background generator thread as fast as we can.
 		this.threadGen(0);
 
-		this.scores = new ScoreParser();
-		this.playerName = "admin";
 		this.gameNum = 0;
-		this.state = Mode.NORMAL;
-		this.populateSavedGames("saved");
 
 		// FIXME(jashankj): expurgate view code
 		super.setBackground(Color.BLACK);
@@ -167,7 +158,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	 */
 	public void newGame() {
 		this.moves = 0;
-		this.gg = false;
+		gameSettings.setGameOver(false);
 
 		// FIXME(jashankj): hey what? why don't we hand off a new board?
 		this.v.resetBoard(this.b);
@@ -187,9 +178,9 @@ implements ActionListener, ComponentListener, KeyListener {
 		} else {
 			try {
 				// FIXME(jashankj): use path building
-				if (state == Mode.NORMAL) {
+				if (gameSettings.getState() == Mode.NORMAL) {
 					currLevelPath = "levels/" + Integer.toString(gameNum);
-				} else if (state == Mode.CAMPAIGN) {
+				} else if (gameSettings.getState() == Mode.CAMPAIGN) {
 					currLevelPath = "campaign/" + Integer.toString(campaignNum);
 				}
 				b = FileIO.XML2Board(currLevelPath);
@@ -222,7 +213,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	private void threadGen(int id) {
 		Thread loop = new Thread() {
 			public void run() {
-				SokobanGenerator.generateLevel(10, 10, id, gameDifficulty);
+				SokobanGenerator.generateLevel(10, 10, id, gameSettings.getDifficulty());
 			}
 		};
 		loop.start();
@@ -235,27 +226,25 @@ implements ActionListener, ComponentListener, KeyListener {
 		int delay = 1000 / FPS;
 
 		// FIXME(jashankj): move into the gameLoop thread
-		while (running) {
+		while (this.gameSettings.isRunning()) {
 			// do stuff
 			updateGameState();
 			drawGame();
 			if (b.isFinished()) {
 				// FIXME(jashankj): is this a switch?
-				if (state == Mode.CAMPAIGN) {
+				if (gameSettings.getState() == Mode.CAMPAIGN) {
 					campaignNum++;
-				} else if (state == Mode.NORMAL) {
-					// FIXME: what's on this branch?
-				}
+				} 
 
 				v.showLabel("<html>Congrats!<br>Moves: " +
 							Integer.toString(moves)+"</html>");
-				this.running = false;
-				gg = true;
+				gameSettings.setRunning(false);
+				gameSettings.setGameOver(true);
 				startButton.setText("Next");
 
 				if (campaignNum > 9) {
 					logCampaignScore();
-					v.showLabel(scores.getScoreTable());
+					v.showLabel(gameSettings.getScoreTable());
 					/// HACKS LIE AHEAD
 					try {
 						Thread.sleep(3000); // 10fps
@@ -283,6 +272,7 @@ implements ActionListener, ComponentListener, KeyListener {
 	 */
 	private void logCampaignScore() {
 		this.campaignMoves += this.moves;
+<<<<<<< HEAD
 		this.scores.updateScores(this.playerName, this.campaignMoves);
 	}
 
@@ -306,6 +296,9 @@ implements ActionListener, ComponentListener, KeyListener {
 		}
 
 		this.savedGames = files.toArray(new String[]{});
+=======
+		this.gameSettings.updateScores(this.campaignMoves);
+>>>>>>> 90ac21ef1d81b7ebc467397c49ebd15e898c9f33
 	}
 
 	/**
@@ -315,7 +308,7 @@ implements ActionListener, ComponentListener, KeyListener {
 		// update animatables
 		// move by standard length
 		for (GamePiece p : b.gamePieces()) {
-			p.animFrame(moveIncrement);
+			p.animFrame(gameSettings.getMoveIncrement());
 		}
 	}
 
@@ -361,11 +354,11 @@ implements ActionListener, ComponentListener, KeyListener {
 	 * @param e the Keyevent object to hold information about the key pressed
 	 */
 	public void processEvent(KeyEvent e) {
-		if (!running) {
+		if (!gameSettings.isRunning()) {
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				v.hideLabel();
 				switchLayout();
-				gg = false;
+				gameSettings.setGameOver(false);
 				return;
 			}
 		}
@@ -379,7 +372,7 @@ implements ActionListener, ComponentListener, KeyListener {
 			}
 		}
 
-		if (this.moving || !this.running) {
+		if (this.moving || !gameSettings.isRunning()) {
 			return;
 		}
 
@@ -432,11 +425,11 @@ implements ActionListener, ComponentListener, KeyListener {
 		Object s = e.getSource();
 
 		if (s == startButton) {
-			running = !running;
-			if (running) {
-				if (gg) {
+			gameSettings.setRunning(!gameSettings.isRunning());
+			if (gameSettings.isRunning()) {
+				if (gameSettings.getGameOver()) {
 					campaignMoves += moves;
-					if (state == Mode.NORMAL)
+					if (gameSettings.getState() == Mode.NORMAL)
 						FileIO.removeFile(currLevelPath);
 					gameNum++;
 					makeModel(false);
@@ -451,8 +444,8 @@ implements ActionListener, ComponentListener, KeyListener {
 			}
 
 		} else if (s == skipButton) {
-			running = false;
-			if (state == Mode.NORMAL)
+			gameSettings.setRunning(false);
+			if (gameSettings.getState() == Mode.NORMAL)
 				FileIO.removeFile(currLevelPath);
 			gameNum++;
 			makeModel(false);
@@ -461,13 +454,13 @@ implements ActionListener, ComponentListener, KeyListener {
 			startButton.setText("Start");
 
 		} else if (s == restartButton) {
-			running = false;
+			gameSettings.setRunning(false);
 			makeModel(true);
 			newGame();
 			startButton.setText("Start");
 
 		} else if (s == m.getPlayNow()) {
-			state = Mode.NORMAL;
+			gameSettings.setState(Mode.NORMAL);
 			gameLayout();
 
 		} else if (s == m.getExit()) {
@@ -478,21 +471,21 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		} else if (s == m.getCampaign()) {
 			// pre-defined missions that get harder
-			state = Mode.CAMPAIGN;
+			gameSettings.setState(Mode.CAMPAIGN);
 			campaignNum = 0;
 			campaignMoves = 0;
 			gameLayout();
 			//Make it start a campaign
 
 		} else if (s == m.getLoadGame()) {
-			state = Mode.LOAD;
+			gameSettings.setState(Mode.LOAD);
 			String curr = (String)JOptionPane.showInputDialog(
 				this,
 				"Which game did you want to load?\n",
 				"Load Game",
 				JOptionPane.PLAIN_MESSAGE,
 				null,
-				savedGames,
+				gameSettings.getSavedGames(),
 				null);
 
 			//If a string was returned, say so.
@@ -511,6 +504,7 @@ implements ActionListener, ComponentListener, KeyListener {
 		requestGameDifficulty();
 		requestGameSpeed();
 		requestPlayerName();
+		FileIO.saveSettings(gameSettings);
 	}
 
 	/**
@@ -530,24 +524,24 @@ implements ActionListener, ComponentListener, KeyListener {
 		boolean needRegen = false;
 		switch (curr) {
 		case "Easy":
-			if (gameDifficulty != Difficulty.EASY){
+			if (gameSettings.getDifficulty() != Difficulty.EASY){
 				needRegen = true;
 			}
-			this.gameDifficulty = Difficulty.EASY;
+			gameSettings.setDifficulty(Difficulty.EASY);
 			break;
 
 		case "Medium":
-			if (gameDifficulty != Difficulty.MEDIUM){
+			if (gameSettings.getDifficulty() != Difficulty.MEDIUM){
 				needRegen = true;
 			}
-			this.gameDifficulty = Difficulty.MEDIUM;
+			gameSettings.setDifficulty(Difficulty.MEDIUM);
 			break;
 
 		case "Hard":
-			if (gameDifficulty != Difficulty.HARD){
+			if (gameSettings.getDifficulty() != Difficulty.HARD){
 				needRegen = true;
 			}
-			this.gameDifficulty = Difficulty.HARD;
+			gameSettings.setDifficulty(Difficulty.HARD);
 			break;
 		}
 
@@ -576,15 +570,15 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		switch (speed) {
 		case "Slow":
-			this.moveIncrement = 0.1;
+			gameSettings.setMoveIncrement(0.1);
 			break;
 
 		case "Medium":
-			this.moveIncrement = 0.2;
+			gameSettings.setMoveIncrement(0.2);
 			break;
 
 		case "Fast":
-			this.moveIncrement = 0.6;
+			gameSettings.setMoveIncrement(0.6);
 			break;
 		}
 	}
@@ -595,9 +589,9 @@ implements ActionListener, ComponentListener, KeyListener {
 	 * used for the high-scores list
 	 */
 	private void requestPlayerName () {
-		this.playerName = (String)JOptionPane.showInputDialog(
+		gameSettings.setPlayerName((String)JOptionPane.showInputDialog(
 			this, "Enter your name:\n",
-			"Config", JOptionPane.QUESTION_MESSAGE);
+			"Config", JOptionPane.QUESTION_MESSAGE));
 	}
 
 	/**

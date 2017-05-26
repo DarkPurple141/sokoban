@@ -1,3 +1,10 @@
 #!/bin/sh
 
+# jashankj 2017-05-26:
+#     classrun thinks it's running in a Unicode-unfriendly environment,
+#     and thus assumes all text is ASCII.  Somehow, this behaviour
+#     propogates down into Java (?!), and means that anyone doing things
+#     like Unicode comments will have pain.  So: force a sane locale.
+export LC_ALL=en_AU.UTF-8
+
 exec ant 
