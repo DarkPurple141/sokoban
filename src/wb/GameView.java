@@ -3,14 +3,20 @@ package wb;
 import java.io.*;
 import java.util.*;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * the game view
+ * The game view.
  *
  * @author Alex Hinds {@literal <z3420752@cse.unsw.edu.au>}
  * @author Ben Lichtman {@literal <z5059760@cse.unsw.edu.au>}
@@ -18,61 +24,100 @@ import javax.swing.JPanel;
  */
 class GameView
 extends JPanel {
+	private static final int PREFERRED_WIDTH = 711;
+	private static final int PREFERRED_HEIGHT = 711;
+
+	private static final String TILE_IMG_PATH = "assets/spriteSheet.png";
+	private static final int TILE_IMG_ROWS = 3;
+	private static final int TILE_IMG_COLS = 2;
+	private static final int TILE_SPRITE_SIZE_W = 90;
+	private static final int TILE_SPRITE_SIZE_H = 90;
+	private static final int TILE_SPRITE_COUNT = 5;
+
+	private static final String PLAYER_IMG_PATH = "assets/player_4x4_48x48.png";
+	private static final int PLAYER_IMG_ROWS = 4;
+	private static final int PLAYER_IMG_COLS = 4;
+	private static final int PLAYER_SPRITE_SIZE_W = 48;
+	private static final int PLAYER_SPRITE_SIZE_H = 48;
+	private static final int PLAYER_SPRITE_COUNT = 16;
 
 	private Board b;
 	private JLabel gameState;
 	private SpriteSheet tiles;
 	private SpriteSheet player;
 
+	/**
+	 * Create a new GameView, with no board.
+	 */
+	public GameView() {
+		this(null);
+	}
+
+	/**
+	 * Create a new GameView, with the specified board.
+	 *
+	 * @param b the Board to render
+	 */
 	public GameView(Board b) {
 		super();
 		this.b = b;
-		this.setPreferredSize(new Dimension(711, 711));
-		GameViewBuilder();
+
+		this.setPreferredSize(
+			new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
+
+		this.tiles = this.loadSpriteSheet(
+			TILE_IMG_PATH, TILE_IMG_ROWS, TILE_IMG_COLS,
+			TILE_SPRITE_SIZE_W, TILE_SPRITE_SIZE_H, TILE_SPRITE_COUNT);
+		this.player = this.loadSpriteSheet(
+			PLAYER_IMG_PATH, PLAYER_IMG_ROWS, PLAYER_IMG_COLS,
+			PLAYER_SPRITE_SIZE_W, PLAYER_SPRITE_SIZE_H, PLAYER_SPRITE_COUNT);
+
+		this.gameState = new JLabel();
+		this.gameState.setBackground(Color.lightGray);
+		this.gameState.setOpaque(true);
+		this.gameState.setFont(new Font("Arial", Font.PLAIN, 40));
+		this.add(this.gameState);
 	}
 
-	public GameView() {
-		super();
-		this.setPreferredSize(new Dimension(711, 711));
-		GameViewBuilder();
-	}
+	/**
+	 * Load a particular sprite sheet.
+	 *
+	 * @param path the image file to load sprites from; loaded with
+	 *	   Java's ImageIO library, so any image format supported by
+	 *	   this Java installation will work.
+	 * @param rows the number of rows of sprites in the image.
+	 * @param cols the number of columns of sprites in the image.
+	 * @param width the width of an individual sprite, in pixels
+	 * @param height the height of an individual sprite, in pixels
+	 * @param count the number of actual sprites; should be less than
+	 *	   or equal to <i>width</i> × <i>height</i>.
+	 *
+	 * @returns a new SpriteSheet
+	 */
+	private SpriteSheet loadSpriteSheet(
+		String path, int rows, int cols, int width, int height, int count) {
 
-	public void resetBoard(Board b) {
-		this.b = b;
-		resizeSprites();
-	}
-
-	private void GameViewBuilder() {
+		BufferedImage img = null;
 		try {
-
-			tiles = new SpriteSheetBuilder()
-				.withSheet(ImageIO.read(new File("assets/spriteSheet.png")))
-				.withRows(3)
-				.withColumns(2)
-				.withSpriteSize(90,90)
-				.withSpriteCount(5)
-				.build();
-			player = new SpriteSheetBuilder()
-				.withSheet(ImageIO.read(new File("assets/player_4x4_48x48.png")))
-				.withRows(4)
-				.withColumns(4)
-				.withSpriteSize(48,48)
-				.withSpriteCount(16)
-				.build();
-
+			img = ImageIO.read(new File(path));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			System.exit(1);
 		}
 
-		gameState = new JLabel();
-		gameState.setBackground(Color.lightGray);
-		gameState.setOpaque(true);
-		this.add(gameState);
+		return new SpriteSheetBuilder()
+			.withSheet(img)
+			.withRows(rows)
+			.withColumns(cols)
+			.withSpriteSize(width, height)
+			.withSpriteCount(count)
+			.build();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
+		if (b == null)
+			return;
 
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
@@ -82,59 +127,131 @@ extends JPanel {
 
 		double squareWidth = (double)panel_width/(double)board_cols;
 		double squareHeight = (double)panel_height/(double)board_rows;
-		// paint background tiles.
-		paintBackground(g, squareWidth, squareHeight);
-		paintAnimatables(g, squareWidth, squareHeight);
+
+		// Paint "background" tiles.
+		this.paintBackground(g, squareWidth, squareHeight);
+
+		// Paint "foreground" tiles.
+		this.paintCrates(g, squareWidth, squareHeight);
+		this.paintPlayers(g, squareWidth, squareHeight);
 	}
 
-	public void showLabel(String text) {
-		gameState.setFont(new Font("Arial", Font.PLAIN, 40));
-		gameState.setText(text);
-		gameState.setVisible(true);
+	/**
+	 * Force the board to reset.
+	 *
+	 * @param b the new board to render
+	 */
+	public void resetBoard(Board b) {
+		this.b = b;
+		this.resizeSprites();
 	}
 
+	/**
+	 * Show the game-state text label.
+	 *
+	 * @param msg the message to pass the user.
+	 */
+	public void showLabel(String msg) {
+		this.gameState.setText (msg);
+		this.gameState.setVisible (true);
+	}
+
+	/**
+	 * Hide the game-state text label.
+	 */
 	public void hideLabel() {
-		gameState.setVisible(false);
+		this.gameState.setVisible(false);
 	}
 
-	private void paintAnimatables(Graphics g, double squareWidth, double squareHeight) {
-		for(GamePiece p : b.getCrates()) {
-			paintPiece(g, p, squareWidth, squareHeight);
-		}
-		for(GamePiece p : b.getPlayers()) {
-			paintPiece(g, p, squareWidth, squareHeight);
+	/**
+	 * Paint all background tiles.
+	 *
+	 * @param g the graphics context to draw in
+	 * @param squareWidth the width of a a square tile
+	 * @param squareHeight the height of a square tile
+	 */
+	private void paintBackground (
+		Graphics g, double squareWidth, double squareHeight) {
+
+		Iterator<Tile> ti = this.b.tileIterator();
+		while (ti.hasNext()) {
+			this.paintTile(g, ti.next(), squareWidth, squareHeight);
 		}
 	}
 
-	private void paintBackground(Graphics g, double squareWidth, double squareHeight) {
-		for(Iterator<Tile> t = b.tileIterator(); t.hasNext();) {
-			paintTile(g, t.next(), squareWidth, squareHeight);
+	/**
+	 * Paint all crates.
+	 *
+	 * @param g the graphics context to draw in
+	 * @param squareWidth the width of a a square tile
+	 * @param squareHeight the height of a square tile
+	 */
+	private void paintCrates(
+		Graphics g, double squareWidth, double squareHeight) {
+
+		for (Crate c : this.b.getCrates()) {
+			this.paintPiece(g, c, squareWidth, squareHeight);
 		}
 	}
 
-	private void paintTile(Graphics g, Tile t, double squareWidth, double squareHeight)
-	{
+	/**
+	 * Paint all players.
+	 *
+	 * @param g the graphics context to draw in
+	 * @param squareWidth the width of a a square tile
+	 * @param squareHeight the height of a square tile
+	 */
+	private void paintPlayers(
+		Graphics g, double squareWidth, double squareHeight) {
+
+		for (Player p : this.b.getPlayers()) {
+			this.paintPiece(g, p, squareWidth, squareHeight);
+		}
+	}
+
+	/**
+	 * Paint one particular background tile.
+	 *
+	 * @param g the graphics context to draw in
+	 * @param t the particular tile
+	 * @param sqWidth the width of a a square tile
+	 * @param sqHeight the height of a square tile
+	 */
+	private void paintTile (
+		Graphics g, Tile t, double squareWidth, double squareHeight) {
+
 		Point pos = new Point();
 		pos.setLocation(t.getCoord().getX(), t.getCoord().getY());
 		int boxWidth = (int)(squareWidth * 1);
 		int boxHeight = (int)(squareHeight * 1);
-		int startx = (int)(squareWidth * pos.getX() + (squareWidth-boxWidth)/2.0);
-		int starty = (int)(squareHeight * pos.getY() + (squareHeight-boxHeight)/2.0);
+		int startx = (int)(squareWidth * pos.getX() + (squareWidth - boxWidth)/2.0);
+		int starty = (int)(squareHeight * pos.getY() + (squareHeight - boxHeight)/2.0);
 
 		if (!t.canBeFilled()) {
 			// wall
-			g.drawImage(tiles.getScaled(2), startx, starty,null);
+			g.drawImage(tiles.getScaled(2), startx, starty, null);
 
 		} else if (b.getFinishTiles().contains(t)) {
 			// goal
-			g.drawImage(tiles.getScaled(4), startx, starty,null);
+			g.drawImage(tiles.getScaled(4), startx, starty, null);
+
 		} else {
 			// empty tile
-			g.drawImage(tiles.getScaled(0), startx, starty,null);
+			g.drawImage(tiles.getScaled(0), startx, starty, null);
 		}
 	}
 
-	private void paintPiece(Graphics g, GamePiece p, double squareWidth, double squareHeight) {
+	/**
+	 * Paint one particular game piece.
+	 *
+	 * @param g the graphics context to draw in
+	 * @param p the particular game piece.
+	 * @param sqWidth the width of a a square tile
+	 * @param sqHeight the height of a square tile
+	 */
+	private void paintPiece (
+		Graphics g, GamePiece p, double squareWidth, double squareHeight) {
+
 		Point2D pos = new Point2D.Double();
 		pos.setLocation(
 			p.getCoord().getX() + p.getAnimOffset().getX(),
@@ -150,8 +267,10 @@ extends JPanel {
 			curr = tiles.getScaled(1);
 		}
 
-		if (curr == null)
+		if (curr == null) {
 			return;
+		}
+
 		int width = curr.getWidth(null);
 		int height = curr.getHeight(null);
 
@@ -162,8 +281,14 @@ extends JPanel {
 
 	}
 
+	/**
+	 * Request that the sprite sheets trigger resize events.
+	 */
 	public void resizeSprites() {
-		if (b == null) return;
+		if (b == null) {
+			return;
+		}
+
 		int panel_width = this.getWidth();
 		int panel_height = this.getHeight();
 
@@ -174,9 +299,7 @@ extends JPanel {
 		int squareWidth = (int)((double)panel_width/(double)board_cols);
 		int squareHeight = (int)((double)panel_height/(double)board_rows);
 
-		//crates.resize(squareWidth, squareHeight);
-		tiles.resize(squareWidth, squareHeight);
-		//box.resize(squareWidth, squareHeight);
-		player.resize(squareWidth, squareHeight);
+		this.tiles.resize(squareWidth, squareHeight);
+		this.player.resize(squareWidth, squareHeight);
 	}
 }

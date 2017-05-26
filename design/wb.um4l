@@ -35,7 +35,6 @@ Aggregates(`Board', `Player');
 Aggregates(`Board', `Crate');
 Aggregates(`Board', `FloorTile');
 Aggregates(`Board', `GamePiece');
-AssociatedWith(`Board', `Point');
 
 Class(`Controller', `
     Field(`scores', `ScoreParser'),
@@ -97,7 +96,31 @@ Class(`FloorTile', `
     Method(`setContents', `content:GamePiece', `boolean')');
 Extends(`FloorTile', `Tile');
 Aggregates(`FloorTile', `GamePiece');
-AssociatedWith(`FloorTile', `Point');
+
+Class(`GameView', `
+    Field(`b', `Board'),
+    Field(`gameState', `JLabel'),
+    Field(`tiles', `SpriteSheet'),
+    Field(`player', `SpriteSheet')',
+`
+    Constructor(`'),
+    Constructor(`b:Board'),
+    PrivMethod(`loadSpriteSheet', `p:String,r:int,c:int,w:int,h:int,n:int', `SpriteSheet'),
+    Method(`paintComponent', `g:Graphics', `void'),
+    Method(`resetBoard', `b:Board', `void'),
+    Method(`showLabel', `msg:String', `void'),
+    Method(`hideLabel', `', `void'),
+    PrivMethod(`paintBackground', `g:Graphics,sqW:double,sqH:double', `void'),
+    PrivMethod(`paintPlayers', `g:Graphics,sqW:double,sqH:double', `void'),
+    PrivMethod(`paintCrates', `g:Graphics,sqW:double,sqH:double', `void'),
+    PrivMethod(`paintTile', `g:Graphics,t:Tile,sqW:double,sqH:double', `void'),
+    PrivMethod(`paintPiece', `g:Graphics,p:GamePiece,sqW:double,sqH:double', `void'),
+    Method(`resizeSprites', `', `void')');
+Aggregates(`GameView', `Board');
+Aggregates(`GameView', `SpriteSheet');
+AssociatedWith(`GameView', `Tile');
+AssociatedWith(`GameView', `GamePiece');
+DependsOn(`GameView', `SpriteSheetBuilder');
 
 Class(`Model', `
     Field(`board', `Board'),
@@ -133,18 +156,6 @@ Class(`Tile', `
     Method(`canBeFilled', `', `boolean')');
 Aggregates(`Tile', `Coord');
 AssociatedWith(`Tile', `Board');
-
-Class(`View', `
-    Field(`mainFrame', `JFrame'),
-    Field(`rows', `int'),
-    Field(`cols', `int'),
-    Field(`b', `Board')',
-`
-    Constructor(`rows:int,cols:int,b:Board'),
-    Method(`getFrame', `', `JFrame'),
-    Method(`getBoard', `', `Board'),
-    Method(`paintTiles', `', `void')');
-Aggregates(`View', `Board');
 
 Class(`WarehouseBoss', `', `
     Method(`(static)main', `args:String[]', `void')');
