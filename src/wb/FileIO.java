@@ -87,6 +87,7 @@ class FileIO {
 		case 0:
 		case 2: case 6:
 		case 3: case 5:
+		case 4:
 			ft = new FloorTile (pos);
 			t = (Tile)ft;
 
