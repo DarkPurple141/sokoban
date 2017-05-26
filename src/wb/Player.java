@@ -15,8 +15,8 @@ extends GamePiece {
 
 	private Direction direction;
 
-	public Player(Board myBoard, Point startCoord) {
-		super(myBoard, startCoord);
+	public Player(Board b, Point start) {
+		super(b, start);
 		this.direction = Direction.DOWN;
 	}
 
@@ -33,12 +33,17 @@ extends GamePiece {
 
 		this.direction = dir;
 
-		if(destination == null || !destination.canBeFilled())
-			return false;//Encountered wall
+		if (destination == null || !destination.canBeFilled()) {
+			// Encountered wall
+			return false;
+		}
 
 		GamePiece blocking = destination.getContents();
-		if(blocking != null && !blocking.bePushed(dir))
-			return false;//Encountered unmovable object
+		if (blocking != null && !blocking.bePushed(dir)) {
+			// Encountered unmovable object
+			return false;
+		}
+
 		source.setContents(null);
 		destination.setContents(this);
 		super.setCoord(destCoord);
@@ -61,6 +66,4 @@ extends GamePiece {
 	public Direction getDirection() {
 		return this.direction;
 	}
-
-
 }

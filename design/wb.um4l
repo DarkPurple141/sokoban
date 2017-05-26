@@ -134,10 +134,28 @@ Class(`Menu', `', `');
 
 Class(`Node', `', `');
 
-Class(`Player', `', `');
+Class(`Player', `
+    Field(`direction', `int')',
+`
+    Constructor(`b:Board,start:Point'),
+    Method(`getType', `', `int'),
+    Method(`doMove', `dir:int', `boolean'),
+    Method(`isMoving', `', `boolean'),
+    Method(`bePushed', `dir:int', `boolean'),
+    Method(`getDirection', `', `int')');
+AssociatedWith(`Player', `Board');
 
-Class(`ScoreParser', `', `');
+Class(`ScoreParser', `
+    Field(`names', `List_String_'),
+    Field(`scores', `List_Integer_')',
+`
+    Constructor(`'),
+    Method(`getScoreTable', `', `String'),
+    Method(`updateScores', `name:String,score:int', `void'),
+    Method(`writeScores', `', `void'),
+    Method(`parseLine', `l:String', `void')');
 
+dnl no non-static methods... x_x
 Class(`SokobanGenerator', `', `');
 
 Class(`SpriteSheetBuilder', `
