@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cat MANIFEST \
+	| xargs zip ass3.zip
