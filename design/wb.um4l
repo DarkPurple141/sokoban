@@ -89,6 +89,8 @@ Extends(`Crate', `GamePiece');
 
 dnl no non-static methods... x_x
 Class(`FileIO', `', `');
+AssociatedWith(`FileIO', `Board');
+AssociatedWith(`FileIO', `Tile');
 
 Class(`FloorTile', `
     Field(`contents', `GamePiece')',
@@ -115,7 +117,27 @@ Class(`GameMenu', `
     Method(`getExit', `', `JButton'),
     PrivMethod(`makeButton', `name:String,c:Controller', `JButton')');
 
-Class(`GamePiece', `', `');
+Class(`GamePiece', `
+    Field(`b', `Board'),
+    Field(`here', `Point'),
+    Field(`prevCoords', `ArrayDeque_Point_'),
+    Field(`animOffset', `Point2D')',
+`
+    Constructor(`b:Board,start:Point'),
+    Method(`getCoord', `', `Point'),
+    Method(`setCoord', `coord:Point', `void'),
+    Method(`getAnimOffset', `', `Point2D'),
+    Method(`animFrame', `step:double', `void'),
+    Method(`getType', `void', `int'),
+    Method(`doMove', `dir:Direction', `boolean'),
+    Method(`bePushed', `dir:Direction', `boolean'),
+    Method(`getBoard', `', `Board'),
+    Method(`prepAnimation', `dir:Direction', `void'),
+    PrivMethod(`clipDouble', `o:double,s:double', `double'),
+    Method(`storePrevCoord', `', `'),
+    Method(`undo', `', `void')');
+Aggregates(`GamePiece', `Board');
+AssociatedWith(`GamePiece', `Direction');
 
 Class(`GameView', `
     Field(`b', `Board'),
@@ -226,6 +248,7 @@ Class(`ScoreParser', `
 
 dnl no non-static methods... x_x
 Class(`SokobanGenerator', `', `');
+AssociatedWith(`SokobanGenerator', `Board');
 
 Class(`SpriteSheetBuilder', `
     Field(`spriteSheet', `BufferedImage'),
@@ -261,7 +284,15 @@ Class(`SpriteSheet', `
     Method(`getSprite', `index:int', `BufferedImage'),
     Method(`animate', `p:Player', `Image')');
 
-Class(`Tile', `', `');
+Class(`Tile', `
+    Field(`here', `Point')',
+`
+    Constructor(`start:Point'),
+    Method(`getCoord', `', `Point'),
+    Method(`canBeFilled', `', `boolean'),
+    Method(`getContents', `', `GamePiece'),
+    Method(`setContents', `new:GamePiece', `void')');
+AssociatedWith(`Tile', `GamePiece');
 
 Class(`Wall', `', `
     Constructor(`start:Point'),
