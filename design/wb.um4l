@@ -37,7 +37,6 @@ Aggregates(`Board', `FloorTile');
 Aggregates(`Board', `GamePiece');
 
 Class(`Controller', `
-    Field(`scores', `ScoreParser'),
     Field(`v', `GameView'),
     Field(`gameButtons', `JPanel'),
     Field(`gameWindow', `JPanel'),
@@ -45,40 +44,42 @@ Class(`Controller', `
     Field(`startButton', `JButton'),
     Field(`restartButton', `JButton'),
     Field(`pauseButton', `JButton'),
-    Field(`state', `Mode'),
+    Field(`currLevelPath', `String'),
     Field(`b', `Board'),
     Field(`m', `GameMenu'),
-    Field(`running', `boolean'),
-    Field(`gg', `boolean'),
     Field(`moving', `boolean'),
-    Field(`moveIncrement', `double'),
     Field(`gameNum', `int'),
     Field(`campaignNum', `int'),
     Field(`moves', `int'),
     Field(`campaignMoves', `int'),
-    Field(`playerName', `String')',
+    Field(`gameSettings', `Settings')',
 `
-    Constructor(`path:String'),
+    Constructor(`'),
     PrivMethod(`gameLayout', `', `void'),
     PrivMethod(`switchLayout', `', `void'),
     Method(`newGame', `', `void'),
     PrivMethod(`makeModel', `reset:boolean', `void'),
     Method(`runGameLoop', `', `void'),
-    Method(`threadGen', `', `void'),
+    PrivMethod(`threadGen', `', `void'),
     PrivMethod(`gameLoop', `', `void'),
     PrivMethod(`logCampaignScore', `', `void'),
     PrivMethod(`populateSavedGames', `path:String', `void'),
     PrivMethod(`updateGameState', `', `void'),
     PrivMethod(`drawGame', `', `void'),
+    Method(`keyPressed',`e:KeyEvent', `void'),
     Method(`processEvent', `e:KeyEvent', `void'),
     Method(`actionPerformed', `e:ActionEvent', `void'),
     PrivMethod(`processSettings', `', `void'),
-    Method(`resizeView', `', `void')')
+    PrivMethod(`requestGameDifficulty', `', `void'),
+    PrivMethod(`requestGameSpeed', `', `void'),
+    PrivMethod(`requestPlayerName', `', `void'),
+    Method(`componentResized', `ce:ComponentEvent', `void')')
 Aggregates(`Controller', `GameView');
 Aggregates(`Controller', `ScoreParser');
 Aggregates(`Controller', `Mode');
 Aggregates(`Controller', `Board');
 Aggregates(`Controller', `GameMenu');
+Aggregates(`Controller', `Settings');
 
 Class(`Crate', `', `
     Constructor(`myBoard:Board,startCoord:Point'),
@@ -87,11 +88,16 @@ Class(`Crate', `', `
     Method(`bePushed', `direction:int', `boolean')');
 Extends(`Crate', `GamePiece');
 
+Enum(`Difficulty', `
+    EASY,
+    MEDIUM,
+    HARD');
+
 Enum(`Direction', `
     UP,
     DOWN,
     LEFT,
-    RIGHT')
+    RIGHT');
 
 dnl no non-static methods... x_x
 Class(`FileIO', `', `');
@@ -259,9 +265,41 @@ Class(`ScoreParser', `
     Method(`writeScores', `', `void'),
     Method(`parseLine', `l:String', `void')');
 
+Class(`Settings', `
+    Field(`gameDifficulty', `Difficulty'),
+    Field(`state', `Mode'),
+    Field(`running', `boolean'),
+    Field(`gg', `boolean'),
+    Field(`moveIncrement', `double'),
+    Field(`playerName', `String'),
+    Field(`scores', `ScoreParser'),
+    Field(`savedGames', `String[]')',
+`
+    Constructor(),
+    PrivMethod(`populateSavedGames', `path:String', `void'),
+    Method(`isRunning', `', `boolean'),
+    Method(`setRunning', `new:boolean', `void'),
+    Method(`getMoveIncrement', `', `double'),
+    Method(`setMoveIncrement', `new:double', `void'),
+    Method(`getPlayerName', `', `String'),
+    Method(`setPlayerName', `new:String', `void'),
+    Method(`getState', `', `Mode'),
+    Method(`setState', `new:Mode', `void'),
+    Method(`getGameOver', `', `boolean'),
+    Method(`setGameOver', `new:boolean', `void'),
+    Method(`updateScores', `campaignMoves:int', `void'),
+    Method(`getScoreTable', `', `String'),
+    Method(`getDifficulty', `', `Difficulty'),
+    Method(`setDifficulty', `new:Difficulty', `void'),
+    Method(`getSavedGames', `', `String[]')');
+Aggregates(`Settings', `Difficulty');
+Aggregates(`Settings', `Mode');
+Aggregates(`Settings', `ScoreParser');
+
 dnl no non-static methods... x_x
 Class(`SokobanGenerator', `', `');
 AssociatedWith(`SokobanGenerator', `Board');
+DependsOn(`SokobanGenerator', `Difficulty');
 
 Class(`SpriteSheetBuilder', `
     Field(`spriteSheet', `BufferedImage'),
