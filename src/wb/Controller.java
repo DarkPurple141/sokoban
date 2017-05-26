@@ -71,8 +71,12 @@ implements ActionListener, ComponentListener, KeyListener {
 
 	private Difficulty gameDifficulty;
 
+	private Settings gameSettings;
+
 	public Controller() {
 		super();
+
+		gameSettings = new Settings();
 
 		this.gameDifficulty = Difficulty.MEDIUM;
 		// Start a background generator thread as fast as we can.
@@ -82,7 +86,7 @@ implements ActionListener, ComponentListener, KeyListener {
 		this.playerName = "admin";
 		this.gameNum = 0;
 		this.state = Mode.NORMAL;
-		this.populateSavedGames("saved");
+		//this.populateSavedGames("saved");
 
 		// FIXME(jashankj): expurgate view code
 		super.setBackground(Color.BLACK);
@@ -254,24 +258,6 @@ implements ActionListener, ComponentListener, KeyListener {
 	private void logCampaignScore() {
 		this.campaignMoves += this.moves;
 		this.scores.updateScores(this.playerName, this.campaignMoves);
-	}
-
-	private void populateSavedGames(String path) {
-		File dir = new File(path);
-
-		Collection<String> files  = new ArrayList<String>();
-
-		if (dir.isDirectory()) {
-			File[] listFiles = dir.listFiles();
-
-			for (File file : listFiles) {
-				if (file.isFile()) {
-					files.add(file.getName());
-				}
-			}
-		}
-
-		this.savedGames = files.toArray(new String[]{});
 	}
 
 	private void updateGameState() {
