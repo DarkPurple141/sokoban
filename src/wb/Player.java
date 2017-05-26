@@ -28,7 +28,7 @@ extends GamePiece {
 	/**
 	 * Specifies the type of this GamePiece.
 	 *
-	 * @returns 0 for this type of GamePiece.
+	 * @return 0 for this type of GamePiece.
 	 */
 	public int getType() {
 		return 0;
@@ -38,7 +38,7 @@ extends GamePiece {
 	 * Move this player in a direction.
 	 *
 	 * @param dir the direction to move the player in.
-	 * @returns true if the player could be moved; false otherwise.
+	 * @return true if the player could be moved; false otherwise.
 	 */
 	public boolean doMove(Direction dir) {
 		Point sourceCoord = super.getCoord();
@@ -86,7 +86,7 @@ extends GamePiece {
 	 * Can this piece be pushed in this direction?  (Spoiler: no.)
 	 *
 	 * @param dir the direction to attempt a move in.
-	 * @returns false: you can't push players.
+	 * @return false: you can't push players.
 	 */
 	public boolean bePushed (Direction dir) {
 		return false;
@@ -95,7 +95,7 @@ extends GamePiece {
 	/**
 	 * What direction is this piece facing in?
 	 *
-	 * @returns a Direction representing the current orientation of
+	 * @return a Direction representing the current orientation of
 	 *     this piece.
 	 */
 	public Direction getDirection() {

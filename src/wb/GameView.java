@@ -92,7 +92,7 @@ extends JPanel {
 	 * @param count the number of actual sprites; should be less than
 	 *	   or equal to <i>width</i> × <i>height</i>.
 	 *
-	 * @returns a new SpriteSheet
+	 * @return a new SpriteSheet
 	 */
 	private SpriteSheet loadSpriteSheet(
 		String path, int rows, int cols, int width, int height, int count) {
@@ -214,8 +214,8 @@ extends JPanel {
 	 *
 	 * @param g the graphics context to draw in
 	 * @param t the particular tile
-	 * @param sqWidth the width of a a square tile
-	 * @param sqHeight the height of a square tile
+	 * @param squareWidth the width of a a square tile
+	 * @param squareHeight the height of a square tile
 	 */
 	private void paintTile (
 		Graphics g, Tile t, double squareWidth, double squareHeight) {
@@ -246,8 +246,8 @@ extends JPanel {
 	 *
 	 * @param g the graphics context to draw in
 	 * @param p the particular game piece.
-	 * @param sqWidth the width of a a square tile
-	 * @param sqHeight the height of a square tile
+	 * @param squareWidth the width of a a square tile
+	 * @param squareHeight the height of a square tile
 	 */
 	private void paintPiece (
 		Graphics g, GamePiece p, double squareWidth, double squareHeight) {
