@@ -5,7 +5,7 @@ package wb;
  *
  * @author Matthew Phillips {@literal <z5062330@cse.unsw.edu.au>}
  */
-public enum MctsAction {
+enum MctsAction {
 	MOVE,
 	EVALUATE
 }

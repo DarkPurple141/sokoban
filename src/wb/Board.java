@@ -135,8 +135,9 @@ implements Cloneable {
 	}
 
 	/**
-	 * Returns an iterator one can use to interate through each tile
-	 * @return
+	 * Fetch an iterator across each Tile.
+	 *
+	 * @return an Iterator over all Tiles in this Board.
 	 */
 	public Iterator<Tile> tileIterator() {
 		// FIXME(jashankj): rename this method
