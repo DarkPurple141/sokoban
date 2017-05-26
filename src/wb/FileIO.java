@@ -268,6 +268,8 @@ class FileIO {
 			allSettings.appendChild(difficultyNode);
 
 			Element playerName = settingsFile.createElement("playername");
+			String name = toSave.getPlayerName();
+			
 			playerName.appendChild(settingsFile.createTextNode(toSave.getPlayerName()));
 			allSettings.appendChild(playerName);
 

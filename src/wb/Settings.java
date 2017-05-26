@@ -102,7 +102,11 @@ class Settings {
 	 * @param playerName : The updated player name to be used from this point on
 	 */
 	public void setPlayerName(String playerName){
-		this.playerName = playerName;
+		if (playerName == null){
+			this.playerName = "admin";
+		}else{
+			this.playerName = playerName;
+		}
 	}
 
 
