@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -374,7 +374,7 @@ implements ActionListener, ComponentListener, KeyListener {
 
 		case KeyEvent.VK_ENTER:
 			System.out.println("SAVE");
-			FileIO.saveGame(this.b, "saved/save");
+			FileIO.saveGame(this.b, "saved/save" + "_" + LocalDateTime.now());
 			break;
 		}
 
